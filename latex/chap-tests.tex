@@ -22,21 +22,21 @@ tables initially, pinging sta3 from sta1.
 
 We found that the first station to create and add a mesh path was sta3. Although
 sta1 was the one that pinged sta3, it could not create a path yet because it did
-not know the \ac{MAC} address of sta3. So sta1 only sends an ARP request in
+not know the \ac{MAC} address of sta3. So sta1 only sends an \ac{ARP} request in
 broadcast, which is then retransmitted by sta2, and after sta3 receives it, it
 creates a path for sta1 (without the nexthop field filled in) when it sends its
-ARP response, highlighted in blue in \autoref{fig:capsta3}, which shows the
+\ac{ARP} response, highlighted in blue in \autoref{fig:capsta3}, which shows the
 packet capture that was executed in sta3.
 
 \begin{figure}[htb]
    \centering
    \includegraphics[scale=.35]{capsta3}
-   \caption{ARP response that caused a path to be added to the mesh path table}\label{fig:capsta3}
+   \caption{\ac{ARP} response that caused a path to be added to the mesh path table}\label{fig:capsta3}
 \end{figure}
 
-Immediately after, sta2 creates a path to sta3 and retransmits the ARP response
-to sta1, which in turn receives the \ac{MAC} address of sta3 through sta2, and
-creates its mesh paths, both for sta2 and sta3.
+Immediately after, sta2 creates a path to sta3 and retransmits the \ac{ARP}
+response to sta1, which in turn receives the \ac{MAC} address of sta3 through
+sta2, and creates its mesh paths, both for sta2 and sta3.
 
 
 \section{Validation with Hardware Nodes}\label{sect:valid}
