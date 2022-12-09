@@ -1,0 +1,93 @@
+automatizaçao feita
+
+three_pointer.bpf pega no skb q vai para o mesh_path_add, e espera q ele passe
+pelo tracepoint the transmissao.
+mostra os dois
+com os testes q fiz, viu-se q no tracepoint o skb continua igual
+o primeiro endereço continua a 0s, e os ultimos 8 bytes nao ficam dentro da estrutura
+(usando sizeof(struct ieee80211_hdr))
+usar o sizeof() ou fazer net-mac dá o msm
+
+com o full_skb_xmit dá para ver q é possivel o header mac ter mais info, relativa ao mesh
+IMPORTANTE: falta arranjar forma de ver q estruturas de podem usar para arranjar a info, e
+quais sao essas estruturas (ex logical link control)
+
+skb tem inner_mac_header e mac_header, o inner sendo por causa de encpasulamento
+https://stackoverflow.com/questions/63076982/difference-between-inner-transport-header-and-transport-header-in-sk-buff
+vale a pena usar isso?
+
+https://docs.cilium.io/en/v1.10/bpf/#xdp
+pelo q percebi, dá para usar xdp para encapsular com headers. possivel usar isso para tags?
+
+
+==========================================================
+
+
+fiz a automatizaçao
+
+tentei arranjar forma de ver o pacote com os campos direito
+fiz trace da funçao xmit_one (na vdd um tracepoitn la dentro), q é o mais tarde
+q consigo ver
+os campos nao mudam
+
+vi q o header mac às vezes tem mais campos, relativos a mesh, o q podem dar
+jeito, mas nao tenho a certeza como aceder
+existe outra estrutura q tem 'qos' no nome, com um campo qos_ctrl, mas como sei
+q devo usa-la e nao a outra normal? network_header - mac_header para saber (prov nao)
+tamanho da estrutura? (parecem tds de tamanhos diferentes (30, 24, 26))
+
+skb->inner_mac_header? da jeito?
+
+supostamente dá para meter coisas extras nos pacotes com o xdp. mas xdp só dá
+para receçao, por isso nao dava mt jeito
+
+----------------
+
+deve ser soft mac, e portanto campo problematico nao pode ser mudado no driver
+msm captura na propria station mostra o campo preenchido, nao é prob da hwsim0
+
+usa FC para identifiar tipo de struct (mt prov)
+experimentar fazer cast vendo o FC atravez 
+mesh control field a seguir
+
+ver q conjunto de campos deixam identificar a trama
+deixar nao usar o campo problematico, encontrar outros
+
+timestamps nao sao equivalentes
+arranjar tempo de inicio de trace/captura
+
+
+verificar o campo problematico. onde é q o campo está a ser modificado?
+
+usar os outros endereços para relate(), juntar seq e frag nums
+usar destino, source
+
+outros tipos de alteraçoes (modificaçoes ou remoçoes)
+
+ver tbm a parte da centralizaçao
+
+cena em python para invocar wireshark com os pacotes
+
+qos control tem flag de mesh control present, pode dar para ver mesh control
+
+para o q queremos, temos q olhar para
+addr1, addr2
+tid, seqnum, frgnum
++cenas
+
+SNS1 e SNS2 (no standard, pag 1666)
+
+guardar tbm nome da interface, e mac se tiver la perto
+ver melhor bpf, o q cada estaçao apanha é global
+
+
+pensar como depois apresentar isto ao utilizador (os dados)
+quando o trab tiver func minima (utilizavel), fazer front end
+se calhar tbm, nessa altura, fazer apresentaçao disto (ver se alguem da uma ideia)
+(junho se possivel)
+
+IMPORTANTE: escrever com mais detalhe e mais vezes!!!!
+
+
+
+LEMBRAR DE FAZER: diagrama de blocos

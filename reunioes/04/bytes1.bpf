@@ -1,0 +1,5 @@
+tracepoint:net:net_dev_xmit
+/pid == 117869 || pid == 118047 || pid == 118095 || pid == 118165 || pid == 130455 || pid == 133011 || pid == 133156 || pid == 133217 || pid == 133268 || pid == 134711/
+{
+    @len = hist(args->len);
+}

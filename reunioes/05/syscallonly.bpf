@@ -1,0 +1,15 @@
+tracepoint:syscalls:sys_enter_sendto,
+tracepoint:syscalls:sys_enter_sendmsg,
+tracepoint:syscalls:sys_enter_sendmmsg
+{
+    @time[tid] = nsecs;
+}
+
+
+tracepoint:syscalls:sys_exit_sendto,
+tracepoint:syscalls:sys_exit_sendmsg,
+tracepoint:syscalls:sys_exit_sendmmsg
+{
+    printf("syscall enter to exit: %dns\n", nsecs - @time[tid]);
+    delete(@time[tid]);
+}

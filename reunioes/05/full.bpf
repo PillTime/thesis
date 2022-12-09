@@ -1,0 +1,43 @@
+
+uprobe:libc:sendto
+{
+    $now = nsecs;
+    $fd = arg0;
+
+    @time[tid, $fd] = $now;
+    @con[tid] = $fd;
+}
+
+kretprobe:sockfd_lookup_light
+/@con[tid] != -1/
+{
+    // temp
+    $now = nsecs;
+
+    $sock = ((struct socket *)retval)->sk;
+    $fam = $sock->__sk_common.skc_family;
+
+    if ($fam == AF_UNSPEC || $fam == AF_INET || $fam == AF_INET6) {
+        $sockid = (uint64)$sock;
+        $fd = @con[tid];
+
+        $saved = @time[tid, $fd];
+        if ($saved != 0) {
+            @time[tid, $sockid] = $saved;
+            // temp
+            printf("%s: %d %d\n", comm, $fam, $now - $saved);
+        }
+        delete(@time[tid, $fd]);
+        delete(@con[tid]);
+
+        // temp
+        delete(@time[tid, $sockid]);
+    }
+}
+
+
+END
+{
+    clear(@con);
+    clear(@time);
+}

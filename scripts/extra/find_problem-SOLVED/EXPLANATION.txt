@@ -1,0 +1,4 @@
+problem was not using bpf_probe_read_kernel
+need to use it when getting data from a struct that was stored in a bpf map
+(bpf maps live in the kernel memory)
+(check bpf/mac_header)

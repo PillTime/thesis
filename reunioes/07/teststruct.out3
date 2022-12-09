@@ -1,0 +1,42 @@
+output de dois pings (16)
+
+ ~/Doc/tes/reu/07 > sudo bpftrace teststruct.bpf                    [main]
+Attaching 3 probes...
+swapper/0 < swapper/0 < swapper/0
+sed < sh < tokio-runtime-w
+swapper/0 < swapper/0 < swapper/0
+Compositor < ThreadPoolSingl < systemd
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+Web Content < IPC Launch < systemd
+^C
+
+
+ ~/Doc/tes/reu/07 > sudo bpftrace teststruct.bpf                    [main]
+Attaching 3 probes...
+swapper/0 < swapper/0 < swapper/0
+ping < zsh < alacritty
+ping < zsh < alacritty
+ping < zsh < alacritty
+ping < zsh < alacritty
+ping < zsh < alacritty
+ping < zsh < alacritty
+ping < zsh < alacritty
+ping < zsh < alacritty
+kworker/u9:0 < kthreadd < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+^C

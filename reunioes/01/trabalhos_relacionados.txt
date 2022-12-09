@@ -1,0 +1,14 @@
+Network tracing using the BPF compiler collection
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/network-tracing-using-the-bpf-compiler-collection_configuring-and-managing-networking
+
+What Is eBPF and Why Does It Matter for Observability?
+https://newrelic.com/blog/best-practices/what-is-ebpf
+
+Combining System Visibility and Security Using eBPF
+https://luca.ntop.org/ITASEC2019.pdf
+
+Opportunistic Traffic Monitoring with eBPF
+https://webthesis.biblio.polito.it/15983/1/tesi.pdf
+
+ViperProbe: Rethinking Microservice Observability with eBPF
+https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9335808

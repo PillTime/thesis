@@ -1,0 +1,65 @@
+scapy a usar modo monitor
+
+file write gets buffered and only happens when the program stops
+possibly because it's so little information
+^
+buffer para ficheiros
+
+fila de trabalhos para a funçao relate por agr nao da jeito pq
+ainda estou a ver se apanho 1 pacote ou um numero diferente
+^
+ta arranjado kinda
+
+namespace funciona com tcpdump, mas prog nao
+
+grafo de blocos q era para falar na reuniao anterior
+
+tbm tentei ver xdp, mas so parece q dá para rx
+xdp parece bom pq executa mal recebe pacotes, antes de fazer qualquer outra coisa
+
+======================================
+======================================
+
+relate()
+nao faz sentido procurar correspondencia de trace com pacote gerado 30 seg +-
+ter noçao de tempo timestamp
+
+repetir analise dos pacotes melhores
+mostrar em que nao foi traced
+
+opcional filtragem para scapy de pacotes
+pacotes relevantes apenas
+
+importante: colecionar logs da interface de rede usada
+mac da interface rececao
+ver tds as interface mesh q tenha
+
+coisas a fazer:
+refinar pesquisa
+usar timestamps para procurar por perto pelo paacote q encaixa (pode causar problemas por causa da ordem)
+ESCERVER: isto da ordem e importancia dela com imagens
+          o porque das decisoes escolhidas
+
+começar a pensar como se faz a passagem de info
+de nos para central
+
+automatizar teste com as estaçoes e namespaces
+threadid interfaces, isso td
+
+diagrama de blocos:
+arquitetura geral
+cada componente mais detalhes
+detalhes mais temporais
+mais figuras
+em q cenario executa
+nos tem isto numa fase
+no central depois recebe td
+q funçoes meter no diagrama
+o q influencia
+relate() pode ser mais no pro processamento do no central
+
+se der para fazer tag a um skb, ajuda
+verificar se dá pelo bpf fazer tag ao skb
+e se no xdp buscar o skb
+pode-se escrever sobre esta possiblidade
+ou se funciona mas nao haver tempo

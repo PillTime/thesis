@@ -1,0 +1,22 @@
+#include <net/mac80211/ieee80211_i.h>
+#include <net/mac80211/mesh.h>
+
+
+kprobe:mesh_path_lookup
+{
+	$sdata = (struct ieee80211_sub_if_data*)arg0;
+
+	/*
+	dá sempre zero
+	*/
+//	$tbl = (struct mesh_table*)$sdata->u.mesh.mesh_paths;
+//	printf("%d\n", $tbl->entries.counter);
+
+	/*
+	a fazer ping de sta1 para sta2, faz print, umas vezes '1', outras '2'
+	(por exemplo, "1 , 1 , 2 , 2 , 1 , 2 , 2 , 1 , 1 , 2 , 2")
+	depois, a fazer ping de sta1 a sta3, da sempre print a '2'
+	*/
+//	$size = $sdata->u.mesh.mpaths.counter;
+//	printf("%d\n", $size);
+}

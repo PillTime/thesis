@@ -1,0 +1,15 @@
+ver parte de transmissao
+trama chega com nosso addr, para onde vai, descubrir o salto seguinte
+quando precisa destino novo, gera pacote q procura destino
+captura ws
+
+foi preciso instalar o bpftrace com snap com dev mode
+para versao mais recente
+
+-----
+
+mesh_path_add
+retorna pointer, mas comment diz q retorna 0 em sucesso
+
+hlist_head apenas aponta nodes, sem conteudo
+hash tbm é esquisito

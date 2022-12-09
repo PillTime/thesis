@@ -1,0 +1,20 @@
+check1trace.bpf mostra que nao ha skbs no add_pending_skbs
+
+qos_ctrl está a ser visto, mas dá zero
+
+no scapy, ver se tem mesh control field é fazer `pkt.TXOP & 0x01`
+
+alguns progressos no __sk_buff, mas torna-se mais dificil sem o tid
+
+================================================================================
+
+[full_skb_xmit mostra q qos_control é modificado depois do mesh_path_add]
+
+perceber melhor como funciona o __sk_buff
+
+se calhar a perder tempo a tentar resolver o problema de nao ter sitio certo para capturar skb
+
+fazer os mais eventos
+e a centralizaçao (depois da captura (durante é mais dificil e pode causar problemas))
+
+depois visualizaçao

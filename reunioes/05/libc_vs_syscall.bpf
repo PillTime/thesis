@@ -1,0 +1,16 @@
+
+uprobe:libc:send,
+uprobe:libc:sendto,
+uprobe:libc:sendmsg,
+uprobe:libc:sendmmsg
+{
+    printf("%s %d\n", comm, arg0);
+}
+
+
+/*tracepoint:syscalls:sys_enter_sendto,
+tracepoint:syscalls:sys_enter_sendmsg,
+tracepoint:syscalls:sys_enter_sendmmsg
+{
+    printf("%s %d\n", comm, args->fd);
+}*/

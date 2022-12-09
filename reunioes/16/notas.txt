@@ -1,0 +1,62 @@
+a tentar mostrar o sequencer number de um packet para comparar com o q aparece
+no wireshark usando a info da funçao mesh_path_add
+
+nao tem skb na funçao, por isso ver nas funçoes q chamam
+03/05 e 04/01
+nao mostra o q é preciso
+
+tentar usar xdp para analise de pacotes
+erro | fatal error: 'asm/types.h' file not found
+
+sudo ln -s /usr/include/asm-generic /usr/include/asm para resolver (temp)
+erro | fatal error: 'bpf/bpf_helpers.h' file not found
+
+net diz `sudo apt install libbpf-dev`
+erro | E: Unable to locate package libbpf-dev
+
+`git clone --depth=1 https://github.com/libbpf/libbpf.git`
+`sudo mkdir /usr/include/bpf`
+`sudo cp libbpf/src/bpf_helper* /usr/include/bpf`
+fixed (temp)
+
+--------------------------------------------------------------------------------
+
+compilar
+`clang -O2 -g -Wall -target bpf -c <name>p>.c -o <name>.o`
+
+load
+`sudo ip link set <if> xdpgeneric obj <name>.o sec <name>`
+erro | BTF debug data section '.BTF' rejected: Invalid argument (22)!
+
+`git clone --depth=1 https://github.com/xdp-project/xdp-tools/`
+`cd xdp-tools/xdp-loader`
+`make`
+erro | fatal error: pcap/dlt.h: No such file or directory
+
+`sudo apt install libpcap-dev` para resolver
+`make`
+erro | fatal error: 'asm/byteorder.h' file not found
+
+--------------------------------------------------------------------------------
+
+tcpdump
+dar match de pacotes
+associar tramas
+
+userspace a receber bpf
+para pos-processamento
+
+script para consumir bpf + tcpdump
+dizer coisas de jeito
+
+python scapy
+/prov para cenas mais faceis e ver estado atual (como fotografia)
+
+
+refinar o mesh_add_skb
+q info minima necessaria
+trabalhar na junçao de bpf com tcpdump
+processo userspace matching the info a vir de varios sitios
+
+nao focar numa soluçao. explorar hipotses (experimentar possibiliddes para crescer soluçao)
+para depois escrever, mostrar o q foi visto e pq o q algo foi escolhido)

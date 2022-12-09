@@ -1,0 +1,53 @@
+#include <linux/skbuff.h>
+
+
+kprobe:ieee80211_xmit
+{
+  @pass[tid] = (arg2, 27);
+}
+
+
+tracepoint:net:net_dev_xmit
+/@pass[tid].1 == 27/
+{
+  $skb = (struct sk_buff*)(args->skbaddr);
+
+  $head = $skb->head;
+  $mac = $head + $skb->mac_header;
+  $net = $head + $skb->network_header;
+  $mac_size = (uint64)$net - (uint64)$mac;
+  $hdr_sz = (uint64)$net - (uint64)$head;
+
+  printf("[%d] trace:\n", tid);
+  printf("%r\n\n", buf($skb->data, 64));
+}
+
+
+kretprobe:ieee80211_xmit
+/@pass[tid].1 == 27/
+{
+  $skb = (struct sk_buff*)(@pass[tid].0);
+
+  $head = $skb->head;
+  $mac = $head + $skb->mac_header;
+  $net = $head + $skb->network_header;
+  $mac_size = (uint64)$net - (uint64)$mac;
+  $hdr_sz = (uint64)$net - (uint64)$head;
+
+  printf("[%d] xmit:\n", tid);
+  printf("%r\n\n", buf($skb->data, 64));
+
+  delete(@pass[tid]);
+}
+
+
+kprobe:mesh_path_add
+/@pass[tid].1 != 27/
+{
+  delete(@pass[tid]);
+}
+
+END
+{
+  clear(@pass);
+}

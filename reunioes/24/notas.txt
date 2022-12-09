@@ -1,0 +1,84 @@
+a reescrever o tracer.bpf.c, os traces depois do primero ficam mal. pq?
+os timestamps de tds estao mal (incluindo o primero trace)
+só os dados tirados das estruturas/funçoes é q estao mal
+
+PROBLEMAS ACIMA RESOLVIDOS:
+o timestamp estava a u16 em vez de u64
+em relaçao aos outros campos, skb->data e skb->head+skb->mac_header dao coisas
+diferentes para a razao (funçao) 2 (ver skb_pointers no bpftrace)
+
+-----
+
+a ver os resultados, o primeiro trace nao acerta em nenhum pacote. considerando
+que o addr1 é td zeros, é possivel q nao dê para usar a razao (funçao) 1
+(com fc=0x8803, e seq=0x0. ha um q da match, mas é um ping do sta1 para sta2 (
+ou seja, os addr2-4 nao correspondem))
+possivel que seja um pacote q nunca chega a sair da maquina?
+mas o skb passa pela funçao de transmissao, e a interface é a usada para falar
+com as outras estaçoes (nao é uma virtual com um nome diferente)
+
+-----
+
+tentei usar a cena do bcc para por funçoes nas interfaces, mas é demasiado
+dificil de usar, só deu trabalho e nem funcionou sequer
+
+-----
+
+tentei usar o skb_obtain para arranjar outra forma de sacar os skb, mas nao
+parece estar a dar bem para a receçao. os testes q fiz com o perf parecem
+mostrar q o tracepoint netif_receive_skb é o melhor sitio, mas nao esta a
+funcionar como esperado
+(perf trace --no-syscalls --event 'net:*' ping sta2 -c1 > /dev/null)
+
+-----
+
+no portatil o problema do primeiro trace nao dar match a nada nao existe. ele
+dá match. no entanto, o "ultimo" trace deixa de dar. o trace diz que o sta2
+recebe um pacote q tem como da=broadcast e sa=sta3. no entanto o pacote com os
+msm fc e seq tem como da=sta2 e sa=sta1
+AAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHH
+
+PROBLEMA RESOLVIDO:
+o ultimo trace tinha o pacote no pcap da sta2 (sou burro)
+
+por causa disto, alguns traces vao aparecer em todos dos sta (por exemplo o 2º e
+3º trace, q sao em broadcast, mas outros nao). como identificar os ids dos
+pacotes assim?
+talvez nao haja problema. so fica confuso agr pq tds os outbcc's teem o msm
+conteudo por ser simulado
+
+-----
+
+graças ao 03-pkt.py, sei q o scapy guarda as coisas em ordem de network
+
+-----
+
+estrutura para ver qos_ctrl só tem 3 endereços. no entanto, pacote do 1° trace
+é qos e tem 4 endereços. wtf?
+
+TODO:
+diagrama de blocos
+
+--------------------------------------------------------------------------------
+
+no meu portatil o primeiro trace funciona, mas no meu fixo nao. devo ter
+qualquer coisa q nao deixa dar bem (talvez hardware ou drivers pq ja acontecia
+antes de resinstalar o OS, e instalei exatamente da msm forma no portatil)
+
+tentei arranjar forma de apanhar os pacotes na saida e entrada do sistema
+na saida funciona bem, mas na entrada nao encontro funçao q apanhe todos os
+pacotes
+
+o bcc tem uma ferramenta para apanhar skb nas interfaces, mas é uma estrutura
+diferente (__sk_buff), e nao tive mt sorte a usar esta funcionalidade
+
+gastei demasiado tempo depois de fazer o relate(), pq o ultimo trace nao estava
+a dar match com nenhum pacote, mas depois percebi q o ultimo trace é entre a
+sta2 e sta3, e eu só estava a ver a captura de pacotes do sta1
+
+estrutura com qos nao suporta 4 endereços, mas é toDS e fromDS, ou seja,
+precisa de 4 endereços
+
+================================================================================
+
+N/A (nao houve)

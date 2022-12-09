@@ -1,0 +1,37 @@
+uso de __mesh_path_del()
+muitos mais callers
+talvez ignore e continue só a ver se é RX ou TX
+
+mesh_path_assign_nexthop()
+nunca TX, só US e RX
+copia addr de estrutura para skb
+pq???
+
+mesh_path_assign_nexthop()
+só usa uma macro para definir o pointer do nexthop
+nao tem funçao interna q faz o trab
+nice
+
+mesh_path_add()
+da sucesso, caso o path tenha sido adicionado com sucesso,
+ou se ja existia na tabela
+de resto, igual ao mesh_path_assign_nexthop()
+
+tracerv2.5 no miro
+referir em doc que mpp_flush_by_proxy é executado sempre
+pelo mesh_path_del() [TX-DEL e US-DEL]
+
+fiz o relate funcionar. nao é tao bom como o scapy, mas funciona
+e nao tem o bug q o scapy tem
+posso tbm depois fazer uma interface melhor em vez de buscar os
+bytes diretamente
+
+
+================================================================================
+
+
+normal a cena do assign_nexthop
+
+ESCREVER!!!
+
+rpi tentar ubuntu e archlinux arm

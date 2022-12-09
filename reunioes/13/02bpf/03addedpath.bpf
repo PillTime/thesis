@@ -1,0 +1,15 @@
+#include <net/mac80211/ieee80211_i.h>
+#include <include/linux/netdevice.h>
+#include <include/net/mac80211.h>
+
+
+kprobe:mesh_path_add
+{
+	$dst = arg1;
+	$src = ((struct ieee80211_sub_if_data*)arg0)->vif.addr;
+
+	// primeiro byte é '42' em vez de '02'
+//	$src = (struct net_device*)(((struct ieee80211_sub_if_data*)arg0)->dev)->perm_addr;
+
+	printf("%s -> %s\n", macaddr($src), macaddr($dst));
+}

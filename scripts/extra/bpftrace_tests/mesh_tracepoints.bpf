@@ -1,0 +1,78 @@
+tracepoint:cfg80211:rdev_add_mpath
+{
+    printf("(%s [%d]) rdev_add_mpath", args->wiphy_name, tid);
+}
+
+
+tracepoint:cfg80211:rdev_change_mpath
+{
+    printf("(%s [%d]) rdev_change_mpath", args->wiphy_name, tid);
+}
+
+
+tracepoint:cfg80211:rdev_del_mpath
+{
+    printf("(%s [%d]) rdev_del_mpath", args->wiphy_name, tid);
+}
+
+
+tracepoint:cfg80211:rdev_dump_mpath
+{
+    printf("(%s [%d]) rdev_dump_mpath", args->wiphy_name, tid);
+}
+
+
+tracepoint:cfg80211:rdev_get_mesh_config
+{
+    printf("(%s [%d]) rdev_get_mesh_config", args->wiphy_name, tid);
+}
+
+
+tracepoint:cfg80211:rdev_get_mpath
+{
+    printf("(%s [%d]) rdev_get_mpath", args->wiphy_name, tid);
+}
+
+
+tracepoint:cfg80211:rdev_join_mesh
+{
+    printf("(%s [%d]) rdev_join_mesh", args->wiphy_name, tid);
+}
+
+
+tracepoint:cfg80211:rdev_leave_mesh
+{
+    printf("(%s [%d]) rdev_leave_mesh", args->wiphy_name, tid);
+}
+
+
+/* error: field has incomplete type 'enum nl80211_band' (forward declaration)
+tracepoint:cfg80211:rdev_libertas_set_mesh_channel
+{
+    printf("(%s [%d]) rdev_libertas_set_mesh_channel", args->wiphy_name, tid);
+}
+*/
+
+
+tracepoint:cfg80211:rdev_probe_mesh_link
+{
+    printf("(%s [%d]) rdev_probe_mesh_link", args->wiphy_name, tid);
+}
+
+
+tracepoint:cfg80211:rdev_return_int_mesh_config
+{
+    printf("(%s [%d]) rdev_return_int_mesh_config", args->wiphy_name, tid);
+}
+
+
+tracepoint:cfg80211:rdev_return_int_mpath_info
+{
+    printf("(%s [%d]) rdev_return_int_mpath_info", args->wiphy_name, tid);
+}
+
+
+tracepoint:cfg80211:rdev_update_mesh_config
+{
+    printf("(%s [%d]) rdev_update_mesh_config", args->wiphy_name, tid);
+}

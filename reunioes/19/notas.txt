@@ -1,0 +1,31 @@
+guardar packet sniff as pcap
+
+organizar as funçoes q alteram mesh_table
+da jeito para escrita
+
+mostrar se, quando, e quantas vezes as funçoes sao chamadas
+
+diagrama de blocos
+reponde ao q o programa faz e como o faz
+o q escreve, onde, q formatos usa
+diagrama de consumo dos ficheiros
+interaçao com wireshark
+fazer algo para ter feedback na prox reuniao
+
+diagrama antes de mais
+
+---
+
+verificar tds as funçoes
+
+testar o prog python nas estaçoes individuais
+
+
+-----------
+
+
+mandar só SIGUSR1 nao para a funçao de sniff
+mandar SIGINT termina logo o processo e nao deixa mandar SIGUSR1
+SIGINT nao dá trigger a KeyboardInterrupt
+
+mts probs a tentar parar os processos

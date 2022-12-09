@@ -1,0 +1,30 @@
+#include <linux/skbuff.h>
+#include <linux/ieee80211.h>
+#include <../net/mac80211/ieee80211_i.h>
+
+
+kprobe:mesh_nexthop_resolve
+{
+	printf("tidNH: %d\n", tid);
+	$time = nsecs;
+	@flt[tid] = $time;
+	@map[$time] = (1, (uint64)arg1);
+}
+
+
+kprobe:ieee80211_mesh_rx_queued_mgmt
+{
+}
+
+
+kprobe:mesh_path_add
+/@flt[tid] != 0/
+{
+}
+
+
+END
+{
+	clear(@flt);
+	clear(@map);
+}

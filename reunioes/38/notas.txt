@@ -1,0 +1,53 @@
+-seccçao testes, como organizar
+-mudei ordem dos capitulos
+
+-mudar titulo e outras partes do ficheiro resultante
+
+-ondem se submete a tese no sigarra
+
+-era para ter resumo da exploraçao para mostrar o
+-q o codigo bpf faz, mas isso ja é feito no desenvolvimento
+-nao é resumo, mas fala do codigo
+
+-figura para mostrar relaçao de probes fica mt complexa
+-nao se percebe nada
+-varias figuras para cada caso?
+
+meto algures onde o codigo ficou (link github)?
+
+-uso imagem (gui) duas vezes. ha prob?
+
+-como referir imagem? (uso imagem tirado do paper bpf no background)
+
+======================================================
+
+NAO SOBRAR QUESTOES DE COMO OU PORQUE
+SE TIVESSE LIDO ISTO ANTES, AJUDAVA?
+
+mais info do bpftrace no background
+
+-early dev primeiro test
+-como fiz para chegar ao __netdev_start_xmit
+
+-colocar scripts bpftrace em anexo
+
+figuras de relaçoes (sem user-space)
+
+figura para arquitetura das ferramentas
+
+referir imagem em vez de usar duas
+
+-abstract 2° frase nao diz nada
+-tem q dizer a pessoa o q vai ter na tese
+-falar de ver mesh paths
+-ferramentas criadas
+-exploraçao feita
+
+using ebpf for mesh network monitoring
+
+list of tables aparece e nao devia
+list of liststing, verificar q mostra no anexos
+
+-ajeitar refs de sites como o lwm
+
+fazer cv simples

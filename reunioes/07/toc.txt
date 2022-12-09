@@ -1,0 +1,40 @@
+abstract
+
+introduction
+
+state of the art
+    - background
+        - eBPF
+            : https://ebpf.io/what-is-ebpf/
+            : https://github.com/cilium/cilium
+    - related work
+        : https://ebpf.io/projects
+        - bpftrace
+            : https://bpftrace.org/
+            : https://github.com/iovisor/bpftrace/blob/master/README.md
+        - bcc-tools
+            : https://github.com/iovisor/bcc/blob/master/README.md
+        - Cilium & Hubble
+            : https://cilium.io/
+        - Falco
+            : https://falco.org/
+        - Katran
+            : https://github.com/facebookincubator/katran
+        - KubeArmor
+            : https://kubearmor.com/
+        - kubectl trace
+            : https://github.com/iovisor/kubectl-trace
+        - ply
+            : https://wkz.github.io/ply/
+        - Tracee
+            : https://github.com/aquasecurity/tracee
+        - XDP
+            : https://www.iovisor.org/technology/xdp
+
+development
+    - failures
+    - successes
+
+future work
+
+conclusion

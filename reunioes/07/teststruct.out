@@ -1,0 +1,35 @@
+output durante dois pings (4)
+
+ ~/Doc/tes/reu/07 > bat teststruct.bpf                             [main]
+───────┬──────────────────────────────────────────────────────────────────
+       │ File: teststruct.bpf
+───────┼──────────────────────────────────────────────────────────────────
+   1   │ #include <linux/sched.h>
+   2   │
+   3   │
+   4   │ kprobe:ieee80211_tx_status_ext
+   5   │ {
+   6   │     $task = (struct task_struct *)curtask;
+   7   │     printf("%s\n", $task->comm);
+   8   │ }
+───────┴──────────────────────────────────────────────────────────────────
+ ~/Doc/tes/reu/07 > sudo bpftrace teststruct.bpf                   [main]
+Attaching 1 probe...
+swapper/0
+swapper/0
+swapper/0
+swapper/0
+swapper/0
+swapper/0
+swapper/0
+Xorg
+systemd-resolve
+swapper/0
+systemd-resolve
+swapper/0
+swapper/0
+swapper/0
+swapper/0
+sed
+systemd-resolve
+^C

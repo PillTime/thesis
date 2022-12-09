@@ -1,0 +1,348 @@
+/*
+start:
+    mesh_pathtbl_init
+    mesh_path_expire
+    mesh_pathtbl_init
+    mesh_path_expire
+    mesh_pathtbl_init
+    mesh_path_expire
+
+during pinging (sta1 to sta2):
+    mesh_path_lookup
+    mpp_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_add
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_add
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_add
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_add
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+
+just after pinging:
+    mesh_path_lookup
+    mpp_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+
+after a while (~30sec):
+    mesh_path_expire
+    mesh_path_expire
+    mesh_path_expire
+
+same ping:
+    mesh_path_lookup
+    mpp_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+
+after the ping:
+    mesh_path_lookup
+    mpp_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+
+same ping:
+    mesh_path_lookup
+    mpp_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+
+different ping (sta1 to sta3):
+    mesh_path_lookup
+    mpp_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_add
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_add
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_assign_nexthop
+    mesh_path_tx_pending
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_lookup
+    mesh_path_expire
+    mesh_path_expire
+    mesh_path_expire
+*/
+
+sta1 ping -c 1 sta2
+(sta2-mp0 [13]) mesh_path_lookup
+(sta2-mp0 [13]) mpp_path_lookup
+(sta2-mp0 [13]) mesh_path_lookup
+(sta2-mp0 [13]) mesh_path_lookup
+(sta2-mp0 [13]) mesh_path_add
+(sta2-mp0 [28526]) mesh_path_lookup
+(sta1-mp0 [28526]) mesh_path_lookup
+(sta1-mp0 [28526]) mesh_path_add
+(sta1-mp0 [28526]) mesh_path_assign_nexthop
+(sta1-mp0 [28526]) mesh_path_tx_pending
+(sta3-mp0 [21178]) mesh_path_lookup
+(sta3-mp0 [21178]) mesh_path_add
+(sta3-mp0 [21178]) mesh_path_assign_nexthop
+(sta3-mp0 [21178]) mesh_path_tx_pending
+(sta3-mp0 [21178]) mesh_path_lookup
+(sta2-mp0 [21178]) mesh_path_lookup
+(sta2-mp0 [21178]) mesh_path_assign_nexthop
+(sta2-mp0 [21178]) mesh_path_tx_pending
+(sta1-mp0 [22]) mesh_path_lookup
+(sta1-mp0 [22]) mesh_path_lookup
+(sta2-mp0 [13]) mesh_path_lookup
+(sta2-mp0 [13]) mesh_path_lookup
+(sta2-mp0 [21178]) mesh_path_lookup
+(sta2-mp0 [21178]) mesh_path_add
+(sta2-mp0 [21178]) mesh_path_assign_nexthop
+(sta2-mp0 [21178]) mesh_path_tx_pending
+
+sta1 iw dev sta1-mp0 mpath del 00:00:00:00:00:02
+(sta1-mp0) mesh_path_del
+
+sta1 iw dev sta1-mp0 mpath set 00:00:00:00:00:02 next_hop 00:00:00:00:00:02
+[tentei usar sta3 como nexthop mas nao deixou [no such file or directory]]
+(sta1-mp0) mesh_path_lookup
+(sta1-mp0) mesh_path_fix_nexthop
+(sta1-mp0) mesh_path_assign_nexthop
+
+sta1 iw dev sta1-mp0 mpath new 00:00:00:00:00:03 next_hop 00:00:00:00:00:02
+(sta1-mp0) mesh_path_add
+(sta1-mp0) mesh_path_fix_nexthop
+(sta1-mp0) mesh_path_assign_nexthop
+
+sta1 iw dev sta1-mp0 mesh leave
+(sta1-mp0) mesh_path_flush_by_nexthop
+(sta2-mp0) mesh_path_flush_by_nexthop
+(sta1-mp0) mesh_path_flush_by_iface
+
+
+
+(sta2-mp0 [64]) mesh_path_lookup
+(sta2-mp0 [64]) mpp_path_lookup
+(sta2-mp0 [64]) mesh_nexthop_resolve
+(sta2-mp0 [64]) mesh_path_lookup
+(sta2-mp0 [64]) mesh_path_lookup
+(sta2-mp0 [64]) mesh_path_add
+
+(sta2-mp0 [20738]) mesh_path_lookup
+
+(sta3-mp0 [20738]) mesh_path_lookup
+(sta3-mp0 [20738]) mesh_path_add
+(sta3-mp0 [20738]) mesh_path_assign_nexthop
+(sta3-mp0 [20738]) mesh_path_tx_pending
+(sta3-mp0 [20738]) mesh_path_lookup
+
+(sta1-mp0 [14337]) mesh_path_lookup
+(sta1-mp0 [14337]) mesh_path_add
+(sta1-mp0 [14337]) mesh_path_assign_nexthop
+(sta1-mp0 [14337]) mesh_path_tx_pending
+
+(sta2-mp0 [14337]) mesh_path_lookup
+(sta2-mp0 [14337]) mesh_path_add
+(sta2-mp0 [14337]) mesh_path_assign_nexthop
+(sta2-mp0 [14337]) mesh_path_tx_pending
+(sta2-mp0 [14337]) mesh_path_lookup
+(sta2-mp0 [14337]) mesh_path_assign_nexthop
+(sta2-mp0 [14337]) mesh_path_tx_pending
+
+(sta1-mp0 [64]) mesh_path_lookup
+(sta1-mp0 [64]) mesh_nexthop_resolve
+(sta1-mp0 [64]) mesh_path_lookup
+
+(sta2-mp0 [52]) mesh_path_lookup
+(sta2-mp0 [52]) mesh_nexthop_resolve
+(sta2-mp0 [52]) mesh_path_lookup
+
+
+
+
+
+(sta2-mp0 [34]) mesh_path_lookup
+        00:00:00:00:00:01
+(sta2-mp0 [34]) mpp_path_lookup
+        00:00:00:00:00:01
+(sta2-mp0 [34]) mesh_nexthop_resolve
+(sta2-mp0 [34]) mesh_path_lookup
+        00:00:00:00:00:01
+(sta2-mp0 [34]) mesh_path_lookup
+        00:00:00:00:00:01
+(sta2-mp0 [34]) mesh_path_add
+        00:00:00:00:00:01
+
+
+(sta2-mp0 [12452]) mesh_path_lookup
+        00:00:00:00:00:01
+
+
+(sta1-mp0 [12452]) mesh_path_lookup
+        00:00:00:00:00:02
+(sta1-mp0 [12452]) mesh_path_add
+        00:00:00:00:00:02
+(sta1-mp0 [12452]) mesh_path_assign_nexthop
+        00:00:00:00:00:02
+(sta1-mp0 [12452]) mesh_path_tx_pending
+
+
+(sta3-mp0 [12051]) mesh_path_lookup
+        00:00:00:00:00:02
+(sta3-mp0 [12051]) mesh_path_add
+        00:00:00:00:00:02
+(sta3-mp0 [12051]) mesh_path_assign_nexthop
+        00:00:00:00:00:02
+(sta3-mp0 [12051]) mesh_path_tx_pending
+(sta3-mp0 [12051]) mesh_path_lookup
+        00:00:00:00:00:01
+
+
+(sta2-mp0 [12051]) mesh_path_lookup
+        00:00:00:00:00:01
+(sta2-mp0 [12051]) mesh_path_assign_nexthop
+        00:00:00:00:00:01
+(sta2-mp0 [12051]) mesh_path_tx_pending
+
+
+(sta1-mp0 [13]) mesh_path_lookup
+        00:00:00:00:00:02
+(sta1-mp0 [13]) mesh_nexthop_resolve
+(sta1-mp0 [13]) mesh_path_lookup
+        00:00:00:00:00:02
+
+
+(sta2-mp0 [28]) mesh_path_lookup
+        00:00:00:00:00:01
+(sta2-mp0 [28]) mesh_nexthop_resolve
+(sta2-mp0 [28]) mesh_path_lookup
+        00:00:00:00:00:01
+
+
+(sta2-mp0 [12051]) mesh_path_lookup
+        00:00:00:00:00:03
+(sta2-mp0 [12051]) mesh_path_add
+        00:00:00:00:00:03
+(sta2-mp0 [12051]) mesh_path_assign_nexthop
+        00:00:00:00:00:03
+(sta2-mp0 [12051]) mesh_path_tx_pending
+
+
+(sta1-mp0 [12896]) mesh_path_lookup
+        00:00:00:00:00:02
+(sta1-mp0 [12896]) mesh_nexthop_resolve
+(sta1-mp0 [12896]) mesh_path_lookup
+        00:00:00:00:00:02
+
+
+(sta2-mp0 [28]) mesh_path_lookup
+        00:00:00:00:00:01
+(sta2-mp0 [28]) mesh_nexthop_resolve
+(sta2-mp0 [28]) mesh_path_lookup
+        00:00:00:00:00:01

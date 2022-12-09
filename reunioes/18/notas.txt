@@ -1,0 +1,49 @@
+wlan.seq
+wlan.frag
+
+-------
+
+interessa pacotes, mas esses pacotes sao consequnecias de outros q podem ser interessantes
+ter opçao de capturar tudo e mostrar/marcar depois os interessante
+
+começar a capturar na interface monitor por estaçao
+
+modo offline criar ficheiro de captura e de alteraçoes
+marcar o evento, quando
+combinar info de varios nos
+
+experiencia em varios no,s algumas comms
+guardar cap em cada no e eventos
+isso num formato estrutudaro
+upload para central
+central analise de eventos e match de pactoes trans e recv
+alinhar temporalmente os nos
+
+log de td (juncao dos logs de cada)
+numero de seq
+mostrar pacotes q fizeram alteraçao
+mostrar em q no cada evento
+
+ter uma app par ver alteraçoes nos diferentes nos
+poder dar referencia e interagir com instancias do wireshark
+basicamente, carrega no evento, mostra o pacote no wireshark selecionado
+pyAutoGUI caso seja necessario (nao haja outra forma)
+
+output para ficheiro log (json)
+associado a cada alteraçao, um timestamp
+
+---
+
+capt td em cada no
+ter log json para guardar info de o q aconteceu, quando, e onde e associadoa cada pacote, e o q despoltou o evento
+passar tempo a pensar q campos guardar, o q é necessario
+mais eventos (alteraçao de entrada, remove, etc)
+
+começar por fazer um diagrama de blocos sobre a app
+lista de features (q vai ser alterada ao longo do tempo obv)
+
+para mais à frente, demonstraçao com maquinas reais
+explicaçao de bpf
+depois mostrar utilizaçao do bpftrace
+depois mostrar utilizaçao do bcc
+fim, app construida

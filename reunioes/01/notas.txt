@@ -1,0 +1,20 @@
+o que é o eBPF
+ver o que guardar/captar (uso camada mac (kernel) ajuste taxas, deteçao nos, etc)
+
+experimentar eBPF
+
+relatorio (primeiro capitulos tese)
+estado de arte
+plano
+
+ler outros trabalhos do genero
+pegar numa ou duas funçoes do mac80211 e perceber como funciona(m)
+
+documentar experiencias (bem)
+
+https://bitbucket.org/pmbrandao/thesislatextemplatedccfcup/src/master/
+https://dev.languagetool.org/
+https://www.overleaf.com/learn/how-to/Using_Git_and_GitHub
+https://www.overleaf.com/user/bonus
+https://www.zotero.org/
+https://latexeditor.lagrida.com/

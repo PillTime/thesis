@@ -1,0 +1,45 @@
+@[Xorg,
+    ieee80211_tx_status_ext+1
+    ieee80211_tx_status+124
+    ieee80211_tasklet_handler+165
+    tasklet_action_common.constprop.0+191
+    __softirqentry_text_start+208
+    irq_exit_rcu+155
+    common_interrupt+67
+    asm_common_interrupt+30
+,
+    pthread_self+0
+    0x555842e70ea0
+    0xa25c7f00000000
+]: 1
+@[kworker/0:2,
+    ieee80211_tx_status_ext+1
+    ieee80211_tx_status+124
+    ieee80211_tasklet_handler+165
+    tasklet_action_common.constprop.0+191
+    __softirqentry_text_start+208
+    irq_exit_rcu+155
+    common_interrupt+128
+    asm_common_interrupt+30
+    _raw_spin_unlock_irq+19
+    process_one_work+471
+    worker_thread+80
+    kthread+306
+    ret_from_fork+34
+, ]: 1
+@[swapper/0,
+    ieee80211_tx_status_ext+1
+    ieee80211_tx_status+124
+    ieee80211_tasklet_handler+165
+    tasklet_action_common.constprop.0+191
+    __softirqentry_text_start+208
+    irq_exit_rcu+155
+    common_interrupt+128
+    asm_common_interrupt+30
+    cpuidle_enter_state+199
+    cpuidle_enter+41
+    do_idle+489
+    cpu_startup_entry+25
+    start_kernel+2491
+    secondary_startup_64_no_verify+194
+, ]: 15

@@ -1,0 +1,62 @@
+a reestruturar o codigo do programa tive uns problemas (pode-se usar para exemplos de codigo bpf na escrita)
+  erro relativamente simple de resolver mas chato:
+    imagens 02_{1,2}.png, com 02_3.png a ser a soluçao
+  antes desse, houve outro que eu tive mais tempo a tentar resolver
+  comentei as probes problematicas para resolver primeiro o problema acima
+    imagens 01_{1,2}.png mostram o problema
+    01_3.png mostra algo que funciona, mas nao está completamente correto ainda
+    01_4.png mostra algo que seria eficaz, mas nao funciona
+    01_5.png mostra a soluçao usada
+
+resolvi o problema de nao ter o addr1
+  usei a fexit da funçao ieee80211_xmit
+    ESQUECE: afinal nao arranjei, voltei ao tracepoint
+
+fui acabando o programa
+no fim cheguei a outro problema
+sempre que o __mesh_path_del é chamado pelo mesh_path_expire, podem ser apagados mais q 1 path
+  soluçao
+    fentry/mesh_path_expire -> definir Situation
+    fexit/__mesh_path_del   -> enquanto tiver a Situation, enviar imediatamente pelo ringbuffer
+    fexit/mesh_path_expire  -> remover Situation
+
+com os testes em hardware real apanhei um caso em q td exceto o addr1 é igual
+test01
+ha outra coisa q é diferente mas eu nao apanho
+o mesh control field
+
+no test02
+a sta3 começa por criar um path para a sta1
+e mete a sta2 como nexthop
+  mas para isto funcionar, a sta2 não tem que
+  primeiro criar um path para a sta1 e a sta3?
+
+problema do monitor mode prov encontrado
+https://stackoverflow.com/questions/22569164/sniffing-wifi-using-libpcap-in-monitor-mode/22570460#22570460
+
+a escrever as notas, só o ebpf e q tem paper, o resto vem de sites
+sinto q estou a copiar td o q esta escrito, e nao ha assim tanto texto na source
+
+------------------------------
+
+mac da estaçao na header
+mostrar numero do pacote
+mostrar destino ao lado o TX_ADD etc.
+
+indicar tbm um bocado de experiencia
+das tecnologias usadas
+falar de algo em comum para poder comparar
+
+usar brendan como referencia
+
+intro:
+  (deixar para fim)
+contextualizaçao:
+  texto generico intro de ebpf, para que serve
+  usamos e depois decidimos criar ferramenta
+motivaçao:
+  falar para q serve a ferramenta
+
+arquitetura:
+  boneco com diferentes components
+  depois explicar o boneco

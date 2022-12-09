@@ -1,0 +1,45 @@
+mininet:
+    - example file 'mesh.py' in 'mininet-wifi' seems to work, but can't capture packets
+    - example file 'controllers.py' in 'mininet' can be used to capture packets
+    - diffs?
+
+modified 'mesh.py' to use 'mode=s' on all stations
+
+after starting, do 'sh ifconfig hwsim0 up'
+then capture packets through 'hwsim0'
+
+almost (if not) all packets with 'Action' in the info section have stuff
+regarding HWMP in the topmost layer
+
+----------
+
+https://ieeexplore.ieee.org/document/8190996
+    - pag2 ultimo paragrafo / pag3 inicio
+
+https://ieeexplore.ieee.org/document/9527003
+    - usar bpf para monitorizar microserviços
+
+https://ieeexplore.ieee.org/document/9665095
+    - bpf para monitorizaçao de rede com melhor performance/menos recursos
+    - final pag4 / inicio pag5
+
+https://ieeexplore.ieee.org/document/8493077
+    - nao mt interessante para o q se quer, mas pode ser q se arranje algo daqui
+
+https://ieeexplore.ieee.org/document/9492571
+    - bpf usado para uma mobile gateway
+
+https://ieeexplore.ieee.org/document/8584971
+    - uso de bpf para criar vTAPs para monitorizaçao de VMs com melhor performance
+
+
+bpf parece dar jeito a quem usa microserviços para verificar e detetar problemas
+de comunicaçao entre eles e tambem para deteçao de ataques de DoS
+
+mts dos artigos tbm usam xdp para ver packets antes deles entrarem no kernel.
+seria possivel usar isso para contagem de tempo (desde hardware receber até
+chegar ao programa)?
+
+falar sobre xdp na tese? quase sempre q se usa bpf tbm se usa xdp
+
+----------

@@ -1,0 +1,20 @@
+tracepoint:syscalls:sys_enter_sendto
+{
+    @time[tid] = nsecs;
+}
+
+tracepoint:net:net_dev_xmit
+{
+	printf("m\n");
+}
+
+tracepoint:syscalls:sys_exit_sendto
+{
+    printf("%d %d: %dns\n", pid, tid, nsecs - @time[tid]);
+    delete(@time[tid]);
+}
+
+END
+{
+    clear(@time);
+}

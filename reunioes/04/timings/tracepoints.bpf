@@ -1,0 +1,25 @@
+uprobe:libc:sendto
+{
+    @start[tid] = nsecs;
+}
+
+
+tracepoint:net:net_dev_start_xmit
+/@start[tid] != 0/
+{
+    //$now = nsecs;
+    //printf("[%d] start_xmit: %dns\n", tid, $now - @start[tid]);
+    //@start[tid] = $now;
+    printf("[%d] start_xmit: %dns\n", tid, nsecs - @start[tid]);
+}
+
+
+tracepoint:net:net_dev_xmit
+/@start[tid] != 0/
+{
+    //$now = nsecs;
+    //printf("[%d] xmit: %dns\n", tid, $now - @start[tid]);
+    //@start[tid] = $now;
+    printf("[%d] xmit: %dns\n", tid, nsecs - @start[tid]);
+    delete(@start[tid]);
+}

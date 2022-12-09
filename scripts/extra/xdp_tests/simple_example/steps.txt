@@ -1,0 +1,25 @@
+compile prog with:
+    clang -O2 -g -Wall -target bpf -c xdp_drop.c -o xdp_drop.o
+
+check ELF code with:
+    llvm-objdump -h xdp_drop.o
+
+load the prog with:
+    sudo ip link set <IFACE> xdp obj xdp_drop.o sec xdp_drop
+
+previous doesn't support type maps
+load prog with type maps support with:
+    sudo xdp-loader load -m skb -s xdp_drop <IFACE> xdp_drop.o
+(needs https://github.com/xdp-project/xdp-tools/tree/master/xdp-loader)
+
+check that the prog is running with:
+    sudo bpftool prog show
+or:
+    sudo ip link show <IFACE>
+or:
+    sudo xdp-loader status
+
+unload (stop) the prog with:
+    sudo ip link set <IFACE> xdp off
+or:
+    sudo xdp-loader unload -a <IFACE>

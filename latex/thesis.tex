@@ -1,0 +1,163 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pedro Brandao's trial to get a template for thesis for students
+% Used the upthesis from Fernando Silva (see upthesis).
+% See also the packages file.
+% 2014/07/07 First draft
+% 2014/07/21
+%  pbrandao: added the list of listings (it should produce portuguese name if
+%           babel is set to portuguese, see packages.tex). Changed usepackage of babel
+%           to be before input packages.tex to allow test
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LTeX: language=portuguese
+
+% makes all pages the height of the text on that page. No extra vertical space is added.
+\raggedbottom
+% setting it to report will remove the blank pages before each chapter
+\documentclass[11pt,a4paper,twoside]{book}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   Packages that need to be configured for the thesis
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Language settings
+% use UKenglish for UK or leave blank for US English
+% it will also change the names for some of the chapters (list of tables, figures, content,
+\usepackage[UKenglish]{babel}
+%\usepackage[portuguese]{babel}
+% If you have multiple languages (as in this text) you can use both, leaving last the main one.
+% Then you can use
+% \begin{otherlanguage}{UKenglish}
+% text in other language, UKEnglish in this case
+% \end{otherlanguage}
+%\usepackage[UKenglish,portuguese]{babel}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   Packages uses language definitions
+% see file below for more packages and settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{upthesis}
+
+
+% the bibliography file
+\addbibresource{refs.bib}
+
+
+%% Definitions for acronyms
+\newcommand*\acronymbiggest{IEEE} % defines the biggest Acronym used to define the column size
+
+
+
+\usepackage[
+%backref={section},
+%pagebackref, % for getting references to the page where the citation is (in the biblio), note that biblatex above also has this
+pdfpagelabels=false
+]{hyperref}
+\hypersetup{pdftitle={Using eBPF for Network Analysis}, %nao suporta acentos
+   pdfkeywords ={bpf ebpf ieee mesh network analysis observation monitoring linux},
+   pdfsubject = {assunto},
+   bookmarksnumbered=true,
+   pdfauthor ={Autor}, % see other options on manual (can be page) needs empty line on bibitem
+   plainpages=false,
+   pdfborder={0 0 0},
+   colorlinks,%colorlinks=false,
+   breaklinks=true,
+	%hyperindex=true 	% Makes the page numbers of index entries into hyperlinks. Relays on unique page anchors (pageanchor)
+% see for colors http://mirror.ctan.org/macros/latex/contrib/xcolor/xcolor.pdf
+   linkcolor=Sepia, %MidnightBlue,% BlueViolet,%Sepia, % Color for normal internal links.
+   %anchorcolor=black,% Color for anchor text.
+   citecolor=RedViolet,% Color for bibliographical citations in text.
+   %filecolor=cyan% Color for URLs which open local files.
+   %menucolor=red% Color for Acrobat menu items.
+   %runcolor=filecolor% Color for run links (launch annotations).
+   urlcolor=NavyBlue% Color for linked URLs.
+}
+%use the same style for \url as the text
+% from http://en.wikibooks.org/wiki/LaTeX/Hyperlinks#Customization
+\urlstyle{same}
+
+%%%------ added for comments
+\usepackage{soulutf8}
+\usepackage{color}
+
+\DeclareRobustCommand{\hles}[1]{{\sethlcolor{cyan}\hl{ES: #1}}}
+\DeclareRobustCommand{\hlrp}[1]{{\sethlcolor{orange}\hl{RP: #1}}}
+% to make sure not comment is published, uncomment this
+%\DeclareRobustCommand{\hles}[1]{}
+%\DeclareRobustCommand{\hlrp}[1]{}
+%%%------ end of added for comments
+
+
+\begin{document}
+
+\title{eBPF for Mesh Network Monitoring}
+%% The following is not currently being used.
+% Part of the coverp in upthesis.sty
+% \submitionplace{Tese submetida à Faculdade de Ciências da \\
+%   Universidade do Porto para obtenção do grau de Mestre \\
+%   em Ciência de Computadores}
+% \author{Nome do autor}
+% \department{Departamento de Ciência de Computadores \\ Faculdade de
+%   Ciências da Universidade do Porto}
+% \submitdate{Setembro 2015}
+
+\beforepreface%
+
+\include{abs}
+
+% \dedicationpage{Dedico a \ldots}
+
+% end of thesis preamble
+\afterpreface%
+
+%% main tex here
+%% By putting the chapter names here, one can just comment the content in the chapters
+%% and produce a pdf with the correct chapter number.
+%% If you want further configurability you can use subfiles package
+%% https://www.ctan.org/pkg/subfiles
+
+
+%\chapter{Introdução}\label{chap:intro}
+\include{chap-intro}
+
+%\chapter{Background}\label{chap:back}
+\include{chap-related}
+
+%\chapter{Estado da Arte}\label{chap:stat}
+%\include{chap-soa}
+
+%\chapter{Exploração}\label{chap:expl}
+\include{chap-exploration}
+
+%\chapter{Desenho da Arquitetura}\label{chap:syst}
+\include{chap-development}
+
+%\chapter{Desenvolvimento}\label{chap:dese}
+\include{chap-tests}
+
+%\chapter{Resultados e análise}\label{chap:results}
+% \include{chap-results}
+
+%\chapter{Conclusões}\label{chap:conc}
+\include{chap-conclusion}
+
+
+
+%% references
+%\renewcommand{\bibname}{Referências} % o babel portuguese coloca Bibliografia
+% os meses do ficheiro bib poderão aparecer em inglês, caso se pretenda deve-se colocar o texto em português explicitamente no ficheiro bid
+\cleardoublepage%
+\phantomsection%
+\begin{sloppypar}
+\printbibliography[heading=bibintoc]%
+\end{sloppypar}
+
+
+%% appendix
+\appendix
+\include{appendix1}
+
+%% bye
+\end{document}

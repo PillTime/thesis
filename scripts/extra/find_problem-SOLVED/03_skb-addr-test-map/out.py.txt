@@ -1,0 +1,23 @@
+ieee80211_mesh_rx_queued_mgmt         [correto]
+0xffff9bad69fcb500
+0xffff9bad69fcb500
+
+ieee80211_mesh_rx_queued_mgmt         [errado]
+0xffff9bad30151400 <----------+
+0xffff9bad69fcb500            |
+                              ?
+ieee80211_mesh_rx_queued_mgmt |       [errado]
+0xffff9bad1d5ea100 <----------+---+
+0xffff9bad30151400 <----------+   |
+                                  ?
+ieee80211_mesh_rx_queued_mgmt     |   [errado]
+0xffff9bad1d5eac00                |
+0xffff9bad1d5ea100 <--------------+
+
+ieee80211_mesh_rx_queued_mgmt         [errado]
+0xffff9badbe78b400
+0xffff9bad69fcbd00
+
+ieee80211_mesh_rx_queued_mgmt         [correto]
+0xffff9bad1d5ea100
+0xffff9bad1d5ea100

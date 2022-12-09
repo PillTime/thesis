@@ -1,0 +1,49 @@
+um ficheiro para os acronimos
+eBPF era mas já nao é
+e fica esquisito aparecer
+  "using extended Berkley... (eBPF)"
+
+as vezes digo "this project/thesis"
+q palavra uso?
+
+no SoA:
+  tbm existe o perf, mas nao cheguei a usar (so 1 ou 2 vezes) nem a olhar para ele
+  como ferramenta para o programa, vale a pena falar na msm?
+  (bpftrace tbm nunca foi pensado em usar para o programa, mas
+  usou-se bastante para testes)
+
+SoA esta feito tbm acho
+
+como fazer as referencias? praticamente td links
+
+intro
+
+=====================================================================
+
+começou a usar ebpf para ver o q se podia fazer
+depois ficou foco nos caminhos mesh
+
+perf
+
+dizer no texto principal sobre a figura
+legenda pequena, falar da figura no texto
+
+SOA
+ebpf pode ser usado para funcionalidade
+  ex: usado para XDP para funcs no hardware
+falar do q se consegue fazer com ele
+falar do q outras pessoas estao a fazer com ebpf
+falar tbm das limitações do ebpf
+falar de limites de permissoes
+
+artigos uteis para ver exemplos de escrita
+
+justificar escolhas feitas SEMPRE
+
+ser sucinto, mas nao demasiado seco
+haver detalhe, explicar td mas sem "romansismo"
+
+figura da arquitetura da aplicaçao
+
+ALGUEM A LER A TESE DEVE CONSEGUIR
+REPLICAR O TRABALHO DE FORMA INDEPENDENTE

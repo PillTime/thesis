@@ -1,0 +1,76 @@
+mode tava mal no mininet
+
+
+hwmp:
+    - usar bpf
+    - em cada estacao a msg emitida e recebida (tempo demorado)
+    - medir atrasos com wmediumd
+    - hwmp metric: tempo espectavel de transmissao de um pacote de tamanho fixo (ms)
+    - verificar tabela de routing com pedidos
+
+hardware real:
+    - relogios sincronizados
+    - combinar registos de varios nos
+
+
+
+pacote para desencadiar registo de path tables
+ferramenta configura bpf acesso a path table e por onde passem pacotes broadcasting
+filtro bpf via o broadcast (e path request/reply) e se tinha carateristicas especificas
+guardar info dos q recebem estes pacotes
+
+aplicaçoes para isto
+
+1 comando em cada no para ativar
+num no gerar uma mensagem em broadcast
+quem recebe faz dump de info
+
+----------
+
+linux observability with bpf (o'reilly)
+bpf performance tools (brendan gregg)
+https://github.com/torvalds/linux/blob/master/kernel/bpf/verifier.c (comment)
+
+bpf history:
+    - 1992 paper about faster network packet filter implemented for unix
+        - packet filter: provide network monitor apps direct info from kernel,
+          so apps can decide what to do with with packets
+        - bpf introduced a new VM for register-based CPUs and per-app buffers,
+          which minimized amount of data required
+        ° in kernelspace, no performance degradation from copying
+    - unix implementations adopted bpf
+    - 2014 eBPF
+        - optimized for modern hardware
+        - more and bigger registers (more complex programs)
+        - initial goal was to improve bpf instr. set
+        - eBPF was then exposed to userspace
+        - bpf became toplevel kernel subsystem
+        - stopped being limited to network packet filtering
+        - programs don't crash because of verifier
+        ° JIT one-to-one for native instr. performance
+            ° comparision in page 55
+        ° support for kprobes, uprobes, etc shortly after
+    - bpf verifier checks that programs complete and dont access invalid memory
+        - max size allowed
+        - bounded loops
+    - new syscall for access from userspace
+    - bpf maps for data exchange
+
+bpf limits:
+    - bpf verifier prevents invalid bpf programs from executing
+        - not perfect however, as expected (ex: CVE-2017-16995)
+    - static analysis to check for expected end of program
+        - DFS through DAG (each instr. is a node) to check for cycles and no bad
+          paths
+            - includes rejecting code with unreachable instr. (dead code not
+              allowed to prevent delay in termination of program)
+    - dry run of program to check for invalid instr. and if memory pointers are
+      accessed and dereferenced properly
+    - bpf syscall can be used to debug the verifier's checks
+
+https://github.com/iovisor/bpftrace/blob/master/man/adoc/bpftrace.adoc
+bpf supports loops if the verifier can prove they're bounded
+bpftrace: while (cond) {}
+
+https://www.kernel.org/doc/html/latest/bpf/btf.html
+maps don't seem to have a defined max size (F3 for 'max')

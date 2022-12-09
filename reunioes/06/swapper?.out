@@ -1,0 +1,32 @@
+...
+Socket Thread[81404]: 94 bytes in 25249us over AF_INET(IPv4)/STREAM(TCP)
+	seq_ctrl: 51648
+	addr1   : 44:AD:D9:5E:28:20
+	addr2   : 94:E9:79:3C:EC:44
+	addr3   : 00:1C:7F:00:43:7E
+swapper/2[0]: 94 bytes in 199us over AF_INET(IPv4)/STREAM(TCP)
+	seq_ctrl: 51664
+	addr1   : 44:AD:D9:5E:28:20
+	addr2   : 94:E9:79:3C:EC:44
+	addr3   : 00:1C:7F:00:43:7E
+swapper/2[0]: 94 bytes in 119us over AF_INET(IPv4)/STREAM(TCP)
+	seq_ctrl: 51680
+	addr1   : 44:AD:D9:5E:28:20
+	addr2   : 94:E9:79:3C:EC:44
+	addr3   : 00:1C:7F:00:43:7E
+swapper/2[0]: 70 bytes in 136us over AF_UNSPEC/???
+	seq_ctrl: 51696
+	addr1   : 44:AD:D9:5E:28:20
+	addr2   : 94:E9:79:3C:EC:44
+	addr3   : 00:1C:7F:6C:1E:E6
+Socket Thread[81404]: 121 bytes in 202us over AF_INET(IPv4)/STREAM(TCP)
+	seq_ctrl: 51712
+	addr1   : 44:AD:D9:5E:28:20
+	addr2   : 94:E9:79:3C:EC:44
+	addr3   : 00:1C:7F:00:43:7E
+swapper/2[0]: 82 bytes in 148us over AF_INET(IPv4)/STREAM(TCP)
+	seq_ctrl: 51728
+	addr1   : 44:AD:D9:5E:28:20
+	addr2   : 94:E9:79:3C:EC:44
+	addr3   : 00:1C:7F:00:43:7E
+...

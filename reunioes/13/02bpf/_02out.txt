@@ -1,0 +1,59 @@
+# > sta1 ping -c4 sta2
+
+--- add mesh path -------
+mac addr: 02:00:00:00:01:00
+	name: sta2-mp0
+	mem addr 'known_gates: '(nil)
+	mem addr 'walk_head': (nil)
+	mem addr 'rhead' (hashtable): 0xffff9e6511af4a20
+	entries in mesh_table: 0
+	added mac: 02:00:00:00:00:00
+-------------------------
+--- add mesh path -------
+mac addr: 02:00:00:00:00:00
+	name: sta1-mp0
+	mem addr 'known_gates: '(nil)
+	mem addr 'walk_head': (nil)
+	mem addr 'rhead' (hashtable): 0xffff9e6511af4c60
+	entries in mesh_table: 0
+	added mac: 02:00:00:00:01:00
+-------------------------
+--- add mesh path -------
+mac addr: 02:00:00:00:02:00
+	name: sta3-mp0
+	mem addr 'known_gates: '(nil)
+	mem addr 'walk_head': (nil)
+	mem addr 'rhead' (hashtable): 0xffff9e650b1ff5a0
+	entries in mesh_table: 0
+	added mac: 02:00:00:00:01:00
+-------------------------
+--- add mesh path -------
+mac addr: 02:00:00:00:01:00
+	name: sta2-mp0
+	mem addr 'known_gates: '(nil)
+	mem addr 'walk_head': 0xffff9e6510ef6b18
+	mem addr 'rhead' (hashtable): 0xffff9e6511af4a20
+	entries in mesh_table: 0
+	added mac: 02:00:00:00:02:00
+-------------------------
+
+# sta1 ping -c4 sta3
+
+--- add mesh path -------
+mac addr: 02:00:00:00:02:00
+	name: sta3-mp0
+	mem addr 'known_gates: '(nil)
+	mem addr 'walk_head': 0xffff9e6517e5a318
+	mem addr 'rhead' (hashtable): 0xffff9e650b1ff5a0
+	entries in mesh_table: 0
+	added mac: 02:00:00:00:00:00
+-------------------------
+--- add mesh path -------
+mac addr: 02:00:00:00:00:00
+	name: sta1-mp0
+	mem addr 'known_gates: '(nil)
+	mem addr 'walk_head': 0xffff9e6516b63518
+	mem addr 'rhead' (hashtable): 0xffff9e6511af4c60
+	entries in mesh_table: 0
+	added mac: 02:00:00:00:02:00
+-------------------------

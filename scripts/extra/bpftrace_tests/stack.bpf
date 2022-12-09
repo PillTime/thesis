@@ -1,0 +1,9 @@
+kprobe:mesh_path_add
+{
+  @[kstack,tid] = count();
+}
+
+/*tracepoint:net:net_dev_xmit
+{
+  @[kstack,tid] = count();
+}*/

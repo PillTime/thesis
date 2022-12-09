@@ -1,0 +1,12 @@
+kprobe:tcp_v4_connect
+/pid == 22110/
+{
+	@start[tid] = nsecs;
+}
+
+kretprobe:dev_hard_start_xmit
+/@start[tid] != 0/
+{
+	printf("%s (%d): %d\n", comm, pid, nsecs - @start[tid]);
+	delete(@start[tid]);
+}

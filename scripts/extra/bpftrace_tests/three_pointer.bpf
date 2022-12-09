@@ -1,0 +1,46 @@
+#include <linux/skbuff.h>
+#include <linux/ieee80211.h>
+
+
+kprobe:mesh_nexthop_resolve
+{
+    @pass[tid] = (arg1, 0);
+}
+
+
+kprobe:mesh_path_add
+/@pass[tid].0 != 0/
+{
+    $skb = (struct sk_buff *)@pass[tid].0;
+    printf("padd: %p\n", $skb);
+
+    $mac = (struct ieee80211_hdr *)($skb->head + $skb->mac_header);
+    printf("fc: 0x%x\n", $mac->frame_control);
+    printf("%r\n", buf($mac, ($skb->network_header - $skb->mac_header)));
+    print("\n");
+
+    @pass[tid] = (@pass[tid].0, 1);
+}
+
+
+tracepoint:net:net_dev_xmit
+/@pass[tid].0 != 0 && @pass[tid].1 == 1/
+{
+    $skb = (struct sk_buff *)@pass[tid].0;
+    printf("xmit: %p | %p\n", $skb, args->skbaddr);
+
+    $lskb = (struct sk_buff *)(args->skbaddr);
+    printf("%d\n", nsecs);
+    $mac = (struct ieee80211_hdr *)($lskb->head + $lskb->mac_header);
+    printf("fc: 0x%x\n", $mac->frame_control);
+    printf("%r\n", buf($mac, ($lskb->network_header - $lskb->mac_header)));
+    print("\n");
+
+    delete(@pass[tid])
+}
+
+
+END
+{
+    clear(@pass);
+}

@@ -1,0 +1,39 @@
+#include <linux/skbuff.h>
+
+
+kprobe:mesh_nexthop_resolve
+{
+    @pass[tid] = arg1;
+}
+
+//kprobe:ieee80211_mesh_rx_queued_mgmt
+//{
+//    @pass[tid] = arg1;
+//}
+
+
+kprobe:mesh_path_add
+/@pass[tid] != 0/
+{
+    $skb = (struct sk_buff *)@pass[tid];
+
+    $head = $skb->head;
+    $data = $skb->data;
+    $mac = (uint64)$head + (uint64)$skb->mac_header;
+    $net = (uint64)$head + (uint64)$skb->network_header;
+    $trs = (uint64)$head + (uint64)$skb->transport_header;
+
+    printf("head : %p\n", (uint64)$head);
+    printf("data : %p\n", (uint64)$data);
+    printf("mac  : %p\n", $mac);
+    printf("net  : %p\n", $net);
+    printf("trs  : %p\n\n", $trs);
+
+    delete(@pass[tid])
+}
+
+
+END
+{
+    clear(@pass);
+}

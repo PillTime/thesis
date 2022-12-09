@@ -1,0 +1,35 @@
+#include <linux/socket.h>
+
+// hopefully this can be improved by using the existing structs and macros
+
+
+struct in_addr {
+	uint32_t s_addr;
+};
+
+struct sockaddr_in {
+	short          sin_family;
+	unsigned short sin_port;
+	struct in_addr sin_addr;
+	unsigned char  sin_zero[8];
+};
+
+
+uprobe:libc:sendto
+{
+	$addr = (struct sockaddr_in*)arg4;
+	$protofam = $addr->sin_family;
+
+	if ($protofam == 0) {
+		$name = "AF_UNSPEC";
+	} else if ($protofam == 2) {
+		$name = "AF_INET";
+	} else if ($protofam == 10) {
+		$name = "AF_INET6";
+	} else if ($protofam == 16) {
+		$name = "AF_NETLINK/ROUTE";
+	} else {
+		$name = "unknown";
+	}
+	printf("%s's socket using %s\n", comm, $name);
+}

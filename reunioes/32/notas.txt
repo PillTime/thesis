@@ -1,0 +1,32 @@
+pus as duas capturas para comparar e ver pq é q o mininet as vezes
+falha os pings
+
+arranjei o tracer.bpf.c
+suporte para expire
+ignora mesh_plink_deactivate e mpp_flush_by_proxy
+
+archlinuxarm tbm nao tem btf por default
+sem sucesso com o centos
+tentei fazer vm para testar mais facilmente
+aparentemente é preciso usar kernels especificos para virtualizaçao
+rip
+
+em principio aarch64 deve funcionar
+a makefile do libbpf bootstrap tem aarch64
+como por a funcionar?
+perguntar na mailing list ou irc?
+
+a rever coisas antigas
+ieee80211_tx_status_ext() parece mostrar os addr todos
+
+
+===========================================================================
+
+
+para qemu usar o gist dado no teams
+depois ir substituindo
+
+meter exploraçao no overleaf
+
+melhorar cliente
+fazer server

@@ -1,0 +1,16 @@
+ter atençao tamanho mapas em BPF
+
+na struct sk_buff:
+    - len mostra sempre (ou quase sempre) algo acima de 0
+    - data_len mostra sempre (ou quase sempre) 0
+
+razao para usar ieee80211_tx_status_ext:
+    - é chamada por ieee80211_tx_status
+    - alguns drivers chamam diretamente (provavelmente)
+
+sempre é mandado um pacote por uma interface wifi,
+`ieee80211_tx_status_ext` é chamada, mesmo que com algum delay
+
+no portatil aparece `swapper` com pid 0
+e aparecem nomes de processos que nao fazem sentido
+por exemplo, alacritty a enviar cenas para o discord

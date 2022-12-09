@@ -1,0 +1,14 @@
+#include <linux/socket.h>
+
+
+uprobe:libc:sendto
+{
+    @start[tid] = nsecs;
+}
+
+
+kprobe:dql_completed
+{
+	printf("time socket(%d) to sendmsg: %dns\n", @start[pid], nsecs - @start[pid]);
+	delete(@start[pid]);
+}

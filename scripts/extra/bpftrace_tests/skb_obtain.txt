@@ -1,0 +1,32 @@
+seems like when a path is added by RX, it mesh_path_add is called twice in a row
+
+
+RX kworker/u64:9 [22660]
+RX kworker/u64:1 [22657]
+RX kworker/u64:0 [25003]
+ADDTX ksoftirqd/8 [65]
+TX
+        tid: 65
+        skb: 0xffff8c8a0957f800
+
+RX kworker/u64:9 [22660]
+ADDRX
+        tid: 22660
+        skb: 0xffff8c880258f1e8
+
+ADDTX kworker/u64:9 [22660]
+RX kworker/u64:1 [22657]
+ADDRX
+        tid: 22657
+        skb: 0xffff8c880258b1e8
+
+ADDTX kworker/u64:1 [22657]
+RX kworker/u64:6 [25964]
+ADDRX
+        tid: 25964
+        skb: 0xffff8c881b4bf1e8
+
+ADDTX kworker/u64:6 [25964]
+RX kworker/u64:9 [22660]
+RX kworker/u64:8 [13070]
+RX kworker/u64:9 [22660]

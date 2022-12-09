@@ -1,0 +1,40 @@
+BEGIN
+{
+    @counter = 0;
+}
+
+
+kprobe:mesh_nexthop_resolve
+{
+    @pass[tid] = (1, arg1);
+}
+
+
+kprobe:ieee80211_mesh_rx_queued_mgmt
+{
+    @pass[tid] = (2, arg1);
+}
+
+
+kprobe:mesh_path_add
+/@pass[tid].0 != 0/
+{
+    @counter += 1;
+    if (@pass[tid].0 == 1) {
+        printf("---%02u--- mesh_nexthop_resolve --------\n", @counter);
+    } else if (@pass[tid].0 == 2) {
+        printf("---%02u--- ieee80211_mesh_rx_queued_mgmt --------\n", @counter);
+    } else {
+        printf("---%02u--- UNKNOWN REASON --------\n\n", @counter);
+        return;
+    }
+
+    printf("%p\n\n", @pass[tid].1);
+    delete(@pass[tid]);
+}
+
+
+END
+{
+    clear(@pass);
+}

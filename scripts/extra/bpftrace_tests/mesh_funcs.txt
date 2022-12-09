@@ -1,0 +1,106 @@
+- mesh_path_assign_nexthop   {update mesh path next hop}
+                             [path can be from a table outside of the function]
+- mesh_path_lookup           {look up a path in the mesh path table}
+                             [uses mpath_lookup]
+- mpp_path_lookup            {}
+                             [uses mpath_lookup]
+- mesh_path_lookup_by_idx    {look up a path in the mesh path table by its index}
+                             [uses __mesh_path_lookup_by_idx]
+- mpp_path_lookup_by_idx     {look up a path in the proxy path table by its index}
+                             [uses __mesh_path_lookup_by_idx]
+- mesh_path_add_gate         {add the given mpath to a mesh gate to out path table}
+- mesh_gate_num              [useless (only returns number of gates)]
+- mesh_path_add              {allocate and add a new path to the mesh path table}
+                             [uses mesh_path_new]
+- mpp_path_add               {}
+                             [uses mesh_path_new]
+- mesh_plink_broken          {deactivates paths and sends perr when a link breaks}
+- mesh_path_flush_by_nexthop {deletes mesh paths if their next hop matches}
+                             [uses __mesh_path_del]
+- mesh_path_flush_by_iface   {deletes all mesh paths associated with a given iface}
+                             [uses table_flush_by_iface]
+- mesh_path_del              {delete a mesh path from the table}
+                             [uses table_path_del]
+- mesh_path_tx_pending       {sends pending frames in a mesh path queue}
+                             [changes a path that could be from a table]
+- mesh_path_send_to_gates    {sends pending frames to all known mesh gates}
+                             [changes a path that could be from a table]
+- mesh_path_discard_frame    {discard a frame whose path could not be resolved}
+                             [doesn't change tables, but updates mesh stat (dropped frames)]
+- mesh_path_flush_pending    {free the pending queue of a mesh path}
+                             [changes a path that could be from a table]
+- mesh_path_fix_nexthop      {force a specific next hop for a mesh path}
+                             [path can be from a table outside of the function]
+- mesh_pathtbl_init          {}
+                             [uses mesh_table_init]
+- mesh_path_expire           {}
+                             [uses mesh_path_tbl_expire]
+- mesh_pathtbl_unregister    {}
+                             [uses mesh_table_free]
+
+
+================================================================================
+================================================================================
+
+
+mesh_path_assign_nexthop:
+    supposedly it's used to alter the mesh table, but gets called even if that doesn't happen
+    might be called every time an update is a possibility
+    or simply updates everytime, replacing what's already there with the same thing most of the time
+    (see how it's executed every time a ping is made, even if a ping had been done before)
+    likely comes from `hwmp_route_info_get` in `mesh_hwmp.c`
+
+mesh_path_lookup:
+    every time an address needs to be found
+mpp_path_lookup:
+    same as mesh_path_lookup
+mesh_path_lookup_by_idx:
+    used by mesh_path_lookup
+mpp_path_lookup_by_idx
+    used by mpp_path_lookup
+
+mesh_path_add_gate:
+    (assumed, never seen)
+    used whenever a gate is added
+
+mesh_gate_num:
+    ???
+
+mesh_path_add:
+    used when a new path is added to the mesh table
+    only used in new pings
+    likely comes from `hwmp_route_info_get` in `mesh_hwmp.c`
+
+mesh_plink_broken:
+    ???
+mesh_path_flush_by_nexthop:
+    ???
+mesh_path_flush_by_iface:
+    ???
+
+mesh_path_del:
+    (assumed, never seen)
+    opposite of add, only executed when removing a path
+
+mesh_path_tx_pending:
+    executed always right after mesh_path_assign_nexthop
+    likely comes from `hwmp_route_info_get` in `mesh_hwmp.c`
+
+mesh_path_send_to_gates:
+    ???
+mesh_path_discard_frame:
+    ???
+mesh_path_flush_pending:
+    ???
+mesh_path_fix_nexthop:
+    ???
+
+mesh_pathtbl_init:
+    most likely executed when the station/interface is initialized
+
+mesh_path_expire:
+    executed after some time, doesn't seem to remove paths from the tables
+    most likely only tags them as expired
+
+mesh_pathtbl_unregister:
+    ???

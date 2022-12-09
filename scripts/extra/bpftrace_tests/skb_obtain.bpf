@@ -1,0 +1,39 @@
+kprobe:ieee80211_mesh_rx_queued_mgmt
+{
+    printf("RX %s [%d]\n", comm, tid);
+    @rx[tid] = (uint64)arg2;
+}
+
+kprobe:mesh_path_add
+/@rx[tid] != 0/
+{
+    $skb = @rx[tid];
+    printf("ADDRX\n");
+    printf("\ttid: %d\n", tid);
+    printf("\tskb: %p\n\n", $skb);
+    delete(@rx[tid]);
+}
+
+kprobe:mesh_path_add
+/@rx[tid] == 0/
+{
+    printf("ADDTX %s [%d]\n", comm, tid);
+    @tx[tid] = (uint64)1;
+}
+
+tracepoint:net:net_dev_xmit
+/@tx[tid] == 1/
+{
+    $skb = args->skbaddr;
+    printf("TX\n");
+    printf("\ttid: %d\n", tid);
+    printf("\tskb: %p\n\n", $skb);
+    delete(@tx[tid]);
+}
+
+
+END
+{
+    clear(@rx);
+    clear(@tx);
+}

@@ -1,0 +1,26 @@
+...
+
+kprobe:mesh_path_send_to_gates
+{
+    printf("mesh_path_send_to_gates\n");
+}
+
+
+kprobe:mesh_path_discard_frame
+{
+    printf("mesh_path_discard_frame\n");
+}
+
+
+kprobe:mesh_path_flush_pending
+{
+    printf("mesh_path_flush_pending\n");
+}
+
+
+kprobe:mesh_path_fix_nexthop
+{
+    printf("mesh_path_fix_nexthop\n");
+}
+
+...

@@ -1,0 +1,63 @@
+pegar em pings
+
+ver melhor que funções fazem o q queremos ver
+
+ver a diferença do q é escrito na socket e o que é mandado para a rede
+
+usermode no inicio
+
+seguir um pacote e ver por que funções passa dava jeito (possivel sequer?)
+
+apresentação janeiro
+apanhado das funcionalidades
+estado de arte até janeiro
+
+estatisticas se correr bem
+
+----------
+
+beej.us (guias de network e de unix sockets) deu jeito
+
+send e sendto sao as funções (de C) que mandam dados para um endereço
+no entanto esse endereço pode ser uma socket unix
+preciso forma distinguir entre chamadas para rede e chamadas para sockets unix
+
+dest_addr (struct sockaddr) parece ter info que indica o tipo do endereço socket
+struct sockaddr está em 'bits/socket.h'
+struct sockaddr (__CONST_SOCKADDR_ARG) tem argumento __SOCKADDR_COMMON(sa_)
+__SOCKADDR_COMMON(sa_prefix) está em 'bits/sockaddr.h'
+fica `sa_family_t sa_family`
+`sa_family_t` é `unsigned short int`
+AF_INET para IPv4, AF_INET6 para IPv6, AF_UNSPEC para qualquer
+estao em 'bits/socket.h'
+
+----------
+
+Documentation/networking/timestamping.rst#567
+
+possivelmente importante
+
+----------
+
+include/linux/netdevice.h#92
+
+transmissão é async a usar qdiscs
+devices virtuais sao sync
+se percebi bem
+
+net/core/dev.c#3583
+
+bpf tracepoint de possivelmente o que queremos
+função dev_hard_start_xmit logo a seguir também
+
+----------
+
+include/linux/netdevice.h#4998
+
+função chamada pelo dev_hard_start_xmit
+
+
+include/linux/netdevice.h#1348
+
+procurar por ndo_start_xmit mostra uma tonelada de funções
+varia por driver

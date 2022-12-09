@@ -1,0 +1,113 @@
+bpftool btf dump file /sys/kernel/btf/mac80211 format c > vmlinux.h
+preciso ainda ver pq é q tem q ser assim (supostamente vmlinux devia dar)
+
+pouca doc sobre co-re/libbpf
+queria saber se o tipo de retorno em fexit é sempre long ou se depende da funçao
+nao diz em lado nenhum
+	(era de esperar q fosse depdender da funçao, mas no exemplo
+	q usam uma funçao que retorna int, usam um long)
+
+problemas no CO-RE
+	BPF_CORE_READ_INTO(&event->name, sdata, name)
+		nao escreve o '\0'
+	BPF_CORE_READ_STR_INTO(&event->name, sdata, name)
+		escreve '\0' por cima da ultima letra da string
+	bpf_core_read_str(&event->name, sizeof(&sdata->name) + 1, &sdata->name)
+		escreve '\0' por cima do primeiro byte do proximo elemento
+
+comecei de novo
+ter um char[16] e ler para ele com o READ_STR_INTO funcionou perfeitamente
+
+as funçoes net_tx_action e net_rx_action parecem candidatas para os skbs, mas
+nunca sao chamadas
+
+
+libbpf, funciona td, mas nao estou a ver se acontecem erros
+so nao consigo copiar o dst no mesh_path_del
+falta fazer a relaçao de capturas com pacotes
+(talvez use c em vez de rust, mais perigoso mas mais livre. isso ou python)
+
+quis testar o raspberry mas nao deu pq o kernel nao tem suporte para btf
+(formato com info debug de programas bpf)
+tentei compilar o kernel para suportar btf mas nao aparecia na config sequer
+
+
+TOC
+	Abstract
+		[rpd e objectivo a dar a perceber o q foi feito]
+	Intro
+		Contextualizaçao
+		Motivaçao
+		Aims & Objectives
+			[objs gerais e especificos]
+		Organizaçao
+	SoA
+		eBPF
+		libbpf
+		bpftrace
+		BCC
+		CO-RE
+	Exploraçao
+		Analise de funcionamento mac80211
+		Captura de eventos e associaçao a pacotes
+	Desenvolvimento
+		[arquitetura]
+			[geral 1°]
+			[mais especifico 2°]
+	Testes + Analise
+		[tsts pontuais [verificar q funciona como esperado]]
+		[[se possivel] tst de maior escala]
+	Conclusao
+		Future Work
+
+
+--------------------------------------------------------------------------------
+
+
+estive a ver o CO-RE
+todos os sites dizem para fazer bpftool do vmlinux, mas eu preciso do mac80211
+demorei um pouquito a perceber pq é q nao tinha as strucs q precisava
+ainda nao sei como usar mais q um destes ficheiros (geram sempre vmlinux.h)
+
+ja verifiquei q funciona noutras distros
+experimentei com outro portatil com fedora e deu
+
+CO-RE tem mt pouca doc. praticamente so uns posts de um dos devs
+demorei a perceber algumas coisas pq causa disto
+
+ainda nao sei como fazer certas coisas
+por exemplo, copiar um dos argumentos para a minha struct (dst)
+(diz sempre q dst nao é uma struct (verdade), e nao me deixa copiar)
+ja tentei de tds as maneiras q consigo imaginar
+qos_ctrl é outro q nao sei como ler
+
+codigo bpf esta praticamente td feito
+so falta verificar se acontecem erros
+
+falta o relacionamento entre pacotes e eventos
+
+tentei fazer cross compile para testar o programa no rpi mas falhou
+(nao tenho libelf para arm)
+decidi mandar o codigo para o rpi e compilar la e funcionou
+(depois de instalar deps)
+executar dá erro
+aparentemente o kernel do rpi nao é compilado com suporte para btf q é
+necessario para o CO-RE
+fiz clone to repo do linux do github do rpi, mas na config nao aparece nada
+para ativar suporte para btf
+
+
+================================================================================
+
+
+CENAS Q FALTAM DE REUNIAO ANTERIOR
+
+dst fixed
+__mesh_path_del (tem condiçao)
+TER ATENCAO
+nao verifica se é removido por timeout
+
+compile rpi https://gist.github.com/lategoodbye/c7317a42bf7f9c07f5a91baed8c68f75
+
+draft ATE FIM JULHO
+exploraçao

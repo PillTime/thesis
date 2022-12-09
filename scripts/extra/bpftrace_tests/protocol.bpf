@@ -1,0 +1,40 @@
+/*
+ * nope, nao funciona. nao é ethhdr o esperado
+*/
+
+
+#include <linux/skbuff.h>
+
+
+kprobe:mesh_nexthop_resolve
+{
+    @pass[tid] = (arg1, 0);
+}
+
+
+kprobe:mesh_path_add
+/@pass[tid].0 != 0/
+{
+    @pass[tid] = (@pass[tid].0, 1);
+}
+
+
+tracepoint:net:net_dev_xmit
+/@pass[tid].0 != 0 && @pass[tid].1 == 1/
+{
+    $skb = (struct sk_buff *)args->skbaddr;
+
+    $head = $skb->head;
+    $mac = $head + $skb->mac_header;
+
+    $eth = (struct ethhdr *)$mac;
+    printf("%s -> %s\nproto: 0x%04x\n\n", macaddr($eth->h_source), macaddr($eth->h_dest), $eth->h_proto);
+
+    delete(@pass[tid]);
+}
+
+
+END
+{
+    clear(@pass);
+}

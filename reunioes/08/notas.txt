@@ -1,0 +1,27 @@
+802.11s:
+    - mesh
+    - extends 802.11 mac standard
+
+hwmp:
+    - net/mac80211/mesh_hwmp.c
+    - net/mac80211/ieee80211_i.h (struct ieee80211_if_mesh)
+    - include/net/cfg80211.h (struct mesh_config)
+
+--------------------------------------------------------------------------------
+
+usos eBPF:
+    - Resiliency in SD-WAN with eBPF Monitoring                                           (https://ieeexplore.ieee.org/document/9477351)
+    - Open-source IO visor eBPF-based packet tracing                                      (https://ieeexplore.ieee.org/document/8190996)
+    - Flexible failure detection and fast reroute using eBPF and SRv6                     (https://ieeexplore.ieee.org/document/8584995)
+    - Kmon: An In-kernel Transparent Monitoring System for Microservice Systems with eBPF (https://ieeexplore.ieee.org/document/9527003)
+    - Efficient Network Monitoring Applications in the Kernel with eBPF and XDP           (https://ieeexplore.ieee.org/document/9665095)
+    - Providing Telco-oriented Network Services with eBPF                                 (https://www.scopus.com/record/display.uri?eid=2-s2.0-85112059375&origin=resultslist&sort=r-f&src=s&st1=eBPF&nlo=&nlr=&nls=&sid=e0d5546416d4d85fad811223722cbad2&sot=b&sdt=b&sl=19&s=TITLE-ABS-KEY%28eBPF%29&citeCnt=1&searchTerm=)
+    - Combining system visibility and security using eBPF                                 (https://www.scopus.com/record/display.uri?eid=2-s2.0-85061368362&origin=resultslist&sort=r-f&src=s&st1=eBPF&nlo=&nlr=&nls=&sid=e0d5546416d4d85fad811223722cbad2&sot=b&sdt=b&sl=19&s=TITLE-ABS-KEY%28eBPF%29&citeCnt=5&searchTerm=)
+    - Design and Implementation of eBPF-based Virtual TAP for Inter-VM Traffic Monitoring (https://www.scopus.com/record/display.uri?eid=2-s2.0-85060932546&origin=resultslist&sort=r-f&src=s&st1=eBPF&nlo=&nlr=&nls=&sid=e0d5546416d4d85fad811223722cbad2&sot=b&sdt=b&sl=19&s=TITLE-ABS-KEY%28eBPF%29&citeCnt=2&searchTerm=)
+    - Fast Packet Processing with eBPF and XDP                                            (https://dl.acm.org/doi/abs/10.1145/3371038?casa_token=Ej33pxxwNFwAAAAA:yvDuhVJK4caJptrohv2K-L3TRvu1FpohCQrg-wUPgHY7mNzktakhpLlw5ixqHm27tNTF5XIDAlmD)
+    - bpfbox: Simple Precise Process Confinement with eBPF                                (https://dl.acm.org/doi/abs/10.1145/3411495.3421358)
+
+outros eBPF:
+    - Performance Implications of Packet Filtering with Linux eBPF                        (https://ieeexplore.ieee.org/document/8493077)
+    - A Framework for eBPF-Based Network Functions                                        (https://ieeexplore.ieee.org/document/9340283)
+    - The rise of eBPF for non-intrusive performance monitoring                           (https://ieeexplore.ieee.org/document/9110434)

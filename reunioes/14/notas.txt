@@ -1,0 +1,22 @@
+notas poster:
+	- os nomes em cima precisam de 1 à frente?
+	- links das imagens nas referencias?
+	- possivel trocar ondem de secçoes, por exemplo objetivos com SotA
+
+--------------------------------------------------------------------------------
+
+escrita melhor:
+
+- Because this dissertation is a bit more on the exploratory side, we do not have a precise workplan with deadlines defined.
+- Since this work has an exploratory character, tasks are indicative and may be subject to change.
+
+--------------------------------------
+
+estrutura com info do next_hop criada depois de mesh_path_add ??
+endereço aparece só 0s quando é adicionado, mas correto nas proxs vezes
+CONFIRMADO: mesh_path_assign_nexthop executa 1 ou mais vezes depois de um mesh_path_add
+
+computadores enviam os seus destinos e hops, e da para criar uma rede de ligaçoes
+
+em mesh_table, entries nao funciona bem (ou 0 ou negativo), mas nelems do rhead funciona
+ou entao entries é suposto guardar outra coisa

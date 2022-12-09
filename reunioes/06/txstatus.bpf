@@ -1,0 +1,179 @@
+#include <linux/ieee80211.h>
+#include <linux/net.h>
+#include <linux/skbuff.h>
+#include <linux/socket.h>
+#include <net/mac80211.h>
+#include <net/sock.h>
+
+
+tracepoint:net:net_dev_start_xmit
+{
+	$now = nsecs;
+	$skb = (uint64)args->skbaddr;
+
+	@time[$skb] = ($now, comm, pid);
+}
+
+
+kprobe:ieee80211_tx_status_ext
+{
+	$now = nsecs;
+	$stats = (struct ieee80211_tx_status *)arg1;
+	$skb = $stats->skb;
+	$skbid = (uint64)$skb;
+	$saved = @time[$skbid].0;
+	$comm = @time[$skbid].1;
+	$pid = @time[$skbid].2;
+
+	$machdr = (struct ieee80211_hdr *)$skb->data;
+	$macseq = $machdr->seq_ctrl;      // __le16
+	$macfrm = $machdr->frame_control; // __le16
+	$macadr1 = $machdr->addr1;        // [u8]
+	$macadr2 = $machdr->addr2;        // [u8]
+	$macadr3 = $machdr->addr3;        // [u8]
+	$macadr4 = $machdr->addr4;        // [u8]
+
+	$sock = $skb->sk;
+	$sktype = $sock->sk_type;
+	$skfam = $sock->__sk_common.skc_family;
+
+	// tambem existem campos para ipv6
+	$skdaddr = $sock->__sk_common.skc_daddr;
+	$sksaddr = $sock->__sk_common.skc_rcv_saddr;
+
+	if ($sktype == SOCK_STREAM) {
+		$type = "STREAM(TCP)";
+	} else if ($sktype == SOCK_DGRAM) {
+		$type = "DGRAM(UDP)";
+	} else if ($sktype == SOCK_RAW) {
+		$type = "RAW";
+	} else if ($sktype == SOCK_RDM) {
+		$type = "RDM";
+	} else if ($sktype == SOCK_SEQPACKET) {
+		$type = "SEQPACKET";
+	} else if ($sktype == SOCK_DCCP) {
+		$type = "DCCP";
+	} else if ($sktype == SOCK_PACKET) {
+		$type = "PACKET";
+	} else {
+		$type = "???";
+	}
+
+	if ($skfam == AF_UNSPEC) {
+		$fam = "AF_UNSPEC";
+	} else if ($skfam == AF_UNIX || $skfam == AF_LOCAL) {
+		$fam = "AF_LOCAL";
+	} else if ($skfam == AF_INET) {
+		$fam = "AF_INET(IPv4)";
+	} else if ($skfam == AF_AX25) {
+		$fam = "AF_AX25";
+	} else if ($skfam == AF_IPX) {
+		$fam = "AF_IPX";
+	} else if ($skfam == AF_APPLETALK) {
+		$fam = "AF_APPLETALK";
+	} else if ($skfam == AF_NETROM) {
+		$fam = "AF_NETROM";
+	} else if ($skfam == AF_BRIDGE) {
+		$fam = "AF_BRIDGE";
+	} else if ($skfam == AF_ATMPVC) {
+		$fam = "AF_ATMPVC";
+	} else if ($skfam == AF_X25) {
+		$fam = "AF_X25";
+	} else if ($skfam == AF_INET6) {
+		$fam = "AF_INET6(IPv6)";
+	} else if ($skfam == AF_ROSE) {
+		$fam = "AF_ROSE";
+	} else if ($skfam == AF_DECnet) {
+		$fam = "AF_DECnet";
+	} else if ($skfam == AF_NETBEUI) {
+		$fam = "AF_NETBEUI";
+	} else if ($skfam == AF_SECURITY) {
+		$fam = "AF_SECURITY";
+	} else if ($skfam == AF_KEY) {
+		$fam = "AF_KEY";
+	} else if ($skfam == AF_NETLINK) {
+		$fam = "AF_NETLINK";
+	} else if ($skfam == AF_PACKET) {
+		$fam = "AF_PACKET";
+	} else if ($skfam == AF_ASH) {
+		$fam = "AF_ASH";
+	} else if ($skfam == AF_ECONET) {
+		$fam = "AF_ECONET";
+	} else if ($skfam == AF_ATMSVC) {
+		$fam = "AF_ATMSVC";
+	} else if ($skfam == AF_RDS) {
+		$fam = "AF_RDS";
+	} else if ($skfam == AF_SNA) {
+		$fam = "AF_SNA";
+	} else if ($skfam == AF_IRDA) {
+		$fam = "AF_IRDA";
+	} else if ($skfam == AF_PPPOX) {
+		$fam = "AF_PPPOX";
+	} else if ($skfam == AF_WANPIPE) {
+		$fam = "AF_WANPIPE";
+	} else if ($skfam == AF_LLC) {
+		$fam = "AF_LLC";
+	} else if ($skfam == AF_IB) {
+		$fam = "AF_IB";
+	} else if ($skfam == AF_MPLS) {
+		$fam = "AF_MPLS";
+	} else if ($skfam == AF_CAN) {
+		$fam = "AF_CAN";
+	} else if ($skfam == AF_TIPC) {
+		$fam = "AF_TIPC";
+	} else if ($skfam == AF_BLUETOOTH) {
+		$fam = "AF_BLUETOOTH";
+	} else if ($skfam == AF_IUCV) {
+		$fam = "AF_IUCV";
+	} else if ($skfam == AF_RXRPC) {
+		$fam = "AF_RXRPC";
+	} else if ($skfam == AF_ISDN) {
+		$fam = "AF_ISDN";
+	} else if ($skfam == AF_PHONET) {
+		$fam = "AF_PHONET";
+	} else if ($skfam == AF_IEEE802154) {
+		$fam = "AF_IEEE802154";
+	} else if ($skfam == AF_CAIF) {
+		$fam = "AF_CAIF";
+	} else if ($skfam == AF_ALG) {
+		$fam = "AF_ALG";
+	} else if ($skfam == AF_NFC) {
+		$fam = "AF_NFC";
+	} else if ($skfam == AF_VSOCK) {
+		$fam = "AF_VSOCK";
+	} else if ($skfam == AF_KCM) {
+		$fam = "AF_KCM";
+	} else if ($skfam == AF_QIPCRTR) {
+		$fam = "AF_QIPCRTR";
+	} else if ($skfam == AF_SMC) {
+		$fam = "AF_SMC";
+	} else if ($skfam == AF_XDP) {
+		$fam = "AF_XDP";
+	} else if ($skfam == AF_MCTP) {
+		$fam = "AF_MCTP";
+	} else {
+		$fam = "???";
+	}
+
+	// a variavel builtin `comm` aqui é o modulo de wireless usado
+	// no meu caso: `irq/78-iwlwifi:`
+	// preciso usar o comm do trace anterior
+
+	if ($saved != 0) {
+		printf("%s[%d]: %d bytes in %dus over %s/%s\n", $comm, $pid, $skb->len, ($now - $saved) / 1000, $fam, $type);
+		printf("\t%s -> %s\n", ntop($sksaddr), ntop($skdaddr));
+		printf("\tfrm_ctrl: %d\n", $macfrm);
+		printf("\tseq_ctrl: %d\n", $macseq);
+		printf("\taddr1   : %s\n", macaddr($macadr1)); // ???
+		printf("\taddr2   : %s\n", macaddr($macadr2)); // my address
+		printf("\taddr3   : %s\n", macaddr($macadr3)); // router address
+		printf("\taddr4   : %s\n", macaddr($macadr4)); // router address
+	}
+	delete(@time[$skbid]);
+}
+
+
+END
+{
+	clear(@time);
+}

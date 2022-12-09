@@ -1,0 +1,35 @@
+#include <linux/skbuff.h>
+
+
+kprobe:mesh_nexthop_resolve
+{
+    @flt[tid] = (1, (uint64)arg1);
+}
+
+
+kprobe:ieee80211_mesh_rx_queued_mgmt
+{
+    @flt[tid] = (2, (uint64)arg1);
+}
+
+
+kprobe:mesh_path_add
+/@flt[tid].0 != 0/
+{
+    $fn = @flt[tid].0;
+    $skb = @flt[tid].1;
+    delete(@flt[tid]);
+
+    if ($fn == 1) {
+        printf("mesh_nexthop_resolve\n");
+    } else if ($fn == 2) {
+        printf("ieee80211_mesh_rx_queued_mgmt\n");
+    }
+    printf("%p\n\n", $skb);
+}
+
+
+END
+{
+    clear(@flt);
+}

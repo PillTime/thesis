@@ -1,0 +1,227 @@
+#include <linux/skbuff.h>
+#include <linux/ieee80211.h>
+#include <../net/mac80211/ieee80211_i.h>
+
+
+// for initiator
+kprobe:mesh_nexthop_resolve
+{
+	printf("tidNH: %d\n", tid);
+	$time = nsecs;
+	@flt[tid] = $time;
+	@map[$time] = (1, (uint64)arg1);
+}
+
+
+// for all others
+// (earliest function that has skb in arguments)
+/*
+hwmp_route_info_get <-+
+                      |
+          mesh_rx_path_sel_frame <-+
+                                   |
+                  ieee80211_mesh_rx_mgmt_action <-+
+                                                  |
+                                 ieee80211_mesh_rx_queued_mgmt
+*/
+kprobe:ieee80211_mesh_rx_queued_mgmt
+{
+	printf("tidRX: %d\n", tid);
+	$time = nsecs;
+	@flt[tid] = $time;
+	@map[$time] = (2, (uint64)arg1);
+}
+
+
+kprobe:mesh_path_add
+/@flt[tid] != 0/
+{
+	$fn = @map[@flt[tid]].0;
+	$arg = @map[@flt[tid]].1;
+
+	printf("tidPA: %d\n", tid);
+
+	delete(@map[@flt[tid]]);
+	delete(@flt[tid]);
+
+	if ($fn == 1) {
+		printf("----- mesh_nexthop_resolve -----------------------\n");
+	} else if ($fn == 2) {
+		printf("----- ieee80211_mesh_rx_queued_mgmt --------------\n");
+	} else {
+		printf("THIS SHOULDN'T HAPPEN!!!\n");
+		return;
+	}
+
+	$skb = (struct sk_buff *)$arg;
+	$mac = (struct ieee80211_hdr *)($skb->data);
+	$sdata = (struct ieee80211_sub_if_data *)arg0;
+
+	printf("%s (%s)\n", $sdata->name, macaddr($sdata->vif.addr));
+
+	$t1 = $mac->seq_ctrl >> 8;
+	$t2 = $mac->seq_ctrl & 0xff;
+	$new = $t2 << 8 | $t1;
+
+	$frg = $new & 0xf;
+	$seq = $new >> 4;
+
+	printf("(%s) Sequence: %d | Fragment: %d\n", $sdata->name, $seq, $frg);
+
+	// NOTE: network(big) endianness (wireshark shows system(little) endianness)
+
+	$t1 = $mac->frame_control >> 8;
+	$t2 = $mac->frame_control & 0xff;
+	$new = $t2 << 8 | $t1;
+
+	$frame = $new >> 8;
+	$flags = $new & 0xff;
+
+	$type = $frame >> 2 & 0x3;
+	$subt = $frame >> 4;
+
+	printf("(%s) Type   : ", $sdata->name);
+	if ($type == 0x0) {
+		printf("Management\n(%s) Subtype: ", $sdata->name);
+		if ($subt == 0x0) {
+			printf("Association Request\n");
+		} else if ($subt == 0x1) {
+			printf("Association Response\n");
+		} else if ($subt == 0x2) {
+			printf("Reassociation Request\n");
+		} else if ($subt == 0x3) {
+			printf("Reassociation Response\n");
+		} else if ($subt == 0x4) {
+			printf("Probe Request\n");
+		} else if ($subt == 0x5) {
+			printf("Probe Response\n");
+		} else if ($subt == 0x6) {
+			printf("Timing Advertisement\n");
+		} else if ($subt == 0x7) {
+			printf("Reserved\n");
+		} else if ($subt == 0x8) {
+			printf("Beacon\n");
+		} else if ($subt == 0x9) {
+			printf("ATIM\n");
+		} else if ($subt == 0xa) {
+			printf("Dissassociation\n");
+		} else if ($subt == 0xb) {
+			printf("Authentication\n");
+		} else if ($subt == 0xc) {
+			printf("Deauthentication\n");
+		} else if ($subt == 0xd) {
+			printf("Action\n");
+		} else if ($subt == 0xe) {
+			printf("Action No Ack (NACK)\n");
+		} else if ($subt == 0xf) {
+			printf("Reserved\n");
+		}
+	} else if ($type == 0x1) {
+		printf("Control\n(%s) Subtype: ", $sdata->name);
+		if ($subt == 0x2) {
+			printf("Trigger\n");
+		} else if ($subt == 0x3) {
+			printf("TACK\n");
+		} else if ($subt == 0x4) {
+			printf("Beamforming Report Poll\n");
+		} else if ($subt == 0x5) {
+			printf("VHT/HE NDP Announcement\n");
+		} else if ($subt == 0x6) {
+			printf("Control Frame Extension\n");
+		} else if ($subt == 0x7) {
+			printf("Control Wrapper\n");
+		} else if ($subt == 0x8) {
+			printf("Block Ack Request (BAR)\n");
+		} else if ($subt == 0x9) {
+			printf("Block Ack (BA)\n");
+		} else if ($subt == 0xa) {
+			printf("PS-Poll\n");
+		} else if ($subt == 0xb) {
+			printf("RTS\n");
+		} else if ($subt == 0xc) {
+			printf("CTS\n");
+		} else if ($subt == 0xd) {
+			printf("ACK\n");
+		} else if ($subt == 0xe) {
+			printf("CF-End\n");
+		} else if ($subt == 0xf) {
+			printf("CF-End + CF-ACK\n");
+		} else {
+			printf("Reserved\n");
+		}
+	} else if ($type == 0x2) {
+		printf("Data\n(%s) Subtype: ", $sdata->name);
+		if ($subt == 0x0) {
+			printf("Data\n");
+		} else if ($subt == 0x4) {
+			printf("Null (no data)\n");
+		} else if ($subt == 0x8) {
+			printf("QoS Data\n");
+		} else if ($subt == 0x9) {
+			printf("QoS Data + CF-ACK\n");
+		} else if ($subt == 0xa) {
+			printf("QoS Data + CF-Poll\n");
+		} else if ($subt == 0xb) {
+			printf("QoS Data + CF-ACK + CF-Poll\n");
+		} else if ($subt == 0xc) {
+			printf("QoS Null (no data)\n");
+		} else if ($subt == 0xe) {
+			printf("QoS CF-Poll (no data)\n");
+		} else if ($subt == 0xf) {
+			printf("QoS CF-ACK + Cf-Poll (no data)\n");
+		} else {
+			printf("Reserved\n");
+		}
+	} else if ($type == 0x3) {
+		printf("Extension\n(%s) Subtype: ", $sdata->name);
+		if ($subt == 0x0) {
+			printf("DMG Beacon\n");
+		} else if ($subt == 0x1) {
+			printf("S1G Beacon\n");
+		} else {
+			printf("Reserved\n");
+		}
+	} else {
+		printf("ACTUALLY IMPOSSIBLE!!!\n");
+		return;
+	}
+
+	$ds = $flags & 0x3;
+
+	if ($ds == 0x0) { // direct packet
+		printf("(%s) FromDS == 0 | ToDS == 0\n", $sdata->name);
+		printf("\tDA   : %s\n", macaddr($mac->addr1));
+		printf("\tSA   : %s\n", macaddr($mac->addr2));
+		printf("\tBSSID: %s\n", macaddr($mac->addr3));
+	} else if ($ds == 0x1) { //
+		printf("FromDS == 0 | ToDS == 1\n");
+		printf("\tBSSID: %s\n", macaddr($mac->addr1));
+		printf("\tSA   : %s\n", macaddr($mac->addr2));
+		printf("\tDA   : %s\n", macaddr($mac->addr3));
+	} else if ($ds == 0x2) {
+		printf("FromDS == 1 | ToDS == 0\n");
+		printf("\tDA   : %s\n", macaddr($mac->addr1));
+		printf("\tBSSID: %s\n", macaddr($mac->addr2));
+		printf("\tSA   : %s\n", macaddr($mac->addr3));
+	} else if ($ds == 0x3) {
+		printf("FromDS == 1 | ToDS == 1\n");
+		printf("\tRA: %s\n", macaddr($mac->addr1));
+		printf("\tTA: %s\n", macaddr($mac->addr2));
+		printf("\tDA: %s\n", macaddr($mac->addr3));
+		printf("\tSA: %s\n", macaddr($mac->addr4));
+	} else {
+		printf("ACTUALLY IMPOSSIBLE!!!\n");
+		return;
+	}
+
+	printf("(%s) SKB: %p\n", $sdata->name, (uint64)$skb);
+
+	printf("--------------------------------------------------\n\n");
+}
+
+
+END
+{
+	clear(@flt);
+	clear(@map);
+}

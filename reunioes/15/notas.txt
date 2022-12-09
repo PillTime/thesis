@@ -1,0 +1,18 @@
+ieee80211_mgmt tem um campo: mesh_action
+pode dar jeito
+
+
+guardar pacote id para ver no wireshark
+    sequence number IEEE 802 Action
+    addr destino
+    addr origem
+
+
+pode ficar na tese
+ping de sta1 para sta3, a sta3 é q adiciona primeiro
+experimentaçao/testes
+(coisas q nao se esperavam)
+
+
+bpf 03/05
+supostamente, sta2 adiciona path das duas maneiras, a mandar e receber

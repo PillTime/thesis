@@ -1,0 +1,38 @@
+#include <linux/skbuff.h>
+
+
+kprobe:mesh_path_tx_pending
+{
+    @pass[tid] = 27;
+}
+
+
+kprobe:ieee80211_add_pending_skbs
+/@pass[tid] != 0/
+{
+    printf("pending_skbs\n");
+    $list = (struct sk_buff_head *)arg1;
+
+    $end = (uint64)$list->prev;
+    $skb = (struct sk_buff *)$list->next;
+    $counter = 0;
+
+    if ((uint64)$list->next == (uint64)$list->prev) {
+        printf("no skbs\n");
+    } else {
+        while ($end != (uint64)$skb && $counter < 100) {
+            printf("%p\n", $skb);
+            $skb = $skb->next;
+            $counter += 1;
+        }
+    }
+
+    delete(@pass[tid]);
+    printf("\n");
+}
+
+
+END
+{
+    clear(@pass);
+}

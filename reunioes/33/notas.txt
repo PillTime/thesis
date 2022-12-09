@@ -1,0 +1,48 @@
+consegui por uma vm a correr archlinuxarm mas nao consigo usar teclado nem net (parece q usb nao funciona bem):
+  - mkdir -p mount_points/{boot,root} specials
+  - qemu-img create -f qcow2 disk.qcow2 16G
+  - sudo modprobe nbd max_part=8
+  - sudo qemu-nbd --connect=/dev/nbd0 disk.qcow2
+  - <particionar e formatar como no guia do archlinuxarm>
+  - sudo mount /dev/nbd0p1 mount_points/boot
+  - sudo mount /dev/nbd0p2 mount_points/root
+  - sudo -i
+    - cd <pasta da vm>
+    - wget http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-aarch64-latest.tar.gz
+    - bsdtar -xpf ArchLinuxARM-rpi-aarch64-latest.tar.gz -C mount_points/root
+    - sync
+    - mv mount_points/root/boot/* mount_points/boot
+  - cp mount_points/boot/bcm2710-rpi-3-b.dtb specials
+  - cp mount_points/boot/kernel8.img specials
+  - sudo umount mount_points/*
+  - sudo qemu-nbd --disconnect /dev/nbd0
+  - sudo modprobe -r nbd
+  - qemu-system-aarch64 -machine raspi3b -dtb specials/bcm2710-rpi-3-b.dtb -kernel specials/kernel8.img -drive file=disk.qcow2,format=qcow2
+
+mpp_flush_by_proxy nao dá para fazer trace
+compila mas nao corre
+nao faz mal, a thread passa varias vezes pelo path_del,
+mas so guarda a info da ultima chamada, q é o q interessa
+
+tx_status_ext deu valores esquisitos para o 1° trace,
+por isso vou ignora-lo e continuar a usar o tracepoint
+
+refiz o matching de acordo com a pag 1666 do livro do 80211
+usa tid e addr2
+
+
+============================================================================================
+
+
+adiantar escrita
+
+mudar para ver funçoes nas entradas
+
+ver skb no assign e encontrar quando é chamado no next_dev_xmit pelo pointer
+
+continuar a tentar vm de raspberry
+
+com hardware real tentar meter:
+  fixo no quarto
+  partido na sala
+  portatil no meio para servir de hop

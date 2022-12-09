@@ -1,0 +1,246 @@
+@[
+    mesh_path_add+1
+    mesh_nexthop_resolve+106
+    ieee80211_xmit+214
+    __ieee80211_subif_start_xmit+2276
+    ieee80211_subif_start_xmit+73
+    dev_hard_start_xmit+162
+    sch_direct_xmit+159
+    __qdisc_run+325
+    net_tx_action+257
+    __softirqentry_text_start+208
+    run_ksoftirqd+42
+    smpboot_thread_fn+175
+    kthread+280
+    ret_from_fork+34
+, 29]: 1
+@[
+    dev_hard_start_xmit+406
+    dev_hard_start_xmit+406
+    sch_direct_xmit+159
+    __dev_queue_xmit+2305
+    ip_finish_output2+600
+    __ip_queue_xmit+360
+    __tcp_transmit_skb+2562
+    tcp_rcv_established+1537
+    tcp_v4_do_rcv+318
+    tcp_v4_rcv+3592
+    ip_protocol_deliver_rcu+51
+    ip_local_deliver_finish+68
+    ip_sublist_rcv_finish+126
+    ip_sublist_rcv+386
+    ip_list_rcv+313
+    __netif_receive_skb_list_core+670
+    netif_receive_skb_list_internal+456
+    napi_complete_done+109
+    igb_poll+3076
+    __napi_poll+43
+    net_rx_action+604
+    __softirqentry_text_start+208
+    irq_exit_rcu+153
+    common_interrupt+130
+    asm_common_interrupt+33
+    cpuidle_enter_state+199
+    cpuidle_enter+41
+    do_idle+491
+    cpu_startup_entry+25
+    secondary_startup_64_no_verify+194
+, 0]: 1
+@[
+    dev_hard_start_xmit+406
+    dev_hard_start_xmit+406
+    sch_direct_xmit+159
+    __dev_queue_xmit+2305
+    ip_finish_output2+600
+    ip_push_pending_frames+161
+    raw_sendmsg+1656
+    sock_sendmsg+88
+    __sys_sendto+275
+    __x64_sys_sendto+32
+    do_syscall_64+91
+    entry_SYSCALL_64_after_hwframe+97
+, 21104]: 1
+@[
+    dev_hard_start_xmit+406
+    dev_hard_start_xmit+406
+    sch_direct_xmit+159
+    __dev_queue_xmit+2305
+    arp_solicit+278
+    neigh_probe+76
+    __neigh_event_send+166
+    neigh_resolve_output+296
+    ip_finish_output2+375
+    ip_push_pending_frames+161
+    raw_sendmsg+1656
+    sock_sendmsg+88
+    __sys_sendto+275
+    __x64_sys_sendto+32
+    do_syscall_64+91
+    entry_SYSCALL_64_after_hwframe+97
+, 21104]: 1
+@[
+    mesh_path_add+1
+    hwmp_route_info_get+800
+    mesh_rx_path_sel_frame+239
+    ieee80211_mesh_rx_queued_mgmt+185
+    ieee80211_iface_work+819
+    process_one_work+470
+    worker_thread+77
+    kthread+280
+    ret_from_fork+34
+, 18882]: 1
+@[
+    dev_hard_start_xmit+406
+    dev_hard_start_xmit+406
+    sch_direct_xmit+159
+    __qdisc_run+325
+    net_tx_action+257
+    __softirqentry_text_start+208
+    run_ksoftirqd+42
+    smpboot_thread_fn+175
+    kthread+280
+    ret_from_fork+34
+, 29]: 1
+@[
+    dev_hard_start_xmit+406
+    dev_hard_start_xmit+406
+    sch_direct_xmit+159
+    __dev_queue_xmit+2305
+    __neigh_update+1777
+    arp_process+673
+    __netif_receive_skb_list_core+622
+    netif_receive_skb_list_internal+456
+    netif_receive_skb_list+32
+    ieee80211_rx_napi+179
+    ieee80211_tasklet_handler+184
+    tasklet_action_common.constprop.0+191
+    __softirqentry_text_start+208
+    run_ksoftirqd+42
+    smpboot_thread_fn+175
+    kthread+280
+    ret_from_fork+34
+, 29]: 1
+@[
+    dev_hard_start_xmit+406
+    dev_hard_start_xmit+406
+    sch_direct_xmit+159
+    __dev_queue_xmit+2305
+    ip6_finish_output2+684
+    ip6_xmit+1038
+    inet6_csk_xmit+224
+    __tcp_transmit_skb+1354
+    tcp_v6_do_rcv+201
+    tcp_v6_rcv+3276
+    ip6_protocol_deliver_rcu+202
+    ip6_input+180
+    ip6_sublist_rcv_finish+89
+    ip6_sublist_rcv+575
+    ipv6_list_rcv+315
+    __netif_receive_skb_list_core+502
+    netif_receive_skb_list_internal+456
+    napi_complete_done+109
+    igb_poll+3076
+    __napi_poll+43
+    net_rx_action+604
+    __softirqentry_text_start+208
+    irq_exit_rcu+153
+    common_interrupt+130
+    asm_common_interrupt+33
+    cpuidle_enter_state+199
+    cpuidle_enter+41
+    do_idle+491
+    cpu_startup_entry+25
+    secondary_startup_64_no_verify+194
+, 0]: 1
+@[
+    dev_hard_start_xmit+406
+    dev_hard_start_xmit+406
+    sch_direct_xmit+159
+    __dev_queue_xmit+2305
+    ip6_finish_output2+684
+    ip6_xmit+1038
+    inet6_csk_xmit+224
+    __tcp_transmit_skb+1354
+    tcp_write_xmit+1360
+    __tcp_push_pending_frames+50
+    tcp_sendmsg_locked+2777
+    tcp_sendmsg+39
+    sock_sendmsg+66
+    sock_write_iter+151
+    new_sync_write+478
+    vfs_write+472
+    ksys_write+183
+    do_syscall_64+91
+    entry_SYSCALL_64_after_hwframe+97
+, 18610]: 2
+@[
+    mesh_path_add+1
+    hwmp_route_info_get+648
+    mesh_rx_path_sel_frame+239
+    ieee80211_mesh_rx_queued_mgmt+185
+    ieee80211_iface_work+819
+    process_one_work+470
+    worker_thread+77
+    kthread+280
+    ret_from_fork+34
+, 18882]: 2
+@[
+    dev_hard_start_xmit+406
+    dev_hard_start_xmit+406
+    sch_direct_xmit+159
+    __dev_queue_xmit+2305
+    ip_finish_output2+375
+    ip_push_pending_frames+161
+    icmp_reply+794
+    icmp_echo+141
+    icmp_rcv+361
+    ip_protocol_deliver_rcu+481
+    ip_local_deliver_finish+68
+    ip_sublist_rcv_finish+126
+    ip_sublist_rcv+386
+    ip_list_rcv+313
+    __netif_receive_skb_list_core+670
+    netif_receive_skb_list_internal+456
+    netif_receive_skb_list+32
+    ieee80211_rx_napi+179
+    ieee80211_tasklet_handler+184
+    tasklet_action_common.constprop.0+191
+    __softirqentry_text_start+208
+    run_ksoftirqd+42
+    smpboot_thread_fn+175
+    kthread+280
+    ret_from_fork+34
+, 29]: 2
+@[
+    dev_hard_start_xmit+406
+    dev_hard_start_xmit+406
+    sch_direct_xmit+159
+    __dev_queue_xmit+2305
+    ip6_finish_output2+684
+    ip6_xmit+1038
+    inet6_csk_xmit+224
+    __tcp_transmit_skb+1354
+    tcp_rcv_established+1537
+    tcp_v6_do_rcv+201
+    tcp_v6_rcv+3276
+    ip6_protocol_deliver_rcu+202
+    ip6_input+180
+    ip6_sublist_rcv_finish+89
+    ip6_sublist_rcv+575
+    ipv6_list_rcv+315
+    __netif_receive_skb_list_core+502
+    netif_receive_skb_list_internal+456
+    napi_complete_done+109
+    igb_poll+3076
+    __napi_poll+43
+    net_rx_action+604
+    __softirqentry_text_start+208
+    irq_exit_rcu+153
+    common_interrupt+130
+    asm_common_interrupt+33
+    cpuidle_enter_state+199
+    cpuidle_enter+41
+    do_idle+491
+    cpu_startup_entry+25
+    secondary_startup_64_no_verify+194
+, 0]: 2

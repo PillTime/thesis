@@ -1,0 +1,71 @@
+capture filters um bocado limitados
+mt mais facil capturar td e depois usar display filters
+
+---------
+
+probelma bcc dar info errada às vezes:
+    nao é passagem de bpf para python
+    unresolved
+
+
+passo a passo,
+bpftrace e bcc, ver onde diferem
+
+verificar se um pode lixar o outro
+ha problema msm q nao pisem
+
+como é q o kprobe é inserido? o q é modificado?
+
+tese
+explicar o q se usar
+por exemplo, como funcionam kprobes
+
+copiar campos das callers
+usar copias na analise e printing
+
+PROBLEMA CONCURRENCIA com bpftrace
+
+exemplos mais simples (o mais simples possivel msm)
+skb em todas as partes, ver o q muda
+
+possivel guardar um mapa no bpftrace e buscar no bcc?
+
+------------------
+
+resolvido
+bpf-Probve_read_kernel
+https://www.spinics.net/lists/netdev/msg609472.html
+
+--------
+
+IMPORTANTE
+
+perceber como info é passada de bpf para python
+syscall ???
+
+onde está a bpf stack (kernel ou user space)
+.update/.insert guardam valores por referencia ou copia?
+
+
+para scapy, talvez precise processo a parte (may be blocking)
+IPC
+ou threads
+
+verificar q campos necessarios para indeitifcar pacotes se ha ambiguidade
+meter cada evento a dar a string q filtra só essa captura no wireshark
+
+verificar se dá para percorrer linked lists
+
+
+PROX PASSO
+
+ver info unica para indeitifcar pacotes
+
+imprimir tabela mesh para ver se é criada entrada
+para criar uma evoluçao das tabelas face a determinados eventos
+
+(possivel q crie entrada sem nada e depois atualiza)
+(ver atualizaçao)
+mostrar alteraçao da tabela mesh
+em que tempo algo aconteceu (criaçao/atualizacao)
+qual mensagem/evento

@@ -1,0 +1,2 @@
+bpf nao avisa se estiver a usar coisas mal. ter cuidado
+por exemplo, se um argumento for de um tipo, mas der cast para outro

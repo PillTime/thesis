@@ -1,0 +1,9 @@
+tracepoint:syscalls:sys_enter_sync
+{
+    @map[tid] = (nsecs, 27);
+    printf("%llu\n%llu\n\n", @map[tid].0, @map[tid].1);
+
+    $tpl = (@map[tid].0, @map[tid].0);
+    @map[tid] = $tpl;
+    printf("%llu\n%llu\n\n", @map[tid].0, @map[tid].1);
+}

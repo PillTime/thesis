@@ -1,0 +1,12 @@
+kprobe:mesh_nexthop_resolve
+{
+    printf("mesh_nexthop_resolve\n");
+    printf("%p\n\n", arg1)
+}
+
+
+kprobe:ieee80211_mesh_rx_queued_mgmt
+{
+    printf("ieee80211_mesh_rx_queued_mgmt\n");
+    printf("%p\n\n", arg1)
+}

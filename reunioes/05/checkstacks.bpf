@@ -1,0 +1,7 @@
+tracepoint:syscalls:sys_enter_sendto,
+tracepoint:syscalls:sys_enter_sendmsg,
+tracepoint:syscalls:sys_enter_sendmmsg
+{
+    @[kstack()] = count();
+    //@[ustack()] = count();
+}

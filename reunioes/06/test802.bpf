@@ -1,0 +1,50 @@
+#include <linux/net.h>
+#include <linux/skbuff.h>
+#include <linux/socket.h>
+#include <net/mac80211.h>
+#include <net/sock.h>
+
+
+tracepoint:net:net_dev_start_xmit
+{
+	$now = nsecs;
+	$skb = (struct sk_buff *)args->skbaddr;
+	$skbid = (uint64)$skb;
+
+	$type = $skb->sk->sk_type;
+	$fam = $skb->sk->__sk_common.skc_family;
+
+	if ($fam == AF_UNSPEC || $fam == AF_INET || $fam == AF_INET6) {
+		@time[$skbid] = $now;
+		printf("xmit    %p | %s type %d fam %d\n", $skb, comm, $type, $fam);
+	}
+}
+
+
+tracepoint:net:net_dev_xmit
+{
+	$now = nsecs;
+	$skb = (uint64)args->skbaddr;
+
+	if (@time[$skb] != 0) {
+		printf("[trace] %p: %d\n", $skb, $now - @time[$skb]);
+	}
+}
+
+
+kprobe:ieee80211_tx_status_ext
+{
+	$now = nsecs;
+	$stats = (struct ieee80211_tx_status *)arg1;
+	$skb = (uint64)$stats->skb;
+
+	if (@time[$skb] != 0) {
+		printf("[probe] %p: %d\n", $skb, $now - @time[$skb]);
+	}
+}
+
+
+END
+{
+	clear(@time);
+}

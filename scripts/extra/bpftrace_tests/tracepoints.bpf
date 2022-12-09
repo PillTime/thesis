@@ -1,0 +1,11 @@
+// tracepoint:net:net_dev_xmit {
+//   printf("xmit\n");
+// }
+
+tracepoint:net:netif_rx {
+  printf("rx\n");
+}
+
+// tracepoint:net:netif_receive_skb {
+//   printf("receive\n");
+// }

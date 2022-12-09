@@ -1,0 +1,38 @@
+#include <net/mac80211/ieee80211_i.h>
+#include <net/mac80211/mesh.h>
+
+
+kprobe:mesh_path_add
+{
+	$sdata = (struct ieee80211_sub_if_data*)arg0;
+
+	/*
+	sempre '0'
+	*/
+//	printf("%d\n", $sdata->u.mesh.num_gates);
+
+	/*
+	varios valores "aleatorios". vao aumentando, mas aparecem numeros menores pelo meio
+	(exemplo: "28 , 39 , 23 , 23 , 40 , 28 , 28 , 41 , 42 , 42 , 23 , 23 , 23 , 23 , 42")
+	no entanto, estutura 'mshstats' pode ser interessante
+	*/
+//	printf("%d\n", $sdata->u.mesh.mshstats.fwded_frames);
+
+	printf("--- add mesh path -------\n");
+
+	printf("mac addr: %s\n", macaddr($sdata->vif.addr));
+
+// nao dá para usar & para arranjar o endereço de estruturas:
+// https://github.com/iovisor/bpftrace/issues/553
+// por isso estou a buscar o endereço guardado pelo pointer 'first' nas listas
+
+	printf("\tname: %s\n", $sdata->name);
+	printf("\tmem addr 'known_gates: '%p\n", $sdata->u.mesh.mesh_paths->known_gates.first);
+	printf("\tmem addr 'walk_head': %p\n", $sdata->u.mesh.mesh_paths->walk_head.first);
+	printf("\tmem addr 'rhead' (hashtable): %p\n", $sdata->u.mesh.mesh_paths->rhead.tbl);
+	printf("\tentries in mesh_table: %d\n", $sdata->u.mesh.mesh_paths->entries.counter);
+//	printf("\t\n", );
+	printf("\tadded mac: %s\n", macaddr(arg1));
+
+	printf("-------------------------\n");
+}

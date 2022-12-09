@@ -1,0 +1,4 @@
+kprobe:mesh_path_add
+{
+    @[kstack] = count();
+}

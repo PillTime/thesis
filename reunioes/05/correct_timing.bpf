@@ -1,0 +1,20 @@
+tracepoint:net:net_dev_start_xmit
+{
+	$now = nsecs;
+	$skb = args->skbaddr;
+
+	@time[$skb] = $now;
+}
+
+
+tracepoint:net:net_dev_xmit
+{
+	$now = nsecs;
+	$skb = args->skbaddr;
+
+	if (@time[$skb] != 0) {
+		printf("%s: %d\n", comm, $now - @time[$skb]);
+	}
+
+	delete(@time[$skb]);
+}

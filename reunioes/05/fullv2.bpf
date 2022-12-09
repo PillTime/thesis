@@ -1,0 +1,70 @@
+#include <linux/net.h>
+#include <linux/socket.h>
+#include <net/sock.h>
+
+
+BEGIN
+{
+    // default é nao ter descriptor
+    // (-1 pq 0 é um numero valido (acho eu))
+    @con[tid] = -1;
+}
+
+
+// sempre que a syscall é chamada, guardar o tempo num map com tid e descriptor,
+// e guardar o descriptor noutro mapa com chave tid
+// o map con é necessario porque em kretprobe nao da para aceder aos argumentos
+// da funcao (ie descriptor)
+tracepoint:syscalls:sys_enter_sendto,
+tracepoint:syscalls:sys_enter_sendmsg,
+tracepoint:syscalls:sys_enter_sendmmsg,
+{
+    $now = nsecs;
+    $fd = args->fd;
+
+    @time[tid, $fd] = $now;
+    @con[tid] = $fd;
+}
+
+
+// trocar o descriptor pelo endereco da sock correspondente no map principal
+kretprobe:sockfd_lookup_light
+/@con[tid] != -1/
+{
+    $fd = @con[tid];
+    $saved = @time[tid, $fd];
+    $socket = (struct socket *)retval;
+    $sock = $socket->sk;
+    $fam = $sock->__sk_common.skc_family;
+
+    if ($saved != 0 && ($fam == AF_UNSPEC || $fam == AF_INET || $fam == AF_INET6)) {
+        $sockid = (uint64)$sock;
+        @time[tid, $sockid] = $saved;
+    }
+
+    delete(@con[tid]);
+    delete(@time[tid, $fd]);
+}
+
+
+tracepoint:net:net_dev_xmit
+{
+    $now = nsecs;
+
+    $skb = (struct sk_buff *)(args->skbaddr);
+    $sock = $skb->sk;
+    $sockid = (uint64)$sock;
+    $saved = @time[tid, $sockid];
+
+    if ($saved != 0) {
+        printf("syscall to net_dev_xmit: %dns\n", $now - $saved);
+        delete(@time[tid, $sockid]);
+    }
+}
+
+
+END
+{
+    clear(@con);
+    clear(@time);
+}

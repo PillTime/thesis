@@ -1,0 +1,71 @@
+Submitted by pbrandao on Mon, 09/21/2020 - 18:25
+Resumo: 
+
+No universo de administração, configuração e gestão de máquinas e redes, utilitários de suporte e monitorização são um
+elemento útil para facilitar o trabalho. Estas ferramentas podem ser meros visualizadores ou também atuadores sobre os
+dados, processos ou outros elementos relevantes. Alguns exemplos destas ferramentas são a aplicação top[1] que
+monitoriza em tempo real os vários processos existentes; htop[2], uma versão mais rica em funcionalidade do top; o
+glances[3] um utilitário que partilha de alguma funcionalidade com os anteriores, mas estende para outras áreas como as
+interfaces de rede, a utilização de disco e sensores.
+
+Também na área de redes existem alguma ferramentas para obter informações em tempo real e até atuação sobre os
+elementos. Entre as mais comuns e suportadas encontram-se network-manager[4], horst[5], wavemon[6], iftop[7], ntopng[8].
+Uma análise exploratória destas ferramentas e as suas capacidades já foi conduzida num trabalho anterior, na unidade
+curricular de projeto.
+
+Outra possibilidade de recolha deste tipo de informações é através de observação direta de variáveis e chamadas de
+funções do kernel e/ou drivers, isto é possível sem grande impacto na performance com um ferramenta como o eBPF[9].
+
+Uma das dificuldades detetadas nas ferramentas existentes é a dificuldade de automatizar o processo de recolha e
+processamento de dados das redes WiFi.
+
+Outro dos problemas encontrados é a falta de alguns dados e até incompatibilidade com alguns tipos de rede nas
+ferramentas existentes (exemplo: horst e wavemon têm campos em falta ou não detetam corretamente o tipo de rede quando a
+rede é Mesh).
+
+Nesta tese procura-se explorar e expandir a recolha de métricas de rede, em particular redes WiFi 802.11
+(infraestruturado (AP e cliente), não infraestruturado (Ad-hoc) e Mesh), com uso das ferramentas existentes, mas
+sobretudo com o uso de eBPF.
+
+Parte do trabalho envolve uma exploração do funcionamento da transmissão de tramas WiFi em Linux, particularmente a
+seleção de taxas de transmissão e funcionamento do protocolo de encaminhamento das redes Mesh (HWMP[10]) nas suas
+implementações atuais no módulo de kernel mac80211[11].
+
+Durante o decurso deste trabalho, casos de uso específicos vão ser fornecidos, mas há abertura para exploração de outros
+casos que sejam do interesse do estudante.
+Objetivos: 
+
+    escolha de uma ou mais ferramentas para a automatização da recolha de métricas em redes 802.11;
+    design de uma nova ferramenta que, utilizando a(s) definidas acima, consiga efetuar testes de protocolos em redes
+    802.11;
+    implementação e teste da ferramenta.
+
+Inovação: 
+
+    medição automatizada de parâmetros associados a redes 802.11;
+    possibilidade de realização de testes de protocolos em redes 802.11 com medição de parâmetros da camada de ligação.
+
+Referências: 
+
+    [1] - https://linux.die.net/man/1/top
+    [2] - https://linux.die.net/man/1/htop
+    [3] - https://nicolargo.github.io/glances/
+    [4] - https://wiki.gnome.org/Projects/NetworkManager & https://developer.gnome.org/NetworkManager/stable/nmcli.html
+    [5] - https://github.com/br101/horst
+    [6] - https://github.com/uoaerg/wavemon
+    [7] - https://linux.die.net/man/8/iftop
+    [8] - https://github.com/ntop/ntopng
+    [9] - http://www.brendangregg.com/blog/2019-01-01/learn-ebpf-tracing.html
+    [10] - https://en.wikipedia.org/wiki/Hybrid_Wireless_Mesh_Protocol e https://ieeexplore.ieee.org/document/5375910
+    [11] - https://wireless.wiki.kernel.org/en/developers/documentation/mac80211 e https://github.com/torvalds/linux/tree/master/net/mac80211
+    [12] - Plataforma de testes https://www.fed4fire.eu/testbeds/w-ilab-t/
+
+Responsável: 
+Rui Prior <rprior@dcc.fc.up.pt>
+Eduardo Soares <esoares@dcc.fc.up.pt>
+Pedro Brandão <pbrandao@dcc.fc.up.pt>
+Atribuído: 
+Carlos Tiago Gomes Pinto
+Curso: 
+M:CC
+MI:ERS

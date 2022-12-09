@@ -1,0 +1,34 @@
+#include <linux/skbuff.h>
+
+
+kprobe:mesh_path_add
+{
+    @pass[tid] = tid;
+}
+
+
+tracepoint:net:net_dev_xmit
+/@pass[tid] == tid/
+{
+    $skb = (struct sk_buff *)(args->skbaddr);
+
+    $head = $skb->head;
+    $data = $skb->data;
+    $mac = (uint64)$head + (uint64)$skb->mac_header;
+    $net = (uint64)$head + (uint64)$skb->network_header;
+    $trs = (uint64)$head + (uint64)$skb->transport_header;
+
+    printf("head : %p\n", (uint64)$head);
+    printf("data : %p\n", (uint64)$data);
+    printf("mac  : %p\n", $mac);
+    printf("net  : %p\n", $net);
+    printf("trs  : %p\n\n", $trs);
+
+    delete(@pass[tid])
+}
+
+
+END
+{
+    clear(@pass);
+}

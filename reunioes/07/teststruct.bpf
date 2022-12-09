@@ -1,0 +1,32 @@
+#include <net/mac80211.h>
+#include <linux/sched.h>
+#include <linux/skbuff.h>
+
+
+tracepoint:net:net_dev_start_xmit
+{
+    $skb = (struct sk_buff *)args->skbaddr;
+    $skbid = (uint64)$skb;
+    if (comm == "ping") {
+        @test[$skbid] = 1;
+    }
+}
+
+
+kprobe:ieee80211_tx_status_ext
+{
+    $stats = (struct ieee80211_tx_status *)arg1;
+	$skb = $stats->skb;
+	$skbid = (uint64)$skb;
+    
+    if (@test[$skbid] == 1) {
+        $task = (struct task_struct *)curtask;
+        printf("%s < %s < %s\n", $task->comm, $task->real_parent->comm, $task->real_parent->real_parent->comm);
+    }
+}
+
+
+END
+{
+    clear(@test);
+}

@@ -1,0 +1,18 @@
+pus o nome da estaçao ao lado dos botoes
+
+tentei ver a ordem pelos pacotes
+  mas nao consegui relacionar pacotes de uma captura com outra
+    nao tenho acesso a campos, só bytes
+
+pequenas modificaçoes ao explore, e pus em latex
+
+comecei a escrever o desenvolvimento mas ainda está pouco
+
+--------------------------------------
+
+mais estilo grafo para falar do desenvolvimento
+
+começar cap com intro do q se vai falar
+acabar com sumario a relembrar
+
+detalhar no fim

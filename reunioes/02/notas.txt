@@ -1,0 +1,13 @@
+problema overleaf arranjado
+
+https://www.brendangregg.com/ebpf.html
+
+mais concreta (bpf)
+estatistica atraso
+desde pedir enviar (userspace) até sair / camada aplicação até que sai
+
+machwsim para testar / explorar
+
+explorar capacidades
+documentar o q se encontra
+para cada link apontar o q interessa

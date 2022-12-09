@@ -1,0 +1,76 @@
+bpftrace -B none -e 'BEGIN { printf("Hello, world!\n"); }'
+
+sem filtro, só mostra "Hello, world!"
+por default o output é buffered, o "-B none" faz com que dê output imediatamente
+
+----------
+
+probes:
+  - tracepoint
+  - usdt
+  - kprobe
+  - kretprobe
+  - uprobe
+  - uretprobe
+  - software
+  - hardware
+  - watchpoint
+  - profile
+  - interval
+  - BEGIN
+  - END
+
+built-in variables:
+  - pid
+  - comm
+  - nsecs
+  - kstack
+  - ustack
+  - arg0 ... arg?
+  - args
+  - retval
+  - name
+built-in functions:
+  - printf()
+  - time()
+  - system()
+  - @ = count()
+  - @ = hist(x)
+  - @ = lhist(x, min, max, step)
+
+----------
+
+"bpftrace -l" mostra as probes todas
+o que está entre "{}" são ação associadas às probes que aparecem antes. por exemplo:
+  "bpftrace -e 'tracepoint:syscalls:sys_enter_openat { printf("%s %s\n", comm, str(args->filename)); }'"
+  quando um ficheiro é aberto, mostra que comando abriu e que ficheiro foi aberto
+
+----------
+
+"bpftrace -e 'tracepoint:raw_syscalls:sys_enter { @[comm] = count(); }'"
+"@" designa um mapa, que garuda e sumariza dados em diferentes formas
+"[]" são usados para definir uma chave para o mapa. se nao tivesse os "[]", iria mostrar apenas o total de todos os processos, nao o total de cada um
+mapas são "printados" por si mesmos depois do Ctrl+C
+
+----------
+
+"bpftrace -e 'tracepoint:syscalls:sys_exit_read /pid == 114787/ { @bytes = hist(args->ret); }'"
+"//" são usadas para definir filtros. suportam "&&" e "||"
+"ret" é o valor de retorno da função. "sys_read()" retorna o numero de bytes lidos ou -1 se houver erro
+"hist()" mostra um histograma de intervalos de potências de base 2
+
+----------
+
+"bpftrace -e 'kretprobe:vfs_read { @bytes = lhist(retval, 0, 2000, 200) }'"
+tracing dynamico de retornos com kretprobe. tracing do kernel diretamente, preciso ver o codigo source para o que as probes, argumentos, e retornos significam
+"lhist()" é um histograma linear
+
+----------
+
+"bpftrace -e 'kprobe:vfs_read { @start[tid] = nsecs; } kretprobe:vfs_read /@start[tid]/ { @ns[comm] = hist(nsecs - @start[tid]); delete(@start[tid]); }'"
+
+mostra o tempo gasto a fazer "read()" em nanosegundos de cada processo
+
+"@start[tid]" faz um mapa, guardando cada thread-id
+"/@start[tid]/" verifica que o tempo de inicio foi lido, ignorando processos que já estivessem a ler quando este trace foi iniciado
+"delete()" para fazer libertar a variavel

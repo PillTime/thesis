@@ -1,0 +1,12 @@
+#include <../net/mac80211/mesh.h>
+
+
+kprobe:mesh_path_assign_nexthop
+{
+    $path = (struct mesh_path *)arg0;
+    if ($path->next_hop != 0) {
+        printf("%s\n", macaddr($path->next_hop->addr));
+    } else {
+        printf("no nexthop\n");
+    }
+}

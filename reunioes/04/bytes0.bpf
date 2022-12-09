@@ -1,0 +1,9 @@
+tracepoint:net:net_dev_start_xmit
+{
+    printf("%d %d\n", args->len, args->data_len);
+}
+
+tracepoint:net:net_dev_xmit
+{
+    printf("%d\n", args->len);
+}

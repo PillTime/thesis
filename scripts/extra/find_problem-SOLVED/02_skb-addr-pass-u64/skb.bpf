@@ -1,0 +1,40 @@
+#include <linux/skbuff.h>
+#include <linux/netdevice.h>
+
+
+kprobe:mesh_nexthop_resolve
+{
+    $skb = (struct sk_buff *)arg1;
+    @flt[tid] = (1, (uint64)$skb);
+    printf("\nNH: %llu\n", (uint64)$skb);
+}
+
+
+kprobe:ieee80211_mesh_rx_queued_mgmt
+{
+    $skb = (struct sk_buff *)arg1;
+    @flt[tid] = (2, (uint64)$skb);
+    printf("\nRX: %llu\n", (uint64)$skb);
+}
+
+
+kprobe:mesh_path_add
+/@flt[tid].0 != 0/
+{
+    $fn = @flt[tid].0;
+    $skb = @flt[tid].1;
+    delete(@flt[tid]);
+
+    if ($fn == 1) {
+        printf("mesh_nexthop_resolve\n");
+    } else if ($fn == 2) {
+        printf("ieee80211_mesh_rx_queued_mgmt\n");
+    }
+    printf("    %llu\n\n", $skb);
+}
+
+
+END
+{
+    clear(@flt);
+}

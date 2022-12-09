@@ -1,0 +1,41 @@
+output durante um ping (16)
+
+Attaching 1 probe...
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+systemd-resolve < systemd < swapper/0
+swapper/0 < swapper/0 < swapper/0
+systemd-resolve < systemd < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+systemd-resolve < systemd < swapper/0
+swapper/0 < swapper/0 < swapper/0
+systemd-resolve < systemd < swapper/0
+systemd-resolve < systemd < swapper/0
+alacritty < systemd < swapper/0
+systemd-resolve < systemd < swapper/0
+swapper/0 < swapper/0 < swapper/0
+systemd-resolve < systemd < swapper/0
+swapper/0 < swapper/0 < swapper/0
+systemd-resolve < systemd < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+systemd-resolve < systemd < swapper/0
+ksoftirqd/0 < kthreadd < swapper/0
+VizCompositorTh < codium < codium
+systemd-resolve < systemd < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+swapper/0 < swapper/0 < swapper/0
+Socket Thread < systemd < swapper/0
+Socket Thread < systemd < swapper/0
+^C

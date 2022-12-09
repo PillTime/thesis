@@ -1,0 +1,40 @@
+#include <net/mac80211.h>
+#include <uapi/linux/ip.h>
+#include <linux/skbuff.h>
+
+
+tracepoint:net:net_dev_start_xmit
+{
+    $skb = (struct sk_buff *)args->skbaddr;
+    $skbid = (uint64)$skb;
+    if (comm == "ping") {
+        @test[$skbid] = 1;
+    }
+}
+
+
+kprobe:ieee80211_tx_status_ext
+{
+    $stats = (struct ieee80211_tx_status *)arg1;
+	$skb = $stats->skb;
+	$skbid = (uint64)$skb;
+    $len = sizeof(*(struct ieee80211_hdr *)$skb->data);
+
+    //$ip4 = (struct iphdr *)($skb->data + $skb->mac_len);
+    //$ip4 = (struct iphdr *)($skb->data + $len);
+    $ip4 = (struct iphdr *)($skb->head + $skb->network_header);
+
+    $fam = $skb->sk->__sk_common.skc_family;
+    if (@test[$skbid] == 1) {
+        printf("%s -> %s\n", ntop($ip4->saddr), ntop($ip4->daddr));
+        //printf("%d\n%d\n%d\n%d\n", $skb->mac_len, $skb->hdr_len, $skb->data_len, $skb->len);
+        //printf("%d %d\n\n", (uint64)$skb->data - (uint64)$skb->head, (uint64)$skb->tail);
+        //printf("%d\n", );
+    }
+}
+
+
+END
+{
+    clear(@test);
+}

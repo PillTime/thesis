@@ -1,0 +1,40 @@
+diagrama:
+
+bloco a englobar a parte da esquerda
+a dizer a correr por cada nó
+
+durante periodo de captura
+
+numero ao lado do texto para usar em referencias
+
+trocar Ctrl+C por algo mais generico
+
+forma de distinguir ficheiros e objetos
+
+caixas a dizer "fase de mediçao" "fase processamento" "ficheiros de output"
+(um bocado ja feito com a elipse no topo a englobar os Asyncs)
+
+expandir os da direita
+(o q sao os pontos de captura, etc)
+idzer algo mais do tipo "capturar eventos que mudam tabela de mesh"
+
+
+por a correr e ver se o ficheiro output scapy vai aumentando
+RE: nao. so começo a escrever para o ficheiro depois do ctrl+c
+
+voltar a usar o counter
+
+usar o SC (verificar q existe com o `in` do python)
+usar o DS para ver q endereços sao src e dst
+ver se encaixam mais do q 1 pacotes/eventos
+
+
+ver a funçoes q alteram mesh
+
+
+-------------------------------
+
+
+tentei por um script bpf para ver em q estaçao as funçoes eram chamadas
+dao todas erros e parecem nao ter diferenças, ou seja, tinha que estar a
+fazer comparaçoes das interfaces para saber qual é qual

@@ -1,0 +1,39 @@
+#include <linux/skbuff.h>
+#include <../net/mac80211/ieee80211_i.h>
+
+
+kprobe:mesh_nexthop_resolve
+{
+    @pass[tid] = arg1;
+}
+
+
+kprobe:mesh_path_add
+/@pass[tid] != 0/
+{
+    $skb = (struct sk_buff *)@pass[tid];
+    $mac = (struct ieee80211_hdr *)$skb->data;
+
+    $qos = (uint16)0x8008;
+
+    $hasqos = (uint16)(0x0008 | 0x0080);
+    $checkqos = (uint16)(0x000c | 0x0080);
+    $check4addr = (uint16)(0x0100 | 0x0200);
+    if (($mac->frame_control & $check4addr) == $check4addr) {
+        if (($mac->frame_control & $checkqos) == $hasqos) {
+            $qos = (uint16)($mac + 30);
+        }
+    } else if (($mac->frame_control & $checkqos) == $hasqos) {
+            $qos = (uint16)($mac + 24);
+    }
+
+    printf("0x%04x\n", $qos);
+
+    delete(@pass[tid]);
+}
+
+
+END
+{
+    clear(@pass);
+}

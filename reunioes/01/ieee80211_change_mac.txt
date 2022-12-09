@@ -1,0 +1,20 @@
+/net/mac80211/iface.c#202
+
+retorna int
+
+recebe 'net_device' "dev" e 'void*' "addr"
+
+-----
+
+transforma o device num sub_if
+transforma o addr num sock_addr
+check_dup = true;
+
+se o device estiver a ser usado, retorna EBUSY (negativo por alguma razao)
+
+se o tipo da interface virtual for MONITOR, e tiver a flag ACTIVE, check_dup = false;
+
+chama verify_mac, e se o retorno nao for 0, retorna esse retorno
+
+muda o endereço mac com 'eth_mac_addr'
+se essa função retornar 0, copia o protocol address do sock_addr para o addr da interface virtual

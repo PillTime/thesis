@@ -1,0 +1,31 @@
+#include <net/mac80211.h>
+#include <linux/sched.h>
+#include <linux/skbuff.h>
+
+
+tracepoint:net:net_dev_start_xmit
+{
+    $skb = (struct sk_buff *)args->skbaddr;
+    $skbid = (uint64)$skb;
+    if (comm == "ping") {
+        @test[$skbid] = 1;
+    }
+}
+
+
+kprobe:ieee80211_tx_status_ext
+{
+    $stats = (struct ieee80211_tx_status *)arg1;
+	$skb = $stats->skb;
+	$skbid = (uint64)$skb;
+    
+    if (@test[$skbid] == 1) {
+        @[comm, kstack, ustack] = count();
+    }
+}
+
+
+END
+{
+    clear(@test);
+}

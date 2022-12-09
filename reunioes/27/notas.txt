@@ -1,0 +1,31 @@
+[nota para escrita
+começou-se a usar a VM do mininet wifi mas o bpftrace tinha q ser instalado pelo
+flatpak e o include de headers do kernel nao funcionava mt bem. depois de
+instalar o mininet wifi à mao no arch, funcionou td bem]
+
+ambos adicionar e modificar paths usam mesh_path_assign_nexthop
+para resolver problema, verificar se path já tem nexthop
+se tem é change, se nao tem é add
+
+uso de mesh_path_fix_nexthop é só pelo user space, ou seja, nao devem haver
+pacotes correspondentes
+
+ieee80211_mesh_rx_queued_mgmt é chamada apenas por ieee80211_iface_process_skb,
+que parece tratar de todos os skbs recebidos, pode servir como ponto de captura
+para pacotes rx
+
+mesh_path_add a ser chamado duas vezes seguidas quando é chamado por rx
+
+ficheiro grande com mts caminhos. complexo e complicado
+
+==============================================================================
+
+VER CENTRALIZAÇAO !!! URGENTE
+
+usar bpf_printk
+
+ter diagrama de estados para perceber melhor e para escrita
+1 estaçao e 2 estaçoes
+um mais micro e outro mais macro tbm (nao tao detalhado)
+
+se possivel, filtrar a interface no bpf

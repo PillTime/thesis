@@ -1,0 +1,41 @@
+...
+xmit    0xffff916f44544200 | Chrome_ChildIOT type 1 fam 2
+[trace] 0xffff916f44544200: 16390
+[probe] 0xffff916f44544200: 621030
+xmit    0xffff916f44545900 | Chrome_ChildIOT type 1 fam 2
+[trace] 0xffff916f44545900: 9730
+[probe] 0xffff916f44545900: 340060
+xmit    0xffff916f44545100 | Chrome_ChildIOT type 1 fam 2
+[trace] 0xffff916f44545100: 12720
+[probe] 0xffff916f44545100: 287010
+xmit    0xffff916f44545600 | Chrome_ChildIOT type 1 fam 2
+[trace] 0xffff916f44545600: 12750
+[probe] 0xffff916f44545600: 260400
+xmit    0xffff916f44545600 | Chrome_ChildIOT type 1 fam 2
+[trace] 0xffff916f44545600: 12680
+[probe] 0xffff916f44545600: 251580
+xmit    0xffff916f44544000 | Chrome_ChildIOT type 1 fam 2
+[trace] 0xffff916f44544000: 20220
+[probe] 0xffff916f44544000: 618869
+xmit    0xffff916e44393600 | irq/82-iwlwifi: type 1 fam 2
+[trace] 0xffff916e44393600: 10610
+xmit    0xffff916f44544f00 | Chrome_ChildIOT type 1 fam 2
+[trace] 0xffff916f44544f00: 8620
+xmit    0xffff916f44544200 | Chrome_ChildIOT type 1 fam 2
+[trace] 0xffff916f44544200: 4150
+xmit    0xffff916f44544300 | Chrome_ChildIOT type 1 fam 2
+[trace] 0xffff916f44544300: 4000
+xmit    0xffff916e44393000 | irq/82-iwlwifi: type 1 fam 2
+[trace] 0xffff916e44393000: 8750
+[probe] 0xffff916e44393600: 1834739
+[probe] 0xffff916f44544f00: 1820199
+[probe] 0xffff916f44544200: 1809499
+[probe] 0xffff916f44544300: 1802379
+[probe] 0xffff916e44393000: 547520
+xmit    0xffff916e44393100 | irq/82-iwlwifi: type 1 fam 2
+[trace] 0xffff916e44393100: 10150
+[probe] 0xffff916e44393100: 354980
+xmit    0xffff916e44393200 | irq/82-iwlwifi: type 1 fam 2
+[trace] 0xffff916e44393200: 7820
+[probe] 0xffff916e44393200: 295340
+...

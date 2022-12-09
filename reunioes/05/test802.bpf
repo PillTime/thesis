@@ -1,0 +1,43 @@
+#include <linux/skbuff.h>
+#include <net/mac80211.h>
+
+tracepoint:net:net_dev_start_xmit
+{
+	$now = nsecs;
+	$skb = (uint64)args->skbaddr;
+
+	printf("xmit\n");
+	@time[$skb] = $now;
+}
+
+
+tracepoint:net:net_dev_xmit
+{
+	$now = nsecs;
+	$skb = (uint64)args->skbaddr;
+
+	if (@time[$skb] != 0) {
+		//printf("[trace] %s: %d\n", comm, $now - @time[$skb]);
+	}
+	delete(@time[$skb]);
+}
+
+
+kprobe:ieee80211_tx_status_ext
+{
+	$now = nsecs;
+	$stat = (struct ieee80211_tx_status *)arg1;
+	$skb = $stat->skb;
+
+	printf("test\n");
+	if (@time[(uint64)$skb] != 0) {
+		//printf("[probe] %s: %d\n", comm, $now - @time[(uint64)$skb]);
+		printf("%d %d\n", $skb->len, $skb->data_len);
+	}
+	delete(@time[(uint64)$skb]);
+}
+
+END
+{
+	clear(@time);
+}

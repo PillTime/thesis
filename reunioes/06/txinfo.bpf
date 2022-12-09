@@ -1,0 +1,59 @@
+#include <linux/net.h>
+#include <linux/skbuff.h>
+#include <linux/socket.h>
+#include <net/mac80211.h>
+#include <net/sock.h>
+
+
+tracepoint:net:net_dev_start_xmit
+{
+    $now = nsecs;
+    $skb = (struct sk_buff *)args->skbaddr;
+    $skbid = (uint64)$skb;
+
+    $sock = $skb->sk; // parte de um union, esperar pelo melhor
+    $fam = $sock->__sk_common.skc_family;
+    $type = $sock->sk_type;
+    $dadr = $sock->__sk_common.skc_daddr;
+    $sadr = $sock->__sk_common.skc_rcv_saddr;
+
+    printf("[trace] %p\n", $skbid);
+    printf("\t%s [%d | %d]\n", comm, pid, tid);
+    printf("\t%d | %d\n", $type, $fam);
+    printf("\t%s <-> %s\n", ntop($dadr), ntop($sadr));
+    //printf("\t\n");
+
+    @time[$skbid] = $now;
+}
+
+
+kprobe:ieee80211_tx_status_ext
+{
+    $now = nsecs;
+    $stats = (struct ieee80211_tx_status *)arg1;
+    $skb = $stats->skb;
+    $skbid = (uint64)$skb;
+    $saved = @time[$skbid];
+
+    $sock = $skb->sk; // parte de um union, esperar pelo melhor
+    $fam = $sock->__sk_common.skc_family;
+    $type = $sock->sk_type;
+    $dadr = $sock->__sk_common.skc_daddr;
+    $sadr = $sock->__sk_common.skc_rcv_saddr;
+
+    //if ($saved != 0) {
+        printf("[probe] %p (%dns)\n", $skbid, $now - $saved);
+        printf("\t%s [%d | %d]\n", comm, pid, tid);
+        printf("\t%d | %d\n", $type, $fam);
+        printf("\t%s <-> %s\n", ntop($dadr), ntop($sadr));
+        //printf("\t\n");
+    //}
+
+    delete(@time[$skbid]);
+}
+
+
+END
+{
+    clear(@time);
+}

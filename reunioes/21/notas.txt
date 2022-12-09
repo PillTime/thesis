@@ -1,0 +1,54 @@
+duvida se o scapy ia escrevendo captura ou era so no fim
+RE: so no fim, ve-se logo no codigo
+
+
+sobre as funçoes mesh, tentei por as 3 stations a correr um script bpftrace
+tds davam output do mesmo, e msm assim apareciam erros do bpftrace sobre
+nao conhecer as funçoes por nao existirem ou serem static
+
+tentei organiza-las pelo q deu para ver do resultado dessa experiencia
+(esta no bpftrace_tests)
+
+
+a reestruturar o codigo da aplicaçao, apercebi-me que os diferentes campos do
+header mac têm byte orders diferentes. comparado com o que é tirado do kernel,
+o wireshark mostra os bytes do frame_control ao contrario, mas mostra os bytes
+do sequence_control na mesma ordem
+WTF
+
+
+usar o counter para melhor o loop prov nao vai dar
+apesar de nao estar a conseguir ligar os pacotes, o primeiro trace liga a um pacote
+que aparece depois dos outros pacotes ligados aos traces seguintes
+
+fazer wlan.fc == <frame_control>
+como DS é 3, addr4 == src e addr3 == dst
+a unica coisa aparente que nao deixa ligar é o addr1, q é td 0s no trace, e td fs no pacote
+
+
+tentei ver XDP mas só parece funcionar para RX, nao TX
+(funciona a nivel do driver, antes de passar para sk_buff)
+
+no teste que está em print_info, fc aparece sempre com 0s
+e sc aparece com o que parece ser do frame_control
+
+
+==================================================
+==================================================
+
+
+tornar captura de pacotes e eventos incremental
+(ir escrevendo para ficheiro diretamente)
+
+scapy usar monitor mode no AsyncSniffer e tbm usar a interface monitor
+
+
+funcs do cfg80211_ops sao prov de user space
+
+
+usar fila de trabalho para os eventos
+
+
+tcpdump a correr por interface
+
+attach shell por estaçao com network namespace ids

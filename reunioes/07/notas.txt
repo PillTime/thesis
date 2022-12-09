@@ -1,0 +1,13 @@
+escrever ToC
+
+falar um pouco de XDP (real time) (trabalhos relacionados)
+offloading
+implementaçao de camadas de rede em userspace
+
+ToC:
+	- background (eBPF (como funciona, etc))
+	- trabalhos relacionados (XDP, bpftrace, bcc, outras ferramentas, outros usos de BPF fora de redes, etc)
+
+----------
+
+task_struct (~780 linhas)

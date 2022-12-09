@@ -1,0 +1,62 @@
+#include <linux/socket.h>
+
+// hopefully this can be improved by using the existing structs and macros
+
+
+struct in_addr {
+	uint32_t s_addr;
+};
+
+struct sockaddr_in {
+	short          sin_family;
+	unsigned short sin_port;
+	struct in_addr sin_addr;
+	unsigned char  sin_zero[8];
+};
+
+struct test {
+	short i;
+};
+
+
+uprobe:libc:socket
+{
+	@proto[tid] = arg0 + 1;
+}
+
+uretprobe:libc:socket
+/@proto[tid] != 0/
+{
+	$protofam = @proto[tid] - 1;
+	delete(@proto[tid]);
+
+	if ($protofam == 0 || $protofam == 2 || $protofam == 10) {
+		@sock[tid] = retval;
+		printf("%d\n", @sock[tid]);
+	}
+}
+
+uprobe:libc:send
+/@sock[tid] != 0/
+{
+	@start[tid] = nsecs;
+	printf("|%d| %d\n", @sock[tid], @start[tid]);
+	delete(@sock[tid]);
+}
+
+uprobe:libc:sendto
+{
+	$addr = (struct sockaddr_in*)arg4;
+	$protofam = $addr->sin_family;
+
+	if ($protofam == 0 || $protofam == 2 || $protofam == 10) {
+		@start[tid] = nsecs;
+	}
+}
+
+tracepoint:net:net_dev_xmit
+/@start[tid] != 0/
+{
+	printf("[%d]: %d\n", tid, nsecs - @start[tid]);
+	delete(@start[tid]);
+}

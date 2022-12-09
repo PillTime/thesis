@@ -1,0 +1,23 @@
+/net/mac80211/mesh.c#671
+
+nao retorna nada
+
+recebe sdata, ie, ie_len
+
+recebe a banda do canal em que está
+se isso falhar, retorna de imediato
+
+retorna de imediato se:
+  - a banda nao tem capacidade de MESH_POINT
+  - se a largura da banda for 5, 10, ou 20(nao HT) MHz
+
+verifica se tem capacidade para operaçoes HE(?)
+
+se:
+  - tiver essa capacidade
+  - tiver dados?:
+    - he_oper = dados + 1
+
+se he_oper nao for 0 (que deve se verdade porque é x+1):
+  - os parametros da operaçao he sao:
+    - os parametros em he_oper

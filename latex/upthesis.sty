@@ -1,0 +1,389 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definicao do estilo da tese para o Dept. de CC da FCUP.
+% Hacked from Manchester University thesis style (also hacked from 
+% Stanford University thesis style suthesis.sty)
+% (pbrandao) and also hacked from Cambridge, UK
+%
+% 4/91, Fernando: new commands added:
+%    \submitionplace{}, \department{} and \dedicationpage{},
+%       now the cover page can be fully specified outside this style file!
+% 9/94, Fernando:  adjusted for UP
+% 3/96, Fernando:  style re-adjusted to comply with LaTeX2e.
+% 11/97, Fernando: style simplified
+% 07/2014, pbrandao:
+%  - used fancyhdr for headings in main text
+%  - comment removal of parindent
+%  - baseline to 1.2
+%  - changed margins, textsize (very similar, a bit larger)
+%  - settings for figures
+%  - see also thesis.pdf
+% 21/07/2014
+%  pbrandao: corrected newpage to doublepage after preface
+%           - added the list of listings (it should produce portuguese name if
+%           babel is set to portuguese, see packages.tex)
+%  TODO add chapter format using \titleformat from fancyhdr
+%  TODO change the logo to the new FC Logo
+%  TODO see if it is worth changing the header and footer more
+% 2014/07/08 First draft
+% 2014/07/21 added the List of code blocks and their ``name'' for portuguese
+%        this includes the caption name
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% margins 1-sided (used by lblopes, ricroc, rslopes, michel)
+%\oddsidemargin 0.50in \evensidemargin 0in      %one-sided
+%\topmargin -0.25in
+%\textheight 9.0in 
+%\textwidth  6.06in
+
+%margins 2-sided  (used by apt, sbb, zp and nam)
+%\oddsidemargin 0.25in \evensidemargin -0.09in  %two-sided
+%\textheight 8.95in 
+%\textwidth  6.05in
+\setlength{\textwidth}{160mm} 
+\setlength{\textheight}{240mm} 
+\setlength{\oddsidemargin}{-0.4mm}
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\topmargin}{-5.4mm}
+\setlength{\headsep}{5mm}
+\setlength{\parskip}{\medskipamount}
+
+% settings for paragraphs
+%\setlength{\parindent}{0mm}
+\setlength{\parskip}{3mm}
+% defining the space between lines (1.5 is for double-space)
+\renewcommand{\baselinestretch}{1.2}
+% indications state 1.5 See Sigarra, but it seems too much
+
+% don't let large figures hijack entire pages
+\renewcommand\topfraction{.9}
+\renewcommand\textfraction{.1}
+\renewcommand\floatpagefraction{.8}
+
+%
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+\hyphenpenalty=1000
+%\flushbottom %space at the end of the page
+%     raggedbottom is better
+
+% Encoding
+\usepackage[utf8]{inputenc}
+% see http://tex.stackexchange.com/questions/664/why-should-i-use-usepackaget1fontenc
+\usepackage[T1]{fontenc}
+
+%image placement
+\usepackage{float}
+\usepackage{graphicx}
+
+% Use colour names
+\usepackage[usenames,dvipsnames]{color}
+% for named colors (see 
+% http://en.wikibooks.org/wiki/LaTeX/Colors#The_68_standard_colors_known_to_dvips)
+\definecolor{light-gray}{gray}{0.94}
+\definecolor{gray-cell}{gray}{.80}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage{multirow}
+
+
+% rotating introduces some glitches with acronym. Acronyms used in the sidewaystable were marked as being multiply
+% defined. They were expanded the 1st time on the table. Using \acs solved the issue
+\usepackage{rotating}
+\usepackage{threeparttable}
+
+%to use when you want things to be kept on the same page
+% see https://www.texfaq.org/FAQ-nopagebrk
+\usepackage{needspace}
+
+%% To enable subfigures or subtables
+% see the documentation on https://ctan.org/pkg/subcaption
+% Note that this is part of caption, but the documentation is separated
+\usepackage{subcaption}
+
+% used for code examples and other listings
+\usepackage{listingsutf8}
+\lstset{
+  aboveskip={\baselineskip},
+  % belowskip={1.5\baselineskip},
+ % columns=fixed,
+ % extendedchars=true,
+  % prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+  %identifierstyle=\bf\ttfamily,
+  keywordstyle=\color{Maroon}\bf\ttfamily,
+  commentstyle=\normalfont\color{BlueViolet}\itshape,
+  stringstyle=\color{OliveGreen},
+%  lineskip=-2.0pt,
+  %from http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
+%  language=Octave,                % choose the language of the code
+  basicstyle=\footnotesize\ttfamily,       % the size of the fonts that are used for the code
+%  numbers=left,                   % where to put the line-numbers
+%  numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+%  stepnumber=2,                   % the step between two line-numbers. If it's 1 each line 
+%                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{light-gray},  % choose the background color. You must 
+                                       %add \usepackage{color}
+%  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+%  showtabs=false,                 % show tabs within strings adding particular underscores
+%  frame=shadowbox,
+  frame=single,	                % adds a frame around the code
+  frameround=tttt,	                % t or f(alse) for each corner
+  framesep = 1pt,
+  %framexleftmargin = -10pt,
+  fillcolor=\color{white},
+  rulecolor=\color{MidnightBlue},
+  %rulesepcolor=\color{blue},
+  tabsize=3,	                % sets default tabsize to 3 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  xleftmargin = 12pt,
+  xrightmargin = 10pt,
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=true,        % sets if automatic breaks should only happen at whitespace
+%  title=\lstname,                 % show the filename of files included with \lstinputlisting;
+%                                  % also try caption instead of title
+%  escapeinside={\%*}{*)},         % if you want to add a comment within your code
+%  morekeywords={*,...}            % if you want to add more keywords to the set
+   escapechar=\#,                   % enable to write latex and be interpreted as such
+}
+\newcommand*\acronymname{Acronyms}
+
+  \@ifpackagewith{babel}{portuguese}{%
+    \addto\captionsportuguese{\renewcommand*\lstlistlistingname{Lista de Blocos de Código}}%
+    \addto\captionsportuguese{\renewcommand*\lstlistingname{Bloco de Código}}%
+    \addto\captionsportuguese{\renewcommand*\acronymname{Acrónimos e Siglas}}%
+  }{}
+
+% This adds the possibility of having lists in paragraphs
+\usepackage{paralist}
+
+% URLs, linking, and pdf parameters
+% break long urls, should be before hyperref and biblatex
+\usepackage[hyphens]{url}
+
+% References
+% For styles for the bib and cite styles see the documentation section 3.3
+%http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf
+\usepackage[
+url=false, % for the url fields of the bibtex entry to appear remove this option or set it to true
+% as we add the url to the title with hyperref below, it may not be needed
+% you may remove the doi entry with doi=false
+style=numeric-comp, % uses numbers for refs [12], and compresses ranges [2,3,4] -> [2-4]
+natbib=true, % aliases for natbid
+sorting = nty, % sort by name, title, year the default; if by order of appearance use none
+backref=true, % creates a backref on the bibliography to the page where it is cited
+backrefstyle=two, % for the backrefs above if there is a range with more than two pages compress it (see pp 11, 12, 13) --> (see pp 11-13)
+sortcites=true % when citing multiple references it orders then according to the order style in the citation
+]{biblatex}
+
+% A warning of using babel/polyglossia suggests csquotes
+\usepackage{csquotes}
+
+% For having titles with URLs based on the tex stackexchange entry:
+% https://tex.stackexchange.com/questions/48400/biblatex-make-title-hyperlink-to-dois-url-or-isbn
+
+
+% define the linked format
+% Define new format that applies a hypertext reference
+\DeclareFieldFormat{linked}{%
+  \ifboolexpr{ test {\ifhyperref} and not test {\ifentrytype{online}} }
+    {\iffieldundef{doi}
+       {\iffieldundef{url}
+          {\iffieldundef{isbn}
+             {\iffieldundef{issn}
+                {#1}
+                {\href{http://www.worldcat.org/search?qt=worldcat_org_all&q=\thefield{issn}}{#1}}}
+             {\href{http://www.worldcat.org/search?qt=worldcat_org_all&q=\thefield{isbn}}{#1}}}
+          {\href{\thefield{url}}{#1}}}
+       {\href{http://dx.doi.org/\thefield{doi}}{#1}}}
+    {#1}}
+
+%Format the new title entries in biblatex
+\DeclareFieldFormat{title}{\printtext[linked]{\mkbibemph{#1}}}
+\DeclareFieldFormat
+  [article,inbook,incollection,inproceedings,patent,thesis,unpublished]
+  {title}{\mkbibquote{\printtext[linked]{#1}\isdot}}
+\DeclareFieldFormat[suppbook,suppcollection,suppperiodical]{title}
+  {\printtext[linked]{#1}}
+
+% Enhance/improve fonts, kerning and spacing
+\usepackage{microtype}
+% Need to be a font compatible with microtype (or remove microtype package)
+\usepackage{charter} %% See for fonts http://www.tug.dk/FontCatalogue/ and http://www.tug.org/fonts/
+%fonts examples: newcent, charter, lmodern, mlmodern (seems not supported in Overleaf),  concmath (may need cm-super)
+% can also add the cm-super package (don't usepackage on the tex file,
+% just install using the package manager)
+% note that lmodern, cmbright, lato have some issues with spacing on some pdf viewers (perhaps also other fonts)
+% the issue (for a non specified font) is described here: 
+%https://tex.stackexchange.com/questions/323294/produce-copy-paste-able-pdf-output-with-correct-indentation-with-listing/323354#323354
+
+%% uncomment the following line if you prefer sans serif fonts
+%\renewcommand*\familydefault{\sfdefault}
+
+% for monotype use courier
+% http://www.macfreek.nl/mindmaster/LaTeX_Bold_Typewriter_Font
+\usepackage{courier}
+% fix the restriction for font-sizes with latex
+% see http://www.tex.ac.uk/cgi-bin/texfaq2html?label=fontunavail
+\usepackage{fix-cm}
+
+% Math fonts
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+% Acronyms package
+\usepackage[smaller,printonlyused,nohyperlinks]{acronym}
+\newcommand*\acronymfile{acros.tex}
+
+%% to include pdf per page
+\usepackage{pdfpages}
+
+
+% Enable multicoluns, used in the acronyms appendix
+\usepackage{multicol}
+
+% just for testing purposes (get ipsum text)
+\usepackage{lipsum}
+
+% For symbols
+% see http://willbenton.com/wb-images/pifont.pdf
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{53}}%
+\newcommand{\cmarkcell}{\cmark}% may be used in tables to mark it correct
+\newcommand{\xmarkcell}{\cellcolor{LRed}\xmark}% may be used in tables to mark it incorrect. red background
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Headers/Footers/Chapters
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\department#1{\gdef\@department{#1}}
+\def\submitionplace#1{\gdef\@submitionplace{#1}}
+\def\submitdate#1{\gdef\@submitdate{#1}}
+\def\@title{}
+\def\@author{}
+\def\@department{}
+\def\@supervisor{}
+\def\@submitdate{}
+\def\@indexfigname{}
+\def\@indextablename{}
+
+\def\coverp{%
+        \thispagestyle{empty}%
+        \null\vskip1in%
+        \begin{center}
+                {\Large \bf \@author}\\
+                \vskip0.5in%
+                {\huge \bf \expandafter{\@title}}
+        \end{center}
+        \vfill
+        \centerline{
+           \includegraphics[width=4cm]{pics/fc_logo}
+        }
+        \vfill
+        \begin{center}
+                {\large \bf \expandafter{\@department}\\
+                \@submitdate }\\
+        \end{center}
+        \vskip.5in
+\newpage}
+
+\def\titlep{%
+        \thispagestyle{empty}%
+        \null\vskip1in%
+        \begin{center}
+                {\Large \bf \@author}\\
+                \vskip0.5in%
+                {\huge \bf \expandafter{\@title}}
+        \end{center}
+        \vfill
+        \centerline{
+           \includegraphics[width=4cm]{pics/fc_logo}
+        }
+        \vfill
+        \begin{center}
+                {\small \it \@submitionplace}
+        \end{center}
+        \vfill
+        \begin{center}
+                \expandafter{\@department}\\
+                \@submitdate\\
+        \end{center}
+        \vskip.5in
+\newpage}
+
+\def\dedicationpage#1{
+        \newpage
+        \vspace*{7cm}
+        \begin{center}
+                  {\bf #1}
+        \end{center}
+        \vfill}
+
+\def\beforepreface{%
+        \pagenumbering{roman}
+        \pagestyle{plain}
+         % commenting the two lines will remove the cover and title pages
+        %\coverp
+        %\titlep
+        \includepdf[pages=1]{cover-template/FrontPage-MSc.pdf}
+        \cleardoublepage
+        \includepdf[pages=2]{cover-template/FrontPage-MSc.pdf}
+        \cleardoublepage
+}
+
+\def\prefacesection#1{%
+        \chapter*{#1}
+        \addcontentsline{toc}{chapter}{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Acronyms
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\printacronyms{%
+  \prefacesection{\acronymname}
+%%  %%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{multicols}{2}
+  \setlength{\columnseprule}{0.5pt}
+  \setlength\columnsep{35pt}
+  \begin{acronym}[\acronymbiggest] % the biggest acronym
+    \input{\acronymfile}
+  \end{acronym}
+  \end{multicols}
+}
+
+\usepackage{etoolbox} % use etoolbox to reset the acronyms each chapter
+\preto\section\acresetall
+
+\usepackage{fancyhdr}
+\setlength{\headheight}{13.6pt} % current header uses at least this
+\def\afterpreface{%
+        \tableofcontents
+        \addcontentsline{toc}{chapter}{\contentsname}
+           %\listoftables
+           %\addcontentsline{toc}{chapter}{\listtablename}
+           \listoffigures
+           \addcontentsline{toc}{chapter}{\listfigurename}
+           \lstlistoflistings
+           \addcontentsline{toc}{chapter}{\lstlistlistingname}
+
+%           %%%%%%%%%%%%%%%%%%%%%%%%%
+           \printacronyms
+          \cleardoublepage
+        \pagenumbering{arabic}
+        %\pagestyle{headings}
+        % See http://en.wikibooks.org/wiki/LaTeX/Page_Layout#Customizing_with_fancyhdr
+        \pagestyle{fancy}
+        \fancyhf{}
+        \fancyhead[LE,RO]{\thepage}
+        \fancyhead[RE]{\textit{ \nouppercase{\leftmark}} }
+        \fancyhead[LO]{ \nouppercase{\rightmark} }
+        
+        \fancypagestyle{plain}{ %
+          \fancyhf{} % remove everything
+          \renewcommand{\headrulewidth}{0pt} % remove lines as well
+          \renewcommand{\footrulewidth}{0pt}
+          \fancyfoot[C]{ \thepage }
+       }
+}

@@ -1,0 +1,34 @@
+tracepoint net_dev_start_xmit
+chama netdev_start_xmit
+tracepoint net_dev_xmit
+
+
+netdev_start_xmit retorna valor dado pela funcao do driver que faz o tx
+ou seja, o tracepoint net_dev_xmit só é chamado depois da funcao do driver retornar
+
+
+funcao que faz operacoes de 'completion' de transmicao chama
+`netdev_tx_completed_queue` com o numero de packets e bytes transmitidos
+(pelo menos a do driver 'igb')
+
+`netif_schedule_queue` é chamado por `netdev_tx_completed_queue`, mas
+só se `test_and_clear_bit(__QUEUE_STATE_STACK_XOFF, &dev_queue->state)` for `true`
+
+
+dar trace do `dql_completed` dava jeito, mas o bpf nao consegue
+
+
+----------
+
+
+em 'full.bpf', muda a quantidade de traces q ocorrem se se mudar entre os
+'uprobe:libc's, e os 'tracepoint:syscalls'.
+ou seja, o problema nao é os pid/tid mudarem, mas sim as funçoes usadas que chamam
+as syscalls de 'send'
+
+nem tudo é C. ver syscalls
+
+
+seguro fazer delete do @time no net_dev_xmit?
+é dentro que percorre os 'skb_buff's todos?
+ou estou so a medir o tempo de algumas transmiçoes e nao todas?

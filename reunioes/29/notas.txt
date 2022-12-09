@@ -1,0 +1,72 @@
+no raspberry fiz:
+    sudo apt install python3-{bpfcc,psutil,scapy} bpfcc-tools libbpf-dev
+a tentar correr, deu erro de falta de headers, por isso fiz:
+    sudo apt install raspberrypi-kernel-headers
+segmentation fault
+com o 64bit é diferente
+    continua a queixar-se de nao conhecer nada fora do include (obvio)
+    	talvez de para arranjar isto com o vmlinux.h, mas duvido
+    diz que nao conhece struct bpf_timer (prov so faltar incluir algo q esta no include)
+    bpfcc-tools funcionam agr (mais ou menos pelo menos, profile-bpfcc crasha a fazer ctrl-c)
+
+agr ha dois timestamps: quando acontece TX/RX e quando faz a mudança
+
+nao consigo mudar a frequencia do monitor, diz device busy (-16)
+
+parece q sim, o scapy nao sabe ler o pacote do trace1
+
+archlinux headers teem td. debian nao. preciso arranjar a source td
+
+TODO: recheck e rewrite tracer.bpf.c
+
+as capturas a serem usadas para testar o central nao parecem bem (sta1), mas por ignoro
+uso so o timestamp action
+
+TODO:
+central conseguir mandar comandos (deve acontecer por cabo)
+	começa a capturar
+	para de capturar e manda-me as coisas q capturaste
+
+ESCRITA TESE: falar sobre libbpf vs bcc
+	http://vger.kernel.org/bpfconf2019_talks/bpf-core.pdf slide 8 -> kernel-devel doesnt include internal headers
+
+--------------------------------------------------------------------------------
+
+reescrevi o central para usar uma gui agr
+bastante simples mas funciona
+a ordem ainda é só timestamps, mas decidi acrescentar um segundo timestamp
+    (pode ser q fique mt tempo parado numa funçao e haja uma diferença de uns segundos)
+a captura da sta1 nao parece estar bem e nao sei pq, mas estou a ignorar por agr
+
+para os testes com hardware real: archlinux funciona mas outras distros nao
+packages com os headers so tem a pasta include/
+decidi experimentar com libbpf CO-RE
+mostrar os slides
+
+extra:
+tentei mudar o canal mas dá erro de device busy
+
+================================================================================
+
+cuidado na ordenaçao dos eventos na central
+assumir q as estaçoes podem estar com um drift fixo, mais simpels
+
+coluna por estaçao
+
+para kernel sources
+https://github.com/RPi-Distro/rpi-source/blob/master/README.md
+
+no client novo
+	verificar uso de mesh_path
+	.o é de bpf ou da arquitetura do pc?
+	ver como meter a funcionar em arm
+
+para problema de ordenaçao, sync de vez em quando com beacon
+ESCRITA: modos de procurar para determinar ordem
+começar simples e ir melhorando
+
+!!!! pensar a serio na ESCRITA
+ja para proxima semana:
+	TABLE OF CONTENTS
+
+ter uma especia de template, ate para notas

@@ -1,0 +1,68 @@
+a arranjar o .bpf.c deu-me a ideia de, quando se apanha um "change nexthop", de
+passar o endereço antigo e o novo.
+
+captura do conteudo dos pacotes acontece mais prox do hardware, mas qos_ctrl e
+addr1 continuam mal. why?
+
+pacote para primeiro trace voltou a nao aparecer. é pela msm razao do ping
+demorar? bug do mininet?
+
+o resto parece bem
+
+o scapy parece estar a interpretar um pacote mal. nao faz sentido
+ir para helpers -> fazer scapy -> cap = rdpcap("sta2-outscapy.pcap")
+comparar pacote 24 a cap[23]
+
+depois podia mudar um pouco o json para ter um bocado de info sobre a
+captura/sistema, e depois a lista de traces
+
+--------------------------------------------------------------------------------
+
+tenho uma base simples para o agregador, que mostra os eventos por ordem
+cronologica. só nao sei é o q meter ele a fazer agr.
+o q é suposto ele fazer em especifico?
+
+a arranjar o .bpf.c, comecei por ver só o add, e depois juntei o del (o assign
+já quase q estava com o add)
+
+tive a ideia de acrescentar mais info. acrescentei a mudança dos hops
+
+qos_ctrl e addr1 continuam mal por alguma razao? nao sei como arranjar isso
+
+primeiro trace volta a nao ter pacote associado
+a ver o pcap, no wireshark parece td bem, mas no scapy aparece mal
+[ir para helpers -> fazer scapy -> cap = rdpcap("sta2-outscapy.pcap")]
+
+às vezes o ping nao funciona bem. o primeiro nao acaba bem, só o segundo
+por alguma razao so acontece às vezes. esteve a acontecer a semana passada
+inteira, mas hoje já está a dar bem
+
+================================================================================
+
+central_app:
+	n pacote e nome pcap
+	nao usar so timestamps para ordenar
+
+aritmetica de apontadores é mais esquisita do q pensava
+tem q converter para *u8
+
+addr1 nunca é preenchido no action 1, normal pq a sta nao sabe ainda
+
+se prob de trace 1 sem pacote acontecer, zip de td
+e zip com caso q funciona
+
+no central
+	abrir wireshark num pacote especifico
+	filtrar as açoes tds por tipo para mostrar só o q o user quer
+	para passar de cap1 para cap2, matar a primeira
+		dar escolhar para deixar aberta ou nao
+	se possivel controlar janelas pelo python
+
+central conseguir mandar comandos (deve acontecer por cabo)
+	começa a capturar
+	para de capturar e manda-me as coisas q capturaste
+
+relacionar eventos entre estaçoes
+	(tx em sta2 levou a rx em sta1)
+
+pensar no funcionamento da central

@@ -1,0 +1,55 @@
+// TX
+tracepoint:net:net_dev_xmit
+{
+    printf("[%d] - TX\n", tid);
+}
+
+// RX (start)
+kprobe:ieee80211_mesh_rx_queued_mgmt
+{
+    printf("[%d] - RX (start)\n", tid);
+}
+
+// RX (finish)
+kretprobe:ieee80211_mesh_rx_queued_mgmt
+{
+    printf("[%d] - RX (finish)\n", tid);
+}
+
+
+// add
+kprobe:mesh_path_add
+{
+    printf("[%d] - add\n", tid);
+}
+
+// assign
+kprobe:mesh_path_assign_nexthop
+{
+    printf("[%d] - assign\n", tid);
+}
+
+// delete
+kprobe:mesh_path_del
+{
+    printf("[%d] - delete\n", tid);
+}
+
+
+// add (user-space)
+tracepoint:cfg80211:rdev_add_mpath
+{
+    printf("[%d] - add (user-space)\n", tid);
+}
+
+// assign (user-space)
+tracepoint:cfg80211:rdev_change_mpath
+{
+    printf("[%d] - assign (user-space)\n", tid);
+}
+
+// delete (user-space)
+tracepoint:cfg80211:rdev_del_mpath
+{
+    printf("[%d] - delete (user-space)\n", tid);
+}

@@ -1,0 +1,103 @@
+\chapter{Conclusion}\label{chap:conc}
+
+Recalling what was said in \autoref{chap:intro}, the objectives of this thesis
+were to explore how eBPF could be used for monitoring experiments in wireless
+networks, and to create a program that would showcase this.
+
+This work was very exploratory, as it was necessary to examine the code of the
+Linux kernel which is not only very extensive but also very complex, study mesh
+networks, as well as learn eBPF, all of which are fields where we had little to
+no prior experience. Most of the documentation of eBPF and the tools and
+frameworks around it assume some familiarity with the Linux source code, how it
+works, and its most used structures, which was not the case for us.
+
+As for the programs developed, we accomplished our objective, which was to
+create a tool that could demonstrate how eBPF could be used in experiments of
+wireless networks. Our service program can detect changes in the mesh path table
+of several systems, and its output files can be then used in conjunction with
+outputs from other systems to be analysed with the central program to get a
+timeline of the activity in an entire mesh network.
+
+It is worth mentioning that in our program we use probes as a necessity, which
+are not as stable as tracepoints. This means that an update to the kernel that
+changes the functions we probe could result in our program not working
+correctly, and an update to fix these probes would be required.
+
+
+\section{Future Work}
+
+Although we were able to reach our objectives, we believe our programs could be
+improved with more features and fixes to compromises that had to be made due to
+the lack of time available. The following paragraphs contain some ideas and
+possible solutions for the implementation.
+
+The first one is the presence of the probe in the function
+\texttt{mesh\_plink\_deactivate}. This probe ignores some actions that can
+modify the mesh path table, so removing it would be an improvement. To remove
+it, a deeper analysis of the functions that call
+\texttt{mesh\_plink\_deactivate} would be needed, to take into account all the
+possible call stacks.
+
+One of the biggest issues we wanted to fix but could not for lack of time was
+the way we sort all the events in the \textbf{central} program. We use the
+timestamp captured along with the path information for sorting events, but since
+the clocks of the several computers in a network being monitored will not be
+perfectly synchronized, it is not a reliable metric. One way we think this could
+be solved would be to use the ordering of packets instead, using two packet
+capture files where one has a packet that causes a change to a mesh path table
+being sent, and another has that same packet being received, and using that
+packet as a basis for sorting events between the two stations where these
+packets were captured. The timestamp of the events could additionally be used to
+shift the events in a station that were not caused by a packet in relation to
+the events in other stations, using the packet previously mentioned as a
+reference point in time.
+
+With hindsight, we can see that the decision to switch to a single probe at
+packet reception when we switched from \ac{BCC} \ac{CO-RE} was not ideal. We did
+it mostly because the code became shorter and much easier to comprehend. Still,
+although we never detected it, there is a chance that some function could change
+the content of a packet. If we had time we would revert to two probes, with the
+entry probe inserting the important content of the packet to the BPF map, have
+the probes at each action retrieve the information from the BPF map and
+submitting it to user-space, and have the exit probe delete anything in the BPF
+map for the cases where the thread did not alter the mesh path table.
+
+Something that we think would be fun, but also help visualize bigger networks,
+is to create a graph showing the mesh paths in each event. This would basically
+be an easy-to-interpret timeline of the network. Being able to click on each
+station to see the events that it captured, as well as each mesh path to see its
+information, along with which packet (if applicable) caused it would be great as
+well. Because the events already store the source, nexthop, and destination of
+each path, this would only require updating the central program.
+
+Another thing that would possibly help with bigger networks is a file that
+contains the information of a whole network. Right now, the \textbf{central}
+program takes the files of all the stations and sorts their events every time it
+is executed. We never experienced a slow sorting process, with the program
+always being opened almost immediately, but considering that our tests were
+always quite short and involved at most three stations, it is possible that
+bigger networks and longer tests would cause a slow-down. We think the
+\textbf{central} program could have a flag that generates a file that contains
+all the events of all stations already sorted, to be used in other runs, instead
+of the original files.
+
+Something that would be nice to have would be a way for the central program to
+be able to retrieve the information gathered by the different nodes being
+monitored automatically, instead of relying on manual file transfers from those
+nodes.
+
+The way we sort the events in the \textbf{central} program, although simple, is
+not very efficient given that it increases the lists of events for each station,
+filling them mostly with empty elements, which still occupy as much space in
+memory as the structures for events. A better approach would be to use would be
+preferable.
+
+Something that could be improved is the fields of paths that the tool captures.
+Currently, it captures only the destination and nexthop of paths, but other
+fields can be captured, such as the metric value and the sequence number, as was
+noted in the last paragraph of \autoref{sect:valid}.
+
+One last thing that we think would help with analysis would be to show the time
+between events. This would enable users to easily determine how much time has
+passed between events, and could be implemented using the timestamps available
+in the events.

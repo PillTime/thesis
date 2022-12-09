@@ -1,0 +1,10 @@
+analise de bpf limits (root e user):
+    - quantas instruçoes
+    - quantos elementos em maps e quantos maps
+    - looping
+
+----------
+
+'mode=s' era desnecessario
+hwsim0 up continua a ser preciso (`sh ifconfig hwsim0 up`)
+tbm é preciso fazer modprobe do `mac80211` (está automatica ja)

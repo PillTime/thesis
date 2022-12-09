@@ -1,0 +1,107 @@
+exploraçao rica
+explicar os testes antes
+testes deveria ser mais validaçao
+matching q foi feito
+descriçao
+dizer se os resultados sao os esperados
+
+-aims e objectives
+-  explorar e como funciona
+-  programa: nao so implementar mas pensar para que se pode usar
+
+-conclusao
+-  mostrar que o essencial funciona
+-future work
+-  "alem do que fiz, ha espaço para progredir"
+-  o que pode ir mais alem
+-  o q ficou por dizer
+
+-falo de termo e expressoes antes de explicar
+-mesh path table por exemplo
+-80211 tbm
+
+-explicar primeiro os elementos para depois falar
+-deles
+-falar dos caminhos, criados e destruidos
+
+-em teoria a cominaçao da rede
+-o q é mesh, para que serve
+-caminhos, protocol de descoberta
+-explicar genericamente como funciona
+-explicar modo reativo (o q se experimentou)
+-no final reler e voltar a ler a exploraçao
+-e ver se o q escrevi mapeia bem para se perceber
+-ajustar na exploraçao para fazer mais sentido
+
+-intro
+-  usar proposta
+-  falar de necessidade generica de observevaçao
+-  perceber como coisas reagem na pratica
+-  troubleshooting
+-  caracterizaçao de sistemas
+-  falar de ferramentas de monitor
+-  referir q ha soluçoes mais especificas e mais genericas
+-  falar do q é um programa
+-  enquadrar ebpf no contexto
+-  introduz ebpf
+-  falar de ebpf, donde veio e como evoluio
+-  ebpf é importante, rapido e segura
+-  ja existiam outras ferramentas mas eram limitadas
+-  como pode ser usado
+-  mais generica passa da SoA para intro
+-  necessidade de monitorizar funcionamento de maquina
+-  esspecialmente rede
+-  "pq é q este trabalho pode ser importante?"
+-  monitor do q se passa na rede
+-  ver o q se passa numa experiencia
+-  PQ é Q isto é importante
+-o q é ebpf genericamente
+-importancia
+-como surgiu a ideia do trabalho
+
+-bpftrace util para coisas q nao
+-precisam de mandar informaçao para user-space
+-pode ficar no kernel space
+
+-explicar como probes sao implementadas
+-falar de como argumentos nas saidas nao tem garantia de existir sequer
+
+-background
+  -comparar as ferramentas
+  -falar da experiencia do raspberry pi
+  -  esplicar melhor q é comum em x86
+  -  exemplo para tds ferramentos
+  -passos necessarios para usar cada ferramenta
+
+exploração
+  resumo
+  resumir os eventos que estou a ver
+  probes q estou a usar
+  figura a explicar
+
+  explicar pq uso os fields na assoc
+  explicar para q field serve no background
+  -expandir pq nao usar o pacote inteiro
+  -explicar o pq se usar esta info para assoc
+
+mais figuras, ajudar a perceber texto
+
+-timestamp para ordem. tornar mais claro
+
+
+
+
+    Na secção 2.1:
+        falas do standard e da emenda de 2012, falta a citação para o documento.
+        Convém falar de “wireless mesh network” em vez de só mesh network.
+        Usa os termos do standard ao escreveres sobre os nós da mesh. Falas em “mesh stations” e "mesh portals” mas sem chamar directamente esses nomes.
+        O protocolo de routing HWMP está muito resumido. Adiciona uma explicação do porquê do modo pro-activo e do funcionamento mais detalhado do modo reactivo. As várias mensagens usadas e o fluxo envolvido para descobrir como um nó consegue descobrir como chegar a outro.
+    Secção 2.2: falta a imagem que tinhas usado no poster?
+    Secção 2.3-2.6: continua a falar um como usar/pequeno exemplo em cada um. 
+    Secção 3.2 expandiste a explicação os campos do cabeçalho necessário, mas além de dizeres que está no standard, convém dizer onde no standard ao certo, e com citação para o standard. (Versão 2020, está na secção 10.3.2.14).
+    Secção 4.2: precisa de ser expandida.
+        Precisa de ter mais claro qual o setup e topologia ao certo da estações: estavam todas visíveis umas para as outras? Estava a estação 2 a fazer de intermediário entre as duas? Talvez colocar uma figura e expandir o texto. 
+        Falas de não ter o caminho por não ter o IP address, eu percebo o que queres dizer, mas fica confuso pois a nível de caminhos o IP address não importa, apenas o MAC address. Convém expandir melhor o texto a explicar o que aconteceu e porque faz sentido ter acontecido por esta ordem. 
+        Adiciona ao certo quais os pacotes que causaram a criação de uma entrada na tabela de caminhos em cada nó, pode ser um screenshot do Wireshark do pacote por exemplo. 
+
+        Falta falar da experiência real realizada.

@@ -1,0 +1,44 @@
+#include <linux/skbuff.h>
+
+
+kprobe:mesh_nexthop_resolve
+{
+    @pass[tid] = (arg1, 0);
+    $skb = (struct sk_buff *)arg1;
+
+    $head = $skb->head;
+    $mac = $head + $skb->mac_header;
+    $net = $head + $skb->network_header;
+    $trs = $head + $skb->transport_header;
+
+    $head_size = (uint64)$mac - (uint64)$head;
+    $mac_size = (uint64)$net - (uint64)$mac;
+    $net_size = (uint64)$trs - (uint64)$net;
+    $trs_size = (uint64)$skb->tail - (uint64)$trs;
+
+    //printf("head: %r\n\n", buf($head, $head_size));
+    printf("mac:  %r\n\n", buf($mac, $mac_size));
+    //printf("net:  %r\n\n", buf($net, $net_size));
+    //printf("trs:  %r\n\n\n", buf($trs, $trs_size));
+    delete(@pass[tid]);
+}
+
+/*
+kprobe:mesh_path_add
+/@pass[tid].0 != 0/
+{
+    @pass[tid] = (@pass[tid].0, 1);
+}
+
+
+tracepoint:net:net_dev_xmit
+/@pass[tid].0 != 0 && @pass[tid].1 == 1/
+{
+
+}
+*/
+
+END
+{
+    clear(@pass);
+}

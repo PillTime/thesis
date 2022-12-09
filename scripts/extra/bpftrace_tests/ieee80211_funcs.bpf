@@ -1,0 +1,28 @@
+kprobe:ieee80211_add_mpath
+{
+    printf("ieee80211_add_mpath\n");
+}
+
+
+kprobe:hwmp_route_info_get
+{
+    printf("hwmp_route_info_get\n");
+}
+
+
+kprobe:mesh_rx_path_sel_frame
+{
+    printf("mesh_rx_path_sel_frame\n");
+}
+
+
+kprobe:mesh_nexthop_resolve
+{
+    printf("mesh_nexthop_resolve\n");
+}
+
+
+kprobe:mesh_path_add
+{
+    printf("mesh_path_add\n");
+}

@@ -1,0 +1,86 @@
+attach_socket continua a simplesmente nao funcionar (erros do verifier)
+o exemplo no repo do bcc compila, mas nem isso funciona bem, pq nao imprime nada
+
+nao sei como por a dar
+
+-----
+
+o pc fixo continua a nao dar match a nenhum pacote para o 1° trace
+e aparentemente ja nao funciona no portatil tbm. wtf
+
+-----
+
+funçao de receçao de pacotes? ou sitio perto de hardware por onde todos os
+pacotes passem
+
+-----
+
+funçoes de mesh revistas em mesh_funcs_try.txt
+
+-----
+
+existem tracepoints de cfg80211, mas nao dao outptu ao fazer ping. prov sao de
+userspace só
+
+--------------------------------------------------------------------------------
+
+ERRADO: no meu portatil o primeiro trace funciona, mas no meu fixo nao. devo ter
+qualquer coisa q nao deixa dar bem (talvez hardware ou drivers pq ja acontecia
+antes de resinstalar o OS, e instalei exatamente da msm forma no portatil)
+CERTO: o primerio trace só dá match às vezes. por alguma razão o pacote nao é
+gerado/capturado, e por isso o trace nao dá match com nada (nao sei pq)
+
+ANTES: tentei arranjar forma de apanhar os pacotes na saida e entrada do sistema
+na saida funciona bem, mas na entrada nao encontro funçao q apanhe todos os
+pacotes
+DEPOIS: continuo sem saber q funçao usar para capturar entrada
+
+ANTES: o bcc tem uma ferramenta para apanhar skb nas interfaces, mas é uma
+estrutura diferente (__sk_buff), e nao tive mt sorte a usar esta funcionalidade
+DEPOIS: isto continua a nao dar tbm. nem consigo a por dar direito. se eu fizer
+algo ele nem passa pelo verifier. se usar um exemplo passa, mas nao da output
+
+NAO DIZER: gastei demasiado tempo depois de fazer o relate(), pq o ultimo trace
+nao estava a dar match com nenhum pacote, mas depois percebi q o ultimo trace é
+entre a sta2 e sta3, e eu só estava a ver a captura de pacotes do sta1
+DIZER: perdi tempo com a funçao relate() pq eu estava a ver mal as capturas dos
+pacotes (so estava a ver o trace para uma das estaçoes)
+
+ANTES: estrutura com qos nao suporta 4 endereços, mas é toDS e fromDS, ou seja,
+precisa de 4 endereços
+DEPOIS: nao faz sentido um pacote QoS ter 4 endereços, pq a estrutura usa o
+espaço do quarto endereço para a informaçao QoS
+
+----------
+
+estive a rever melhor as funçoes de mesh para saber quais sao as funçoes que
+tenho que ver para cada açao. tenho uma lista, mas nao sei se sao estas
+exatamente, pois tenho medo que hajam funçoes que so sejam usadas em userspace
+(como por exemplo a mesh_path_fix_nexthop, que só é usada no ficheiro cfg.c, que
+tem as funçoes de userspace para lidar com a mesh table)
+
+cada açao passa por varias funçoes de mesh antes de passar pela funçao de
+transmissao (a pensar só no envio por agr). isto pode possivelmente permitir
+verificar se a acçao vem do userspace ou nao. no entanto adiciona complexidade
+(para ver se um caminho existente foi modificado tem q se ver se a chamada a
+mesh_path_assign_nexthop é precedida por uma chamada a mesh_path_add ou nao).
+alem disso, isto parece muito instavel. basta o kernel receber um update que
+altere algo a ver com a mesh e é provavel q isto deixe de funcionar
+
+================================================================================
+
+falar (escrever na tese depois) das chatices de encontrar ponto de obter skb
+
+ver melhor pq é q o trace 1 nao tem pacote (onde é q ele está)
+ver a lista ligada de skbs em ieee80211_add_pending_skbs para ver se o pacote
+do trace 1 está lá
+
+ver se o pacote do 1 trace é discarded pq o num de sequencia dele ja vai
+atrasado e tem q ser criado outro
+
+__sk_buff já funciona. era preciso usar 64bits para os pointers
+tentar usar com endereço do skb
+
+sobre o qos_ctrl. tentar usar o struct original e ver os bytes à frente
+ieee80211_get_qos_ctl
+ieee80211_is_data_qos

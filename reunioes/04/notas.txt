@@ -1,0 +1,81 @@
+netdev_completed_queue
+
+ver tempo entre netdev_start_xmit e netdev_completed_queue
+
+byte queue limits
+tempo a ser transmitido
+
+iperf
+
+----------
+
+(linux5.15 | glibc2.34)
+caminho simplificado:
+    glibc:
+        `sendto` chamado
+        weak_alias de `sendto` para `__sendto`
+        weak_alias de `__sendto` para `__libc_sendto`
+        chama `SYSCALL_CANCEL`
+        que chama `INLINE_SYSCALL_CALL`
+        que chama `INLINE_SYSCALL` (depois de substituiçoes com `#define`s)
+        que chama `INTERNAL_SYSCALL`
+        que chama `internal_syscall6(44, ...)`
+        que executa a syscall [/sysdeps/unix/sysv/linux/x86_64/sysdep.h#345]
+    linux:
+        `__SYSCALL_DEFINEx` chamado
+        para `SYSCALL_DEFINE6(sendto, ...)`
+        que chama `__sys_sendto`
+        que chama `sock_sendmsg`
+        que chama `security_socket_sendmsg` ou `sock_sendmsg_nosec` se o anterior falhar
+
+    e agora é q as coisas complicam. seguindo `sock_sendmsg_nosec`:
+        chama a função `sendmsg` da socket a ser usada através de `INDIRECT_CALL_INET`
+        assumindo que a socket é de IPv4 (INET), chama `inet_sendmsg` [/net/ipv4/af_inet.c#1038|814]
+        esta funçao recebe a 'socket' como argumento (BSD socket normal)
+        dentro desta, existe uma estrutura 'sock', que é a representaçao de sockets no layer de network
+        a 'sock' tem guardado o protocolo usado
+        a funçao em que estámos usa a funçao `sendmsg` desse protocolo através de `INDIRECT_CALL_2`
+        assumindo q é UDP chama `udp_sendmsg` [/net/ipv4/udp.c#2911|1041]
+        que chama `udp_push_pending_frames`
+        que chama `udp_send_skb`
+        que chama `ip_send_skb`
+        que chama `ip_local_out`
+        que chama `dst_output`
+        este recebe um `sk_buff`
+        é chamado `ip_output` por uma funçao que recebe o `sk_buff` através de `INDIRECT_CALL_INET` [/net/ipv4/route.c#1638|/net/ipv4/ip_ouput.c#414]
+        que chama `ip_finish_output` através de `NF_HOOK_COND`
+        que chama `__ip_finish_output`
+        que chama `ip_finish_output2`
+        que chama `neigh_output`
+        que chama `neigh_hh_output` ou a funçao `output` do argumento `neighbour`
+        ambas chamam `dev_queue_xmit` (a segunda passa por outra funçoes antes)
+        que chama `__dev_queue_xmit`
+        que chama `dev_hard_start_xmit`
+        que chama `xmit_one`
+        que chama `netdev_start_xmit`
+        que chama `__netdev_start_xmit`
+        este recebe `net_device_ops`, que tem as operaçoes de cada device
+        é chamada a funçao `ndo_start_xmit` desse device
+        vamos assumir que o driver usado é o `igb`. neste caso, é chamada a funçao `igb_xmit_frame`
+        que chama `igb_xmit_frame_ring`
+        que chama `igb_tx_map`
+        que chama `writel`, que "acorda" o device para enviar os dados a transmitir
+
+    quando acaba a transmiçao, o device lança um interrupt:
+        `igb_intr_msi` ou `igb_intr` recebem o interrupt
+        ambos chamam `napi_schedule`, que chama `__napi_schedule`
+        que chama `____napi_schedule`
+        que chama `__raise_softirq_irqoff(NET_RX_SOFTIRQ)`
+        e estou perdido
+
+----------
+
+'sendto' para 'tracepoint start_xmit' é quase o mesmo tempo que 'start_xmit' até 'xmit'
+
+https://lwn.net/Articles/349005/
+confirmaçao q ndo_start_xmit só manda para o driver e nao espera
+
+----------
+
+https://blog.packagecloud.io/eng/2017/02/06/monitoring-tuning-linux-networking-stack-sending-data/
+devices podem usar o mesmo interrupt quando recebem packets e quando enviam packets

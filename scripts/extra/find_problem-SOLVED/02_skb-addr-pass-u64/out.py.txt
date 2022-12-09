@@ -1,0 +1,38 @@
+o output saiu como está no .orig, mas eu mexi nele para ficar como no do bpftrace,
+e assim vê-se melhor que RX: corresponde a cada chamada de uma funçao
+
+
+
+RX: 18446633766083481600
+
+RX: 18446633766083485184
+
+
+NH: 18446633768037789184 <--+
+mesh_nexthop_resolve        |----- iguais
+18446633768037789184 <------+
+
+
+RX: 18446633766083484672 <----+----------------- (igual ao RX: no bpftrace)
+ieee80211_mesh_rx_queued_mgmt |--- diferentes
+18446633766083485184 <--------+----------------- (diferente do RX: no bpftrace)
+
+
+RX: 18446633766083484928 <----+----------------- (igual ao RX: no bpftrace)
+ieee80211_mesh_rx_queued_mgmt |--- diferentes
+18446633766083484672 <--------+----------------- (diferente do RX: no bpftrace)
+
+
+RX: 18446633768037788160
+
+
+RX: 18446633768037786112 <----+----------------- (igual ao RX: no bpftrace)
+ieee80211_mesh_rx_queued_mgmt |--- diferentes
+18446633768037788160 <--------+----------------- (diferente do RX: no bpftrace)
+
+
+RX: 18446633766145953792
+
+RX: 18446633766145956864
+
+RX: 18446633766145955584

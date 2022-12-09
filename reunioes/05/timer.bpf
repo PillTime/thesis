@@ -1,0 +1,39 @@
+// register timestamp of 'sendto' syscall
+tracepoint:syscalls:sys_enter_sendto
+{
+    @time[tid] = nsecs;
+    @conf[tid] = tid;
+}
+
+
+// calculate time if 'tid' was set in 'conf' bpf map
+// (ensures thread came from 'sendto')
+kprobe:dev_hard_start_xmit
+/@conf[tid] == tid/
+{
+    printf("[%d] function: %dns\n", tid, nsecs - @time[tid]);
+    @conf[tid] = tid + 1;
+}
+
+
+// calculate time if 'tid' was reset in 'conf' map
+// also delete what was stored in the bpf map
+tracepoint:syscalls:sys_exit_sendto
+{
+    // (ensures that thread passed through 'dev_hard_start_xmit')
+    if (@conf[tid] == tid + 1) {
+        printf("[%d] syscall:  %dns\n", tid, nsecs - @time[tid]);
+    }
+
+    // delete stuff in the bpf map
+    delete(@time[tid]);
+    delete(@conf[tid]);
+}
+
+
+// clear anything that got stuck in the bpf map at the end
+// (e.g. thread that entered 'sendto' but didn't exit yet)
+END {
+    clear(@time);
+    clear(@conf);
+}
