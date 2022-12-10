@@ -70,27 +70,28 @@ for this script can be seen in \autoref{app:timer}.
 
 \subsection{Finding Relevant Mesh Network Functions}\label{subs:mesh}
 
-We wanted to monitor mesh networks in particular, so we decided to check the
-content of the mac80211 subsystem. We tried to find resources that mentioned
-which functions were used to manipulate the system's mesh path table, but all we
-found were links to the source code files, which we already had. The only
-solution that seemed viable was to find out these functions ourselves. We
-started by going through all of the files that had ``mesh'' in their name in the
-mac80211 subsystem folder, saving the names of all of their functions. We then
-wrote a basic \textbf{bpftrace} script that probed all of these functions,
-printing their name if they were called. This way, whenever something that had
-to do with mesh networking happened in the kernel, we would see the names of the
-functions that were executed. This script was quite big, but a snippet of it can
-be found in \autoref{app:calls}.
+We wanted to monitor \ac{IEEE} 802.11s mesh networks in particular, so we
+decided to check the content of the mac80211 subsystem. We tried to find
+resources that mentioned which functions were used to manipulate the system's
+mesh path table, but all we found were links to the source code files, which we
+already had. The only solution that seemed viable was to find out these
+functions ourselves. We started by going through all of the files that had
+``mesh'' in their name in the mac80211 subsystem folder, saving the names of all
+of their functions. We then wrote a basic \textbf{bpftrace} script that probed
+all of these functions, printing their name if they were called. This way,
+whenever something that had to do with mesh networking happened in the kernel,
+we would see the names of the functions that were executed. This script was
+quite big, but a snippet of it can be found in \autoref{app:calls}.
 
 
 \subsection{Use of Emulation}
 
-To test this script we just needed a mesh network. For this, we opted to go with
-an emulated network instead of using real hardware to save on time and to make
-testing simpler and more predictable (ability to remove interference, adjustable
-antenna range, etc.). We used mininet-wifi~\cite{mnwifi}, which had everything
-we needed, and even included the setup for an example mesh network.
+To test this script we just needed an \ac{IEEE} 802.11s mesh network. For this,
+we opted to go with an emulated network instead of using real hardware to save
+on time and to make testing simpler and more predictable (ability to remove
+interference, adjustable antenna range, etc.). We used
+mininet-wifi~\cite{mnwifi}, which had everything we needed, and even included
+the setup for an example mesh network.
 
 We quickly ran into an issue with mininet-wifi, however. The Linux distribution
 we were using was not officially supported by mininet-wifi. Thankfully, the

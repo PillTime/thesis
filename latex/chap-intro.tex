@@ -22,31 +22,33 @@ eBPF can not only be used to access the internals of a system, but also
 intercept the packets that system sends and receives, eBPF can be used to
 monitor a whole network of systems.
 
-One example of how eBPF can be used, is to monitor a network of systems in a
-wireless mesh, by probing the functions in the Linux kernel related to 802.11
-mesh networks in each of the systems in said network.
+One example of how eBPF can be used, is to monitor a network of systems in
+\ac{IEEE} 802.11s wireless mesh networks, by probing the functions in the Linux
+kernel related to these mesh networks in each of the systems in said networks.
+
 
 \section{Aims and Objectives}
 
 The main objective of this work will be to study eBPF, seeing what it can and
 can not do, and determining how it can be used for network observability in
-experiments, particularly in 802.11 networks. We will then proceed with the
-development of a tool that uses eBPF to demonstrate the type of monitoring
-applications that can be built with this technology, revealing the exploratory
-work that was done in order to realize this tool.
+experiments, particularly in \ac{IEEE} 802.11s networks. We will then proceed
+with the development of a tool that uses eBPF to demonstrate the type of
+monitoring applications that can be built with this technology, revealing the
+exploratory work that was done in order to realize this tool.
+
 
 \section{Organization}
 
 This thesis will start with the background in \autoref{chap:stat}, where we will
-go over 802.11 and mesh networks, as well as what eBPF is in more detail, and
-explaining the different tools that can used to take advantage of this
-technology.
+go over \ac{IEEE} 802.11 and \ac{IEEE} 802.11s mesh networks, as well as what
+eBPF is in more detail, and explaining the different tools that can used to take
+advantage of this technology.
 
 Next, \autoref{chap:expl} will cover the exploratory part of this work, where we
 mention the steps we took to understand how the Linux kernel's implementation of
-the data link layer for 802.11 networks (mac80211) deals with mesh networks,
-mentioning some of the tests used for this purpose and to get some experience
-with writing eBPF programs.
+the data link layer for \ac{IEEE} 802.11 networks (mac80211) deals with
+\ac{IEEE} 802.11s mesh networks, mentioning some of the tests used for this
+purpose and to get some experience with writing eBPF programs.
 
 In \autoref{chap:devel} we talk about the development of the program that was
 written to serve as an example of a tool that uses eBPF for network monitoring,

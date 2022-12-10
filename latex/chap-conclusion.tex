@@ -5,18 +5,19 @@ were to explore how eBPF could be used for monitoring experiments in wireless
 networks, and to create a program that would showcase this.
 
 This work was very exploratory, as it was necessary to examine the code of the
-Linux kernel which is not only very extensive but also very complex, study mesh
-networks, as well as learn eBPF, all of which are fields where we had little to
-no prior experience. Most of the documentation of eBPF and the tools and
-frameworks around it assume some familiarity with the Linux source code, how it
-works, and its most used structures, which was not the case for us.
+Linux kernel which is not only very extensive but also very complex, study
+\ac{IEEE} 802.11s mesh networks, as well as learn eBPF, all of which are fields
+where we had little to no prior experience. Most of the documentation of eBPF
+and the tools and frameworks around it assume some familiarity with the Linux
+source code, how it works, and its most used structures, which was not the case
+for us.
 
 As for the programs developed, we accomplished our objective, which was to
 create a tool that could demonstrate how eBPF could be used in experiments of
 wireless networks. Our service program can detect changes in the mesh path table
 of several systems, and its output files can be then used in conjunction with
 outputs from other systems to be analysed with the central program to get a
-timeline of the activity in an entire mesh network.
+timeline of the activity in an entire \ac{IEEE} 802.11s mesh network.
 
 It is worth mentioning that in our program we use probes as a necessity, which
 are not as stable as tracepoints. This means that an update to the kernel that

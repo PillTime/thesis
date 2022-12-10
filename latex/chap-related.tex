@@ -1,8 +1,9 @@
 \chapter{Background}\label{chap:stat}
 
-This chapter will introduce the 802.11 network technical standard together with
-mesh networks, as well as explain eBPF in detail, and reference the major
-libraries and frameworks used to facilitate the development of eBPF programs.
+This chapter will introduce the \ac{IEEE} 802.11 network technical standard
+together with \ac{IEEE} 802.11s mesh networks, as well as explain eBPF in
+detail, and reference the major libraries and frameworks used to facilitate the
+development of eBPF programs.
 
 
 \section{Mesh Networks}
@@ -15,29 +16,29 @@ in 2012 incorporated several amendments, one of which was 802.11s, which
 introduced a definition for the creation of wireless mesh networks in a
 \ac{WLAN}~\cite{ieee80211}.
 
-A wireless mesh network is a network of devices, called mesh stations, that are
-interconnected to each other, as shown in \autoref{fig:meshnet}, with these
-connections being formed and destroyed dynamically by the stations themselves,
-without the need for a central station to manage these connections. Links are
-established when stations are able to communicate directly, and data that needs
-to travel a large distance is fed through the connections of the mesh network in
-a series of hops, allowing for the communication of stations that are too far
-apart to communicate directly. Some of the stations in a mesh network can also
-act as portals to other networks, such as the Internet, providing, in this
-example, Internet access to the whole network. These are referred to as mesh
-portals~\cite{meshopor}.
+A \ac{IEEE} 802.11s wireless mesh network is a network of devices, called mesh
+stations, that are interconnected to each other, as shown in
+\autoref{fig:meshnet}, with these connections being formed and destroyed
+dynamically by the stations themselves, without the need for a central station
+to manage these connections. Links are established when stations are able to
+communicate directly, and data that needs to travel a large distance is fed
+through the connections of the mesh network in a series of hops, allowing for
+the communication of stations that are too far apart to communicate directly.
+Some of the stations in a mesh network can also act as portals to other
+networks, such as the Internet, providing, in this example, Internet access to
+the whole network. These are referred to as mesh portals~\cite{meshopor}.
 
 \begin{figure}[htb]
    \centering
    \includegraphics[scale=.4]{meshnet}
-   \caption{Example mesh network}\label{fig:meshnet}
+   \caption{Example of a \ac{IEEE} 802.11s mesh network}\label{fig:meshnet}
 \end{figure}
 
-The layer 2 routing protocol defined by 802.11s that is used to create and
-destroy these links is known as \ac{HWMP}~\cite{ieee80211}. In this protocol,
-each station discovers other stations and manages a table of its existing
-connections through a usage of the peer link management protocol, where a
-station transmits beacons (frames with information about a network), and other
+The layer 2 routing protocol defined by \ac{IEEE} 802.11s that is used to create
+and destroy these links is known as \ac{HWMP}~\cite{ieee80211}. In this
+protocol, each station discovers other stations and manages a table of its
+existing connections through a usage of the peer link management protocol, where
+a station transmits beacons (frames with information about a network), and other
 listening stations that want to become members of the same mesh network reply to
 these transmissions. The table used to store these connections keeps not only
 the direct connections the station has, but also the connections to stations
@@ -66,10 +67,10 @@ and sends back a \textbf{Path Reply} in unicast~\cite{hwmpperf}.
    \caption{Example mesh path}\label{fig:nexthop}
 \end{figure}
 
-In the Linux kernel's implementation of the data link layer for 802.11 networks,
-the connections between stations are known as \textbf{mesh paths}, and the table
-where each system tracks these connections is referred to as the \textbf{mesh
-path table}.
+In the Linux kernel's implementation of the data link layer for \ac{IEEE}
+802.11s mesh networks, the connections between stations are known as
+\textbf{mesh paths}, and the table where each system tracks these connections is
+referred to as the \textbf{mesh path table}.
 
 
 \section{eBPF}
