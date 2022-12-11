@@ -215,7 +215,7 @@ scripts instead of big applications, suffering from the same disadvantages as
 bpftrace.
 
 
-\section{libbpf}
+\section{libbpf and CO-RE}
 
 libbpf is a library written in C/C++ designed to allow loading and interacting
 with eBPF programs~\cite{libbpf}. It is considered an alternative to \ac{BCC},
@@ -229,9 +229,6 @@ multiple kernel structure definitions and types, eliminating the need for kernel
 headers to be installed on the system~\cite{contain}. The drawback is that it is
 not as well documented as \ac{BCC}, having almost only examples to serve as aid
 in development.
-
-
-\subsection{CO-RE}
 
 \ac{CO-RE} is an approach implemented by libbpf that allows the creation of
 portable eBPF programs, meaning that programs only need to be compiled once, and
