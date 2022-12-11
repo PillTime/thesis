@@ -1,14 +1,14 @@
 \chapter{Development}\label{chap:devel}
 
 This chapter will cover the architecture of the tool that was developed to
-realize the objective of this thesis. This tool captures the paths that were
+realise the objective of this thesis. This tool captures the paths that were
 created, modified, and deleted in an \ac{IEEE} 802.11s mesh network, and
 associates them with the packets that caused these events.
 
 The tool consists of two programs: a program that captures the events and saves
 them in output files, which will be referred to as \textbf{service}, and a
 program to view the captured events of several computers side-by-side, referred
-to as \textbf{central}. The way this tool is meant to be used is summarized in
+to as \textbf{central}. The way this tool is meant to be used is summarised in
 \autoref{fig:usage}.
 
 \begin{figure}[htb]
@@ -198,7 +198,7 @@ order. This is done by increasing the size of the list of events for each
 station to have the capacity for all events in all the stations. Then, using
 their timestamps, the events are ordered in such a way that, for each place in
 the stations' lists, where one station has an event, all the others have an
-empty element. This can be visualized in \autoref{fig:sort}. Although not very
+empty element. This can be visualised in \autoref{fig:sort}. Although not very
 efficient, it is the simplest method we could come up with to implement.
 
 \begin{figure}[htb]
@@ -208,9 +208,9 @@ efficient, it is the simplest method we could come up with to implement.
 \end{figure}
 
 Finally, the \ac{GUI} is created, where the user can view all the events of all
-of the stations side by side, and not only inspect the details of each event,
-but also see the packets that caused those events in Wireshark with the press of
-a button. \autoref{fig:hardtest} displays an example capture.
+the stations side by side, and not only inspect the details of each event, but
+also see the packets that caused those events in Wireshark with the press of a
+button. \autoref{fig:hardtest} displays an example capture.
 
 \begin{figure}[htb]
    \centering

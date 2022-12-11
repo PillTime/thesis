@@ -43,7 +43,7 @@ One of the biggest issues we wanted to fix but could not for lack of time was
 the way we sort all the events in the \textbf{central} program. We use the
 timestamp captured along with the path information for sorting events, but since
 the clocks of the several computers in a network being monitored will not be
-perfectly synchronized, it is not a reliable metric. One way we think this could
+perfectly synchronised, it is not a reliable metric. One way we think this could
 be solved would be to use the ordering of packets instead, using two packet
 capture files where one has a packet that causes a change to a mesh path table
 being sent, and another has that same packet being received, and using that
@@ -63,7 +63,7 @@ the probes at each action retrieve the information from the BPF map and
 submitting it to user-space, and have the exit probe delete anything in the BPF
 map for the cases where the thread did not alter the mesh path table.
 
-Something that we think would be fun, but also help visualize bigger networks,
+Something that we think would be fun, but also help visualise bigger networks,
 is to create a graph showing the mesh paths in each event. This would basically
 be an easy-to-interpret timeline of the network. Being able to click on each
 station to see the events that it captured, as well as each mesh path to see its

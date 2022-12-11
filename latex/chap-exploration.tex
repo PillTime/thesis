@@ -75,13 +75,13 @@ decided to check the content of the mac80211 subsystem. We tried to find
 resources that mentioned which functions were used to manipulate the system's
 mesh path table, but all we found were links to the source code files, which we
 already had. The only solution that seemed viable was to find out these
-functions ourselves. We started by going through all of the files that had
-``mesh'' in their name in the mac80211 subsystem folder, saving the names of all
-of their functions. We then wrote a basic \textbf{bpftrace} script that probed
-all of these functions, printing their name if they were called. This way,
-whenever something that had to do with mesh networking happened in the kernel,
-we would see the names of the functions that were executed. This script was
-quite big, but a snippet of it can be found in \autoref{app:calls}.
+functions ourselves. We started by going through all the files that had ``mesh''
+in their name in the mac80211 subsystem folder, saving the names of all of their
+functions. We then wrote a basic \textbf{bpftrace} script that probed all of
+these functions, printing their name if they were called. This way, whenever
+something that had to do with mesh networking happened in the kernel, we would
+see the names of the functions that were executed. This script was quite big,
+but a snippet of it can be found in \autoref{app:calls}.
 
 
 \subsection{Use of Emulation}
@@ -160,7 +160,7 @@ that worked, but the issue was that, because we are dealing with packet
 reception, this tracepoint is called before any calls to functions that modify
 the mesh path table, and we need to delete the content that was stored in the
 BPF map for threads that did not change the mesh path table so as not to cause
-memory leaks. This issue can be visualized in the difference between
+memory leaks. This issue can be visualised in the difference between
 \autoref{fig:pkttx} and \autoref{fig:pktrx}. One way to solve this issue would
 be to find another tracepoint or function to probe located after any change to
 the mesh path table, to capture all executions that also passed through the
@@ -234,7 +234,7 @@ to the mesh path table earlier.
 Running this script, we found that all the fields were correct except for the
 address 1 field, which identifies the immediate receiver of the frame. Instead
 of the address that was shown in the corresponding packet in Wireshark, the
-field showed up as all zeros. After a bit of thinking, we realized that this
+field showed up as all zeros. After a bit of thinking, we realised that this
 address shows as all zeros because the system that sent this packet only knew
 the destination, but not the receiver, which could be the destination itself, or
 any other device. Because this field would cause problems when comparing with
@@ -326,7 +326,7 @@ through a function that modified the mesh path table earlier, and, if it did,
 use that packet's content. Instead of sending the whole packet to the
 user-space, we used a structure called \texttt{ieee80211\_hdr} to get just the
 elements we needed in order to be able to unambiguously identify the packet.
-We do this to keep the memory usage as low as possible and to minimize the
+We do this to keep the memory usage as low as possible and to minimise the
 overhead of our eBPF programs. The fields we take from the packet are the
 \textbf{Frame Control}, \textbf{Sequence Control}, and \textbf{QoS Control}
 (when available) fields, as well as the three (four in some cases) MAC

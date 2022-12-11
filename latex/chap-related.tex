@@ -122,7 +122,7 @@ system. Naturally, the verifier introduces some limitations to eBPF programs,
 such as a limited number of instructions per eBPF program (Linux version 5.2
 increased this number from 4096 to one million~\cite{sizelimit}), disallowing
 conditional loops, and requiring root privileges for most programs~\cite{lwm}.
-Finally, these programs are passed onto a \ac{JIT} compiler that optimizes their
+Finally, these programs are passed onto a \ac{JIT} compiler that optimises their
 performance by translating the code into machine specific instructions. Also,
 because eBPF is part of the Linux kernel, there is no need for external modules
 to be installed to run these programs~\cite{ebpfio}.
