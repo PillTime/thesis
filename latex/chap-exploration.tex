@@ -31,30 +31,14 @@ followed the function calls in the kernel's code until we reached the function
 \texttt{\_\_netdev\_start\_xmit}, which sends the data to be transmitted to the
 appropriate network driver. This part was somewhat difficult, as most functions
 could diverge, and macros are used a lot. The path of functions we followed for
-IPv4 \ac{UDP} packets is as follows:
-\begin{itemize}
-    \item \texttt{\_\_sys\_sendto}
-    \item \texttt{sock\_sendmsg}
-    \item \texttt{sock\_sendmsg\_nosec}
-    \item \texttt{inet\_sendmsg}
-    \item \texttt{udp\_sendmsg}
-    \item \texttt{udp\_send\_skb}
-    \item \texttt{ip\_send\_skb}
-    \item \texttt{ip\_local\_out}
-    \item \texttt{dst\_output}
-    \item \texttt{ip\_output}
-    \item \texttt{ip\_finish\_output}
-    \item \texttt{\_\_ip\_finish\_output}
-    \item \texttt{ip\_finish\_output2}
-    \item \texttt{neigh\_output}
-    \item \texttt{neigh\_hh\_output}
-    \item \texttt{dev\_queue\_xmit}
-    \item \texttt{\_\_dev\_queue\_xmit}
-    \item \texttt{dev\_hard\_start\_xmit}
-    \item \texttt{xmit\_one}
-    \item \texttt{netdev\_start\_xmit}
-    \item \texttt{\_\_netdev\_start\_xmit}
-\end{itemize}
+IPv4 \ac{UDP} packets can be seen in \autoref{fig:callstack}.
+
+\begin{figure}[htb]
+   \centering
+   \includegraphics[scale=.4]{callstack2}
+   \caption{Call stack for packet transmission analysed}\label{fig:callstack}
+\end{figure}
+
 For the script to record the time taken, we decided to use the entry tracepoint
 of the \texttt{sendto} system call to save the timestamp of the call, and put a
 probe in \texttt{\_\_netdev\_start\_xmit} to calculate the time taken. However,
