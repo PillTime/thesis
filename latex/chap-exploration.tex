@@ -52,30 +52,14 @@ function, and the time it took for the whole system call to complete. The code
 for this script can be seen in \autoref{app:timer}.
 
 
-\subsection{Finding Relevant Mesh Network Functions}\label{subs:mesh}
-
-We wanted to monitor \ac{IEEE} 802.11s mesh networks in particular, so we
-decided to check the content of the mac80211 subsystem. We tried to find
-resources that mentioned which functions were used to manipulate the system's
-mesh path table, but all we found were links to the source code files, which we
-already had. The only solution that seemed viable was to find out these
-functions ourselves. We started by going through all the files that had ``mesh''
-in their name in the mac80211 subsystem folder, saving the names of all of their
-functions. We then wrote a basic \textbf{bpftrace} script that probed all of
-these functions, printing their name if they were called. This way, whenever
-something that had to do with mesh networking happened in the kernel, we would
-see the names of the functions that were executed. This script was quite big,
-but a snippet of it can be found in \autoref{app:calls}.
-
-
 \subsection{Use of Emulation}
 
-To test this script we just needed an \ac{IEEE} 802.11s mesh network. For this,
-we opted to go with an emulated network instead of using real hardware to save
-on time and to make testing simpler and more predictable (ability to remove
-interference, adjustable antenna range, etc.). We used
-mininet-wifi~\cite{mnwifi}, which had everything we needed, and even included
-the setup for an example mesh network.
+We wanted to monitor \ac{IEEE} 802.11s mesh networks in particular, and to
+perform tests we would need a mesh network. For this, we opted to go with an
+emulated network instead of using real hardware to save on time and to make
+testing simpler and more predictable (ability to remove interference, adjustable
+antenna range, etc.). We used mininet-wifi~\cite{mnwifi}, which had everything
+we needed, and even included the setup for an example mesh network.
 
 We quickly ran into an issue with mininet-wifi, however. The Linux distribution
 we were using was not officially supported by mininet-wifi. Thankfully, the
@@ -86,24 +70,38 @@ distribution used by the virtual machine. Not only was the version of
 provided, which were used to get structure definitions, only had the files from
 the \textbf{include} directory of the kernel source code, contrary to the
 distribution we were using, which had all header files. These issues were
-preventing our scripts from running. To solve this, we decided to try to install
-mininet-wifi manually in our system, despite it using a distribution that was
-not officially supported. Although it required some manual dependency checking
-and installing, the mininet-wifi installation worked without problems.
+preventing some of our scripts from running. To solve this, we decided to try to
+install mininet-wifi manually in our system, despite it using a distribution
+that was not officially supported. Although it required some manual dependency
+checking and installing, the mininet-wifi installation worked without problems.
 
 
-\subsection{Filtering Out Irrelevant Functions}
+\subsection{Finding Relevant Mesh Network Functions}\label{subs:mesh}
 
-Having mininet-wifi up and running, we executed the script we had written and
-noticed that quite a lot of functions were showing up. Analysing the content of
-these functions, as well as their comments (if they had any), we noticed that
-most of them could be ignored, as they performed actions that did not affect the
-mesh path table. After removing the functions that are not relevant for
-monitoring path changes, we ended up with two functions in our list:
+Because our focus was on \ac{IEEE} 802.11s mesh networks, we decided to check
+the content of the mac80211 subsystem. We tried to find resources that mentioned
+which functions were used to manipulate the system's mesh path table, but all we
+found were links to the source code files, which we already had. The only
+solution that seemed viable was to find these functions ourselves. We started by
+going through all the files that had ``mesh'' in their name in the mac80211
+subsystem folder, saving the names of all of their functions. We then wrote a
+basic \textbf{bpftrace} script that probed all of these functions, printing
+their names if they were called. This way, whenever something that had to do
+with mesh networking happened in the kernel, we would see the names of the
+functions that were executed. This script was quite big, but a snippet of it can
+be found in \autoref{app:calls}.
+
+With mininet-wifi up and running, we executed the script we wrote and noticed
+that quite a lot of functions were showing up. Analysing the content of these
+functions, as well as their comments (if they had any), we noticed that most of
+them could be ignored, as they performed actions that did not affect the mesh
+path table. After removing the functions that are not relevant for monitoring
+path changes, we ended up with two functions in our list:
 \texttt{mesh\_path\_add}, which inserts a mesh path in the mesh path table, and
 \texttt{mesh\_path\_assign\_nexthop}, which changes the \textbf{nexthop} value
-of a given mesh path. We didn't see any paths being deleted, but, knowing this
-was possible, we considered \texttt{mesh\_path\_del} as well.
+of a given mesh path. We didn't see any paths being deleted, which was expected
+given that the test performed was short. However, knowing that the deletion of
+paths was possible, we considered \texttt{mesh\_path\_del} as well.
 
 
 \subsection{Choice of eBPF Framework}
