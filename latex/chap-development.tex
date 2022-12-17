@@ -24,8 +24,9 @@ The \textbf{service} program can be divided into two parts. The eBPF part that
 runs in the kernel-space and captures the events related to alterations in the
 mesh path table, sending their details to user-space, and the Rust part that
 runs in the user-space, receiving the data sent by the eBPF portion of the code,
-while also capturing network packets at the same time in order to associate
-packets to the actions performed in the system's mesh path table.
+while also capturing network packets at the same time using \textbf{libpcap} in
+order to associate packets to the actions performed in the system's mesh path
+table.
 
 The \textbf{service} captures the events that alter the mesh path table and
 network packets at the same time, saving them to output files, and when the user
