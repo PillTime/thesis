@@ -91,13 +91,14 @@ with mesh networking happened in the kernel, we would see the names of the
 functions that were executed. This script was quite big, but a snippet of it can
 be found in \autoref{app:calls}.
 
-With mininet-wifi up and running, we executed the script we wrote and noticed
-that quite a lot of functions were showing up. Analysing the content of these
-functions, as well as their comments (if they had any), we noticed that most of
-them could be ignored, as they performed actions that did not affect the mesh
-path table. After removing the functions that are not relevant for monitoring
-path changes, we ended up with two functions in our list:
-\texttt{mesh\_path\_add}, which inserts a mesh path in the mesh path table, and
+With mininet-wifi up and running a simple \ac{IEEE} 802.11s mesh network
+composed of 3 stations, we executed the script we wrote and noticed that quite a
+lot of functions were showing up. Analysing the content of these functions, as
+well as their comments (if they had any), we noticed that most of them could be
+ignored, as they performed actions that did not affect the mesh path table.
+After removing the functions that are not relevant for monitoring path changes,
+we ended up with two functions in our list: \texttt{mesh\_path\_add}, which
+inserts a mesh path in the mesh path table, and
 \texttt{mesh\_path\_assign\_nexthop}, which changes the \textbf{nexthop} value
 of a given mesh path. We didn't see any paths being deleted, which was expected
 given that the test performed was short. However, knowing that the deletion of
@@ -126,14 +127,15 @@ code, we had no problems of unknown structures using \ac{BCC}.
 
 The idea of our program was to retrieve the data of the mesh path that was
 inserted, modified, or removed from a mesh path table, by probing the functions
-that performed these actions, store that data in a BPF map, probe a tracepoint
-at packet transmission/reception, load the data stored in the BPF map, add the
-important part of the packet content to it, and send it to user-space to be
-processed by the user-space portion. We had already found the functions used to
-retrieve the details of paths that were involved in modifications performed in
-the mesh path table, but we still needed a way to get the content of the packets
-that caused these actions. Thanks to the previously mentioned test that was done
-at the beginning with bpftrace, we found a couple of tracepoints inside the
+that performed these actions when a thread executed them, store that data in a
+BPF map, and when that same thread passed through the tracepoint at packet
+transmission/reception, load the data stored in the BPF map, add the important
+part of the packet content to it, and send it to user-space to be processed by
+the user-space portion. We had already found the functions used to retrieve the
+details of paths that were involved in modifications performed in the mesh path
+table, but we still needed a way to get the content of the packets that caused
+these actions. Thanks to the previously mentioned test that was done at the
+beginning with bpftrace, we found a couple of tracepoints inside the
 \texttt{xmit\_one} function that provided access to the \texttt{sk\_buff}
 structure that holds the contents of packets.
 
@@ -143,12 +145,17 @@ reception, this tracepoint is called before any calls to functions that modify
 the mesh path table, and we need to delete the content that was stored in the
 BPF map for threads that did not change the mesh path table so as not to cause
 memory leaks. This issue can be visualised in the difference between
-\autoref{fig:pkttx} and \autoref{fig:pktrx}. One way to solve this issue would
-be to find another tracepoint or function to probe located after any change to
-the mesh path table, to capture all executions that also passed through the
-packet reception tracepoint in order to delete the content stored in the BPF map
-that was not used. Unfortunately, we did not find any tracepoint of function we
-could probe that met these requirements.
+\autoref{fig:pkttx} and \autoref{fig:pktrx}, where every thread that deals with
+packet reception stores data in the BPF map, but only the ones that deal with
+mesh paths delete the content stored when it is no longer needed, leaving the
+contents stored by the other threads in the BPF map, with no way of deleting
+them.
+
+One way to solve this issue would be to find another tracepoint or function to
+probe located after any change to the mesh path table, to capture all executions
+that also passed through the packet reception tracepoint in order to delete the
+content stored in the BPF map that was not used. Unfortunately, we did not find
+any tracepoint of function we could probe that met these requirements.
 
 \begin{figure}[htb]
    \centering
@@ -228,24 +235,25 @@ as all zeros.
 
 After making sure the program worked in the emulated environment, it was time to
 test it with real hardware. We started with a couple of computers with different
-distributions and a Raspberry Pi. However, we ran into an issue we had already
-faced before. Just like the distribution used by the mininet-wifi virtual
-machine, most distributions' kernel header packages only include the header
-files present in the \textbf{include} directory of the Linux source code,
-meaning that some of the structures we were using were not available in the
-Raspberry Pi, Ubuntu, Fedora, etc. We could solve this by copying the structures
-we needed to our program, but these structures have other structures as fields,
-which meant we needed to copy even more structures. Not only that, but we would
-also need to be cautious of Linux updates changing the contents of these
-structures. Another option would be to make the program depend on the Linux
-source code, but not all distributions provide the source code as a package, and
-this would also need to be updated along with the kernel itself. We ended up
-trying to see if we could go back to using \ac{CO-RE}. After some time, we found
-that \texttt{vmlinux} was not the only file in the \texttt{/sys/kernel/btf/}
-folder. It includes plenty more files, one of them named \texttt{mac80211}. We
-tried generating the file with the structure and type definitions using
-\texttt{/sys/kernel/btf/mac80211}, and testing it, it worked without issues. As
-a result, we decided to switch completely to \ac{CO-RE}.
+distributions (one with Arch Linux and another with Fedora) and a Raspberry Pi.
+However, we ran into an issue we had already faced before. Just like the
+distribution used by the mininet-wifi virtual machine, most distributions'
+kernel header packages only include the header files present in the
+\textbf{include} directory of the Linux source code, meaning that some of the
+structures we were using were not available in the Raspberry Pi, Ubuntu, Fedora,
+etc. We could solve this by copying the structures we needed to our program, but
+these structures have other structures as fields, which meant we needed to copy
+even more structures. Not only that, but we would also need to be cautious of
+Linux updates changing the contents of these structures. Another option would be
+to make the program depend on the Linux source code, but not all distributions
+provide the source code as a package, and this would also need to be updated
+along with the kernel itself. We ended up trying to see if we could go back to
+using \ac{CO-RE}. After some time, we found that \texttt{vmlinux} was not the
+only file in the \texttt{/sys/kernel/btf/} folder. It includes plenty more
+files, one of them named \texttt{mac80211}. We tried generating the file with
+the structure and type definitions using \texttt{/sys/kernel/btf/mac80211}, and
+testing it, it worked without issues. As a result, we decided to switch
+completely to \ac{CO-RE}.
 
 We would need to switch from Python as we did not find a wrapper for it for
 libbpf, which is needed to use \ac{CO-RE}. The languages we could use were
