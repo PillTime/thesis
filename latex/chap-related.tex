@@ -137,7 +137,7 @@ to be installed to run these programs~\cite{ebpfio}.
 eBPF also introduces mechanisms to help with development. Probes have already
 been mentioned, but it also provides BPF maps, which allow programs to save data
 temporarily in kernel-space, enabling sharing of information across probes and
-to user-spaced~\cite{lwm}.
+to user-space~\cite{lwm}.
 
 Not only that, but eBPF can also be used to write \ac{XDP} programs. \ac{XDP} is
 a framework that allows for processing packets at the lowest possible level,
@@ -147,13 +147,12 @@ packets. This, however, has limitations as well, since the programs are written
 in a restricted variant of C, because they need to be translated into eBPF
 byte-code, and \ac{XDP} can only be used in packet reception~\cite{xdp}.
 
-eBPF has become an important tool in the last few years, especially in the area
-of networks, having been used for discovery of dependencies in network
-services~\cite{ebpfeg1}, taking advantage of its small performance overhead, as
-well as monitoring traffic in Open vSwitches~\cite{ebpfeg2}, proving to be a
-better choice against other monitoring solutions thanks to its code verifier,
-which ensures that buggy eBPF code will not crash or otherwise severely
-interfere with a system.
+eBPF has become an important tool in the last few years, having been used for
+discovery of dependencies in network services~\cite{ebpfeg1}, taking advantage
+of its small performance overhead, as well as monitoring traffic in Open
+vSwitches~\cite{ebpfeg2}, proving to be a better choice against other monitoring
+solutions thanks to its code verifier, which ensures that buggy eBPF code will
+not crash or otherwise severely interfere with a system.
 
 
 \section{BCC}
@@ -174,8 +173,7 @@ requires the system to have the kernel header packages installed, which not only
 occupies extra space on the system to hold these
 packages~\cite{pingcap,contain}, but can also be problematic, especially when
 working with multiple Linux distributions, where the kernel header packages'
-content can be different, which is exactly one of the problems we faced in
-\autoref{sect:mac802}.
+content can be different.
 
 BCC used to be the primary choice for development of complex eBPF programs, but
 it is now considered deprecated, with newer programs using libbpf together with
@@ -196,7 +194,7 @@ definitions~\cite{bpftrace}.
 Due to being less verbose than \ac{BCC}, bpftrace is much easier to work with,
 but because of its lack of API, which only allows to send information to the
 standard output, it becomes useful only for programs that do not need to send
-data to user-space. Still, if data needs to sent to user-space, bpftrace is
+data to user-space. Still, if data needs to be sent to user-space, bpftrace is
 still useful for small tests and to quickly find all the available probes and
 tracepoints through the usage of its \texttt{-l} flag, which lists all probes.
 
