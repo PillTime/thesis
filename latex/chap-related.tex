@@ -110,19 +110,19 @@ that can involve arithmetic, structures, and pointers.
 
 eBPF programs are executed on events, like function calls and network events,
 through the use of, for example, \textbf{probes}, which are programs inserted
-dynamically at the beginning or end of functions, which can be seen in
-\autoref{fig:syscall}, with \textbf{kprobes} being used for functions inside the
-kernel, and \textbf{uprobes} for functions in user-space, as well as
-\textbf{tracepoints}, which are static points already present in the kernel
-introduced by the kernel developers. These programs are loaded into the kernel
-with the \texttt{bpf} system call and then pass through a verifier that ensures
-that they are safe to run and do not get stuck in loops, checking if there are
-any unreachable instructions, infinite loops, or instructions that harm the
-system. Naturally, the verifier introduces some limitations to eBPF programs,
-such as a limited number of instructions per eBPF program (Linux version 5.2
-increased this number from 4096 to one million~\cite{sizelimit}), disallowing
-conditional loops, and requiring root privileges for most programs~\cite{lwm}.
-Finally, these programs are passed onto a \ac{JIT} compiler that optimises their
+dynamically at the beginning or end of functions, with \textbf{kprobes} being
+used for functions inside the kernel, and \textbf{uprobes} for functions in
+user-space, as well as \textbf{tracepoints}, which are static points already
+present in the kernel introduced by the kernel developers, which can be seen in
+\autoref{fig:syscall}. These programs are loaded into the kernel with the
+\texttt{bpf} system call and then pass through a verifier that ensures that they
+are safe to run and do not get stuck in loops, checking if there are any
+unreachable instructions, infinite loops, or instructions that harm the system.
+Naturally, the verifier introduces some limitations to eBPF programs, such as a
+limited number of instructions per eBPF program (Linux version 5.2 increased
+this number from 4096 to one million~\cite{sizelimit}), disallowing conditional
+loops, and requiring root privileges for most programs~\cite{lwm}. Finally,
+these programs are passed onto a \ac{JIT} compiler that optimises their
 performance by translating the code into machine specific instructions. Also,
 because eBPF is part of the Linux kernel, there is no need for external modules
 to be installed to run these programs~\cite{ebpfio}.

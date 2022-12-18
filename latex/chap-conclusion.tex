@@ -92,8 +92,8 @@ nodes.
 The way we sort the events in the \textbf{central} program, although simple, is
 not very efficient given that it increases the lists of events for each station,
 filling them mostly with empty elements, which still occupy as much space in
-memory as the structures for events. A better approach would be to use would be
-preferable.
+memory as the structures for events. An approach that would use an algorithm
+that sorts these events without creating empty structures would be preferable.
 
 Something that could be improved is the fields of paths that the tool captures.
 Currently, it captures only the destination and nexthop of paths, but other
