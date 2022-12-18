@@ -12,7 +12,8 @@ tests we performed using mininet-wifi consisted of three stations (named sta1
 sta2 and sta3), where sta1 and sta3 were too far apart from each other to
 communicate directly, but both in range of sta2, as shown in
 \autoref{fig:latetest}, and all of them without any paths in their mesh path
-tables initially, pinging sta3 from sta1.
+tables initially, pinging sta3 from sta1. The host system used the Arch Linux
+distribution, running the \ac{LTS} version 5.10 Linux kernel.
 
 \begin{figure}[htb]
    \centering
@@ -42,17 +43,22 @@ sta2, and creates its mesh paths, both for sta2 and sta3.
 \section{Validation with Hardware Nodes}\label{sect:valid}
 
 Because we spent most of our time in development testing with mininet-wifi, we
-were only able to do a simple test with real hardware. We tried to replicate the
-test mentioned in the previous section, placing sta1 and sta3 far away from each
-other in the hopes that sta2 would be needed for the other two stations to
-communicate, but the space we had was not enough, as can be seen in the results
-displayed in \autoref{fig:hardtest}, which shows at the bottom details about the
-first event captured in sta3, where a path was added with the destination and
-the nexthop both set to sta1's \ac{MAC} address, meaning sta2 was not used for
-communication between the two stations. Still, we can verify that the tool we
-developed worked as expected, showing a mesh path being created and then deleted
-in sta2 (most likely because it ended up not being used), and sta3 and sta1
-creating mesh paths and settings their \textbf{nexthops} values.
+were only able to do a simple test with real hardware, using two computers
+running Arch Linux, just like the host system used in the tests in the emulated
+environment (one using the \texttt{rtl8723be} driver for the wireless network
+controller and the other using \texttt{iwlwifi}), and a third computer running
+Fedora 36 with version 5.17 of the Linux kernel, also using the \texttt{iwlwifi}
+driver. We tried to replicate the test mentioned in the previous section,
+placing sta1 and sta3 far away from each other in the hopes that sta2 would be
+needed for the other two stations to communicate, but the space we had was not
+enough, as can be seen in the results displayed in \autoref{fig:hardtest}, which
+shows at the bottom details about the first event captured in sta3, where a path
+was added with the destination and the nexthop both set to sta1's \ac{MAC}
+address, meaning sta2 was not used for communication between the two stations.
+Still, we can verify that the tool we developed worked as expected, showing a
+mesh path being created and then deleted in sta2 (most likely because it ended
+up not being used), and sta3 and sta1 creating mesh paths and settings their
+\textbf{nexthops} values.
 
 We did notice some unexpected behaviour. For example, in event number 10, sta1
 changed the \textbf{nexthop} field of its path to sta3 to the value it already
