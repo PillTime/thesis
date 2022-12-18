@@ -255,3 +255,38 @@ Although libbpf and \ac{CO-RE} are recent technologies, they are used by big
 companies like Facebook (where \ac{CO-RE} was created)~\cite{fbslide}, as well
 as in projects for monitoring networks of Kubernetes clusters~\cite{kuber} and
 security of Linux-based containers~\cite{sec}.
+
+
+\section{Comparison of Tools}
+
+Reviewing what was shown in this chapter, we can compare the different tools
+discussed. This comparison can be seen in \autoref{tab:comp}.
+
+\begin{table}[htb]
+   \centering
+   \begin{tabular}{|p{3.5cm}|p{3.5cm}|p{3.5cm}|p{3.5cm}|}
+      \hline
+      \multicolumn{1}{|c|}{\textbf{BCC}} &
+        \multicolumn{1}{c|}{\textbf{bpftrace}} &
+        \multicolumn{1}{c|}{\textbf{perf}} & \multicolumn{1}{c|}{\textbf{libbpf
+        + CO-RE}} \\
+      \hline
+      \textbf{(+)} Plenty of \newline documentation & \textbf{(+)} Plenty of
+        \newline documentation & \textbf{(+)} Plenty of \newline documentation &
+        \textbf{(-)} Little \newline documentation \\
+      \hline
+      \textbf{(-)} Needs kernel \newline header packages & \textbf{(-)} Needs
+        kernel \newline header packages & \textbf{(-)} Needs kernel \newline
+        header packages & \textbf{(+)} Does not need \newline kernel header
+        \newline packages \\
+      \hline
+      \textbf{(-)} Programs are \newline recompiled on every run & \textbf{(-)}
+        Can only send data to user-space through the standard output & &
+        \textbf{(-)} Kernel needs to be compiled with BTF support \\
+      \hline
+      & & & \textbf{(+)} Same program can be used in \newline different versions
+        of the kernel \\
+      \hline
+   \end{tabular}
+   \caption{Comparison of tools for development of eBPF programs}\label{tab:comp}
+\end{table}

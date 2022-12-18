@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Definicao do estilo da tese para o Dept. de CC da FCUP.
-% Hacked from Manchester University thesis style (also hacked from 
+% Hacked from Manchester University thesis style (also hacked from
 % Stanford University thesis style suthesis.sty)
 % (pbrandao) and also hacked from Cambridge, UK
 %
@@ -32,15 +32,15 @@
 % margins 1-sided (used by lblopes, ricroc, rslopes, michel)
 %\oddsidemargin 0.50in \evensidemargin 0in      %one-sided
 %\topmargin -0.25in
-%\textheight 9.0in 
+%\textheight 9.0in
 %\textwidth  6.06in
 
 %margins 2-sided  (used by apt, sbb, zp and nam)
 %\oddsidemargin 0.25in \evensidemargin -0.09in  %two-sided
-%\textheight 8.95in 
+%\textheight 8.95in
 %\textwidth  6.05in
-\setlength{\textwidth}{160mm} 
-\setlength{\textheight}{240mm} 
+\setlength{\textwidth}{160mm}
+\setlength{\textheight}{240mm}
 \setlength{\oddsidemargin}{-0.4mm}
 \setlength{\evensidemargin}{\oddsidemargin}
 \setlength{\topmargin}{-5.4mm}
@@ -77,7 +77,7 @@
 
 % Use colour names
 \usepackage[usenames,dvipsnames]{color}
-% for named colors (see 
+% for named colors (see
 % http://en.wikibooks.org/wiki/LaTeX/Colors#The_68_standard_colors_known_to_dvips)
 \definecolor{light-gray}{gray}{0.94}
 \definecolor{gray-cell}{gray}{.80}
@@ -119,10 +119,10 @@
   basicstyle=\footnotesize\ttfamily,       % the size of the fonts that are used for the code
 %  numbers=left,                   % where to put the line-numbers
 %  numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
-%  stepnumber=2,                   % the step between two line-numbers. If it's 1 each line 
+%  stepnumber=2,                   % the step between two line-numbers. If it's 1 each line
 %                                  % will be numbered
   numbersep=5pt,                  % how far the line-numbers are from the code
-  backgroundcolor=\color{light-gray},  % choose the background color. You must 
+  backgroundcolor=\color{light-gray},  % choose the background color. You must
                                        %add \usepackage{color}
 %  showspaces=false,               % show spaces adding particular underscores
   showstringspaces=false,         % underline spaces within strings
@@ -215,7 +215,7 @@ sortcites=true % when citing multiple references it orders then according to the
 % can also add the cm-super package (don't usepackage on the tex file,
 % just install using the package manager)
 % note that lmodern, cmbright, lato have some issues with spacing on some pdf viewers (perhaps also other fonts)
-% the issue (for a non specified font) is described here: 
+% the issue (for a non specified font) is described here:
 %https://tex.stackexchange.com/questions/323294/produce-copy-paste-able-pdf-output-with-correct-indentation-with-listing/323354#323354
 
 %% uncomment the following line if you prefer sans serif fonts
@@ -361,8 +361,8 @@ sortcites=true % when citing multiple references it orders then according to the
 \def\afterpreface{%
         \tableofcontents
         \addcontentsline{toc}{chapter}{\contentsname}
-           %\listoftables
-           %\addcontentsline{toc}{chapter}{\listtablename}
+           \listoftables
+           \addcontentsline{toc}{chapter}{\listtablename}
            \listoffigures
            \addcontentsline{toc}{chapter}{\listfigurename}
            \lstlistoflistings
@@ -379,7 +379,7 @@ sortcites=true % when citing multiple references it orders then according to the
         \fancyhead[LE,RO]{\thepage}
         \fancyhead[RE]{\textit{ \nouppercase{\leftmark}} }
         \fancyhead[LO]{ \nouppercase{\rightmark} }
-        
+
         \fancypagestyle{plain}{ %
           \fancyhf{} % remove everything
           \renewcommand{\headrulewidth}{0pt} % remove lines as well
