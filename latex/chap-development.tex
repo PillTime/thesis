@@ -155,15 +155,22 @@ function.
 
 \subsection{Packet and Event Relation}\label{subsec:relate}
 
-The packet/event relation section of the code is composed of two loops, one
-inside the other. The program goes over every packet individually, and for each
-one, it goes over every event that was captured. Even if an event gets matched
-with a packet, the next packets will still check all events, including the ones
-that matched with other packets earlier. This $O(n^2)$ algorithm is used, as
-opposed to a more efficient one that would remove events as they are matched,
-because of an issue that prevents us from obtaining the full content of a packet
-in some events, where we have to ignore the missing content, which can lead to
-an event matching more than one packet.
+The packet/event relation section of the code, whose purpose is to identify
+which packet caused each event, as seen in \autoref{fig:pktrel}, is composed of
+two loops, one inside the other. The program goes over every packet
+individually, and for each one, it goes over every event that was captured. Even
+if an event gets matched with a packet, the next packets will still check all
+events, including the ones that matched with other packets earlier. This
+$O(n^2)$ algorithm is used, as opposed to a more efficient one that would remove
+events as they are matched, because of an issue that prevents us from obtaining
+the full content of a packet in some events, where we have to ignore the missing
+content, which can lead to an event matching more than one packet.
+
+\begin{figure}[htb]
+   \centering
+   \includegraphics[scale=.35]{relate}
+   \caption{Relation of packets and events}\label{fig:pktrel}
+\end{figure}
 
 Because at the time of development a Rust library to access fields of network
 packets did not exist, the program checks the raw data of the packets for the
