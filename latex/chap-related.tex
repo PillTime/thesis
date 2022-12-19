@@ -155,7 +155,7 @@ solutions thanks to its code verifier, which ensures that buggy eBPF code will
 not crash or otherwise severely interfere with a system.
 
 
-\section{BCC}
+\section{BCC}\label{sec:bcc}
 
 The \ac{BCC} is a toolkit with the purpose of allowing the creation of eBPF
 programs more easily, with front-ends in both Lua and Python. This tool allows
@@ -260,7 +260,18 @@ security of Linux-based containers~\cite{sec}.
 \section{Comparison of Tools}
 
 Reviewing what was shown in this chapter, we can compare the different tools
-discussed. This comparison can be seen in \autoref{tab:comp}.
+used for the development of eBPF programs that have been discussed. A summarized
+comparison can be seen in \autoref{tab:comp}, where we highlight each tool's
+strong and weak points.
+
+Although perf can take advantage of eBPF, most of what it can do is
+use the tracepoints available and load pre-compiled eBPF programs, so it is not
+the best tool to create new programs. As for \ac{BCC}, bpftrace, and libbpf,
+the latter has a clear advantage with the use of \ac{CO-RE}. Considering that
+\ac{BCC}, as mentioned earlier at the end of \autoref{sec:bcc}, is considered
+deprecated, the best options to create new eBPF programs are \mbox{libbpf +
+\ac{CO-RE}}, and bpftrace for small tests and programs that do not need to send
+data to user-space.
 
 \begin{table}[htb]
    \centering
@@ -275,17 +286,18 @@ discussed. This comparison can be seen in \autoref{tab:comp}.
         \newline documentation & \textbf{(+)} Plenty of \newline documentation &
         \textbf{(-)} Little \newline documentation \\
       \hline
-      \textbf{(-)} Needs kernel \newline header packages & \textbf{(-)} Needs
-        kernel \newline header packages & \textbf{(-)} Needs kernel \newline
-        header packages & \textbf{(+)} Does not need \newline kernel header
-        \newline packages \\
+      \textbf{(-)} Needs kernel \newline headers package & \textbf{(-)} Needs
+        kernel \newline headers package & \textbf{(-)} Needs kernel \newline
+        headers package & \textbf{(+)} Does not need \newline kernel headers
+        \newline package \\
       \hline
-      \textbf{(-)} Programs are \newline recompiled on every run & \textbf{(-)}
-        Can only send data to user-space through the standard output & &
-        \textbf{(-)} Kernel needs to be compiled with BTF support \\
+      \textbf{(-)} Programs are \newline recompiled on every \newline run &
+        \textbf{(+)} Programs are \newline easy to write & & \textbf{(-)} Kernel
+        needs to be \newline compiled with \ac{BTF} \newline support \\
       \hline
-      & & & \textbf{(+)} Same program can be used in \newline different versions
-        of the kernel \\
+      & \textbf{(-)} Can only send \newline data to user-space \newline through
+        the standard \newline output & & \textbf{(+)} Same program \newline can
+        be used in \newline different versions of \newline the kernel \\
       \hline
    \end{tabular}
    \caption{Comparison of tools for development of eBPF programs}\label{tab:comp}
