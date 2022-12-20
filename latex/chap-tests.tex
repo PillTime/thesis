@@ -8,7 +8,7 @@ expected.
 \section{Validation in Emulated Environment}
 
 After developing the initial version of the full service program, one of the
-tests we performed using mininet-wifi consisted of three stations (named sta1
+tests we performed using Mininet-WiFi consisted of three stations (named sta1
 sta2 and sta3), where sta1 and sta3 were too far apart from each other to
 communicate directly, but both in range of sta2, as shown in
 \autoref{fig:latetest}, and all of them without any paths in their mesh path
@@ -18,7 +18,7 @@ distribution, running the \ac{LTS} version 5.10 Linux kernel.
 \begin{figure}[htb]
    \centering
    \includegraphics[scale=.3]{latetest}
-   \caption{Test configuration used in mininet-wifi}\label{fig:latetest}
+   \caption{Test configuration used in Mininet-WiFi}\label{fig:latetest}
 \end{figure}
 
 We found that the first station to create and add a mesh path was sta3. Although
@@ -42,7 +42,7 @@ sta2, and creates its mesh paths, both for sta2 and sta3.
 
 \section{Validation with Hardware Nodes}\label{sect:valid}
 
-Because we spent most of our time in development testing with mininet-wifi, we
+Because we spent most of our time in development testing with Mininet-WiFi, we
 were only able to do a simple test with real hardware, using two computers
 running Arch Linux, just like the host system used in the tests in the emulated
 environment (one using the \texttt{rtl8723be} driver for the wireless network

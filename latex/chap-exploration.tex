@@ -58,11 +58,11 @@ We wanted to monitor \ac{IEEE} 802.11s mesh networks in particular, and to
 perform tests we would need a mesh network. For this, we opted to go with an
 emulated network instead of using real hardware to save on time and to make
 testing simpler and more predictable (ability to remove interference, adjustable
-antenna range, etc.). We used mininet-wifi~\cite{mnwifi}, which had everything
+antenna range, etc.). We used Mininet-WiFi~\cite{mnwifi}, which had everything
 we needed, and even included the setup for an example mesh network.
 
-We quickly ran into an issue with mininet-wifi, however. The Linux distribution
-we were using was not officially supported by mininet-wifi. Thankfully, the
+We quickly ran into an issue with Mininet-WiFi, however. The Linux distribution
+we were using was not officially supported by Mininet-WiFi. Thankfully, the
 network emulator had virtual machine images available for this type of
 situation, but we had some trouble with the packages in the repositories of the
 distribution used by the virtual machine. Not only was the version of
@@ -71,9 +71,9 @@ provided, which were used to get structure definitions, only had the files from
 the \textbf{include} directory of the kernel source code, contrary to the
 distribution we were using, which had all header files. These issues were
 preventing some of our scripts from running. To solve this, we decided to try to
-install mininet-wifi manually in our system, despite it using a distribution
+install Mininet-WiFi manually in our system, despite it using a distribution
 that was not officially supported. Although it required some manual dependency
-checking and installing, the mininet-wifi installation worked without problems.
+checking and installing, the Mininet-WiFi installation worked without problems.
 
 
 \subsection{Finding Relevant Mesh Network Functions}\label{subs:mesh}
@@ -91,7 +91,7 @@ with mesh networking happened in the kernel, we would see the names of the
 functions that were executed. This script was quite big, but a snippet of it can
 be found in \autoref{app:calls}.
 
-With mininet-wifi up and running a simple \ac{IEEE} 802.11s mesh network
+With Mininet-WiFi up and running a simple \ac{IEEE} 802.11s mesh network
 composed of 3 stations, we executed the script we wrote and noticed that quite a
 lot of functions were showing up. Analysing the content of these functions, as
 well as their comments (if they had any), we noticed that most of them could be
@@ -237,7 +237,7 @@ After making sure the program worked in the emulated environment, it was time to
 test it with real hardware. We started with a couple of computers with different
 distributions (one with Arch Linux and another with Fedora) and a Raspberry Pi.
 However, we ran into an issue we had already faced before. Just like the
-distribution used by the mininet-wifi virtual machine, most distributions'
+distribution used by the Mininet-WiFi virtual machine, most distributions'
 kernel header packages only include the header files present in the
 \textbf{include} directory of the Linux source code, meaning that some of the
 structures we were using were not available in the Raspberry Pi, Ubuntu, Fedora,
