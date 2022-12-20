@@ -129,15 +129,15 @@ The idea of our program was to retrieve the data of the mesh path that was
 inserted, modified, or removed from a mesh path table, by probing the functions
 that performed these actions when a thread executed them, store that data in a
 BPF map, and when that same thread passed through the tracepoint at packet
-transmission/reception, load the data stored in the BPF map, add the important
-part of the packet content to it, and send it to user-space to be processed by
-the user-space portion. We had already found the functions used to retrieve the
-details of paths that were involved in modifications performed in the mesh path
-table, but we still needed a way to get the content of the packets that caused
-these actions. Thanks to the previously mentioned test that was done at the
-beginning with bpftrace, we found a couple of tracepoints inside the
-\texttt{xmit\_one} function that provided access to the \texttt{sk\_buff}
-structure that holds the contents of packets.
+transmission/reception, load the data stored in the BPF map, add the data link
+layer of the packet detected at the tracepoint to it, and send it to user-space
+to be processed by the user-space portion of the program. We had already found
+the functions used to retrieve the details of paths that were involved in
+modifications performed in the mesh path table, but we still needed a way to get
+the content of the packets that caused these actions. Thanks to the previously
+mentioned test that was done at the beginning with bpftrace, we found a couple
+of tracepoints inside the \texttt{xmit\_one} function that provided access to
+the \texttt{sk\_buff} structure that holds the contents of packets.
 
 For packet reception however, the task was a bit harder. We found a tracepoint
 that worked, but the issue was that, because we are dealing with packet
